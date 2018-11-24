@@ -1,0 +1,10 @@
+{
+  "name": "sakura",
+  "version": "1.0.0",
+  "description": "The !jeuxdictator's bot : The JeuxGate",
+  "main": "index.js",
+  "dependencies": {
+    "discord.js": "^11.3.2",
+  },
+  "author": "Jeuxdictator",
+}
