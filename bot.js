@@ -15,7 +15,6 @@ client.on('ready', ()=>{
 
 function game1(){
     client.user.setActivity("Besoin d'aide, faites : " + prefix + "help");
-    console.log(`connecté : ${client.user.username}, et toujours en train de tourner!`)
     setTimeout(game2, 30000);
 };
 
