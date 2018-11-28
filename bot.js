@@ -286,7 +286,7 @@ client.on(`message`, message =>{
             .addField("nom des serveurs", client.guilds.map(r =>`${r.name} / ${r.memberCount} membres`))
             .addField("log Version", `V.A : `+ vers +`! Complète, et réservées !`)
 
-            message.channel.send(binfo_embed)
+            message.channel.send(binfos_embed)
             console.log(`${message.author.tag} a utilisé la commande `+ prefix +`binfo dans ${message.guild}`)
         }else{
             var binfo_embed = new Discord.RichEmbed()
