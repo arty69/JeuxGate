@@ -29,7 +29,7 @@ function game3(){
 };
 
 function game4(){
-    client.user.setActivity(`Ouvert au publique !`);
+    client.user.setActivity(`Ouvert au publique ! Ceci est un test il est donc peu complèt !`);
     setTimeout(game1, 30000);
 };
 
@@ -273,7 +273,7 @@ client.on(`message`, message =>{
     }
     //Commande d'information bot :
     if(message.content.startsWith(prefix + "binfo")) {
-        if(message.author.username === "Jeuxdictator - . . ."){
+        if(message.author.tag === "Jeuxdictator - . . .#3800"){
             var binfos_embed = new Discord.RichEmbed()
             .setColor("18d67e")
             .setTitle(`Infos sur le bot : ${client.user.tag}`)
