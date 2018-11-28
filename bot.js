@@ -24,7 +24,7 @@ function game2(){
 };
 
 function game3(){
-    client.user.setActivity(`Servant ${client.guilds.array().length} serveur`);
+    client.user.setActivity(`Servire ${client.guilds.array().length} serveurs`);
     setTimeout(game4, 30000);
 };
 
