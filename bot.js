@@ -47,13 +47,13 @@ client.on(`message`, message =>{
         .setThumbnail(message.author.avatarURL)
         .setDescription("Je suis là pour vous aider.")
         .addField("Aides", `voicis de l'aide !`)
-        .addField(":tools: Modération", "`Fais " + prefix + "helpm` pour voir mes commandes de modération !")
-        .addField(":tada: Fun", "`Fais " + prefix + "helpf` pour voir Les commandes de fun que je possède !")
+        .addField(":tools: Modération", "`Fais " + prefix + "mod` pour voir mes commandes de modération !")
+        .addField(":tada: Fun", "`Fais " + prefix + "fun` pour voir Les commandes de fun que je possède !")
         message.channel.send(help_embed);
         console.log(`${message.author.tag} a utilisé la commande `+ prefix +`help dans ${message.guild}`)
     }
     //helpf
-    if(message.content.startsWith(prefix + "helpf")){
+    if(message.content.startsWith(prefix + "fun")){
         var helpf_embed = new Discord.RichEmbed()
         .setColor("18d67e")
         .setTitle("Tu souhaites les commandes de fun ?")
@@ -67,7 +67,7 @@ client.on(`message`, message =>{
         console.log(`${message.author.tag} a utilisé la commande `+ prefix +`helpf dans ${message.guild}`)
     }
     //helpm
-    if(message.content.startsWith(prefix + "helpm")){
+    if(message.content.startsWith(prefix + "mod")){
         var helpm_embed = new Discord.RichEmbed()
         .setColor("18d67e")
         .setTitle("Tu souhaites les commandes de modération ?")
