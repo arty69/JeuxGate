@@ -161,6 +161,11 @@ client.on(`message`, message =>{
         if(!kick) {
             return message.channel.send("Je ne sais si l'utilisateur existe !")
         }
+        if(mute ==="<@515891064721244162>"){
+            return message.channel.send("Je ne peux me kick !")
+        }
+        
+ 
 
         if(!message.guild.member(client.user).hasPermission("KICK_MEMBERS")) {
             return message.channel.send("**Hey ...**Je n'ai pas la permissions d'éxécuter cela !");
@@ -184,6 +189,10 @@ client.on(`message`, message =>{
         if(!ban) {
             return message.channel.send("Je ne sais si l'utilisateur existe !")
         }
+        if(mute ==="<@515891064721244162>"){
+            return message.channel.send("Je ne peux me ban !")
+        }
+ 
 
         if(!message.guild.member(client.user).hasPermission("BAN_MEMBERS")) {
             return message.channel.send("**Hey ...**Je n'ai pas la permissions d'éxécuter cela !");
@@ -230,7 +239,10 @@ client.on(`message`, message =>{
         if(!mute) {
             return message.channel.send("Je n'ai pas trouvé l'utilisateur ou il l'existe pas !");
         }
- 
+        if(mute ==="<@515891064721244162>"){
+            return message.channel.send("Je ne peux me mute !")
+        }
+
         if(!message.guild.member(client.user).hasPermission("ADMINISTRATOR")) return message.channel.send("Je n'ai pas la permission !");
         message.channel.overwritePermissions(mute, { SEND_MESSAGES: false}).then(member => {
             message.channel.send(`${mute.user.username} a été mute par ${message.author.username} !`);
@@ -250,6 +262,10 @@ client.on(`message`, message =>{
         if(!mute) {
             return message.channel.send("Je n'ai pas trouvé l'utilisateur ou il l'existe pas !");
         }
+        if(mute ==="<@515891064721244162>"){
+            return message.channel.send("Je ne peux me unmute !")
+        }
+        
  
         if(!message.guild.member(client.user).hasPermission("ADMINISTRATOR")) return message.channel.send("Je n'ai pas la permission !");
         message.channel.overwritePermissions(mute, { SEND_MESSAGES: true}).then(member => {
@@ -269,7 +285,7 @@ client.on(`message`, message =>{
         .addField("Nombre de membres", message.guild.members.size - message.guild.members.filter(member => member.user.bot).size)
         .addField("Nombre de bots", message.guild.members.filter(member => member.user.bot).size)
         message.channel.send(info_embed)
-        console.log(`${message.author.tag} a utilisé la commande `+ prefix +`sinfo absolute versiondans ${message.guild}`)
+        console.log(`${message.author.tag} a utilisé la commande `+ prefix +`sinfo dans ${message.guild}`)
     }
     //Commande d'information bot :
     if(message.content.startsWith(prefix + "binfo")) {
@@ -286,7 +302,7 @@ client.on(`message`, message =>{
             .addField("log Version", `V.A : `+ vers +`! Complète, et réservées !`)
 
             message.channel.send(binfos_embed)
-            console.log(`${message.author.tag} a utilisé la commande `+ prefix +`binfo dans ${message.guild}`)
+            console.log(`${message.author.tag} a utilisé la commande `+ prefix +`binfo absolute version dans ${message.guild}`)
         }else{
             var binfo_embed = new Discord.RichEmbed()
             .setColor("18d67e")
