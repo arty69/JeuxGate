@@ -38,10 +38,7 @@ client.on(`message`, message =>{
     if(message.author.bot) return;
     if(message.author.tag === "JeuxGate#6723") return;
     if(message.system) return;
-	if(message.guild.name === " "){
-		message.reply(`Tu ne peux interragir avec moi que dans un serveur !`);
-		return;
-	}
+	console.log(`${message.channel}`)
     //help
     if(message.content.startsWith(prefix + "help")){
         var help_embed = new Discord.RichEmbed()
