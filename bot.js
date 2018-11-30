@@ -4,7 +4,7 @@ const client = new Discord.Client();
 client.login(process.env.TOKEN);
 
 var prefix = "jg/";
-var vers = "Alpha (probablement buggé) 0.9";
+var vers = "Alpha (probablement buggé) 0.9.1";
 
 client.on('ready', ()=>{
     console.log(`connecté : ${client.user.tag}!`)
