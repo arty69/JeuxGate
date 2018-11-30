@@ -24,12 +24,12 @@ function game2(){
 };
 
 function game3(){
-    client.user.setActivity(`Servire ${client.guilds.array().length} serveurs`);
+    client.user.setActivity(`Servir ${client.guilds.array().length} serveurs`);
     setTimeout(game4, 30000);
 };
 
 function game4(){
-    client.user.setActivity(`Ouvert au publique ! Ceci est un test il est donc peu complèt !`);
+    client.user.setActivity(`Ouvert au public ! Ceci est un test le bot est donc peu complet !`);
     setTimeout(game1, 30000);
 };
 
@@ -38,7 +38,6 @@ client.on(`message`, message =>{
     if(message.author.bot) return;
     if(message.author.tag === "JeuxGate#6723") return;
     if(message.system) return;
-	console.log(`${message.channel}`)
     //help
     if(message.content.startsWith(prefix + "help")){
         var help_embed = new Discord.RichEmbed()
@@ -161,11 +160,9 @@ client.on(`message`, message =>{
         if(!kick) {
             return message.channel.send("Je ne sais si l'utilisateur existe !")
         }
-        if(mute ==="<@515891064721244162>"){
+        if(message.content.substr(8) === " <@515891064721244162>"){
             return message.channel.send("Je ne peux me kick !")
         }
-        
- 
 
         if(!message.guild.member(client.user).hasPermission("KICK_MEMBERS")) {
             return message.channel.send("**Hey ...**Je n'ai pas la permissions d'éxécuter cela !");
@@ -189,10 +186,9 @@ client.on(`message`, message =>{
         if(!ban) {
             return message.channel.send("Je ne sais si l'utilisateur existe !")
         }
-        if(mute ==="<@515891064721244162>"){
+        if(message.content.substr(8) === " <@515891064721244162>"){
             return message.channel.send("Je ne peux me ban !")
         }
- 
 
         if(!message.guild.member(client.user).hasPermission("BAN_MEMBERS")) {
             return message.channel.send("**Hey ...**Je n'ai pas la permissions d'éxécuter cela !");
@@ -221,6 +217,7 @@ client.on(`message`, message =>{
         if (suppression < 2 || suppression > 101) {
             return message.reply("**Hey ...**La valeur que vous avez entré est invalide, merci de choisir une valeur comprise entre 2 et 100");
         }
+
         message.channel.bulkDelete(suppression, true).then(ok => {
             message.reply("**Suppression de " + "" + suppression + "" + " messages**");
             console.log(`${message.author.tag} a utilisé la commande `+ prefix +`purge dans ${message.guild}`)
@@ -239,7 +236,7 @@ client.on(`message`, message =>{
         if(!mute) {
             return message.channel.send("Je n'ai pas trouvé l'utilisateur ou il l'existe pas !");
         }
-        if(mute ==="<@515891064721244162>"){
+        if(message.content.substr(8) === " <@515891064721244162>"){
             return message.channel.send("Je ne peux me mute !")
         }
 
@@ -262,10 +259,9 @@ client.on(`message`, message =>{
         if(!mute) {
             return message.channel.send("Je n'ai pas trouvé l'utilisateur ou il l'existe pas !");
         }
-        if(mute ==="<@515891064721244162>"){
+        if(message.content.substr(8) === " <@515891064721244162>"){
             return message.channel.send("Je ne peux me unmute !")
         }
-        
  
         if(!message.guild.member(client.user).hasPermission("ADMINISTRATOR")) return message.channel.send("Je n'ai pas la permission !");
         message.channel.overwritePermissions(mute, { SEND_MESSAGES: true}).then(member => {
