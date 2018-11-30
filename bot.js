@@ -160,7 +160,7 @@ client.on(`message`, message =>{
         if(!kick) {
             return message.channel.send("Je ne sais si l'utilisateur existe !")
         }
-        if(message.content.substr(8) === " <@515891064721244162>"){
+        if(message.content.substr(7) === " <@515891064721244162>"){
             return message.channel.send("Je ne peux me kick !")
         }
 
@@ -186,7 +186,7 @@ client.on(`message`, message =>{
         if(!ban) {
             return message.channel.send("Je ne sais si l'utilisateur existe !")
         }
-        if(message.content.substr(8) === " <@515891064721244162>"){
+        if(message.content.substr(7) === " <@515891064721244162>"){
             return message.channel.send("Je ne peux me ban !")
         }
 
@@ -213,7 +213,7 @@ client.on(`message`, message =>{
             return message.channel.send("**Hey ...**Vous n'avez pas la permissions d'éxécuter cela !");
         }
     
-        var suppression = message.content.substr(8);
+        var suppression = message.content.substr(9);
         if (suppression < 2 || suppression > 101) {
             return message.reply("**Hey ...**La valeur que vous avez entré est invalide, merci de choisir une valeur comprise entre 2 et 100");
         }
@@ -236,7 +236,7 @@ client.on(`message`, message =>{
         if(!mute) {
             return message.channel.send("Je n'ai pas trouvé l'utilisateur ou il l'existe pas !");
         }
-        if(message.content.substr(8) === " <@515891064721244162>"){
+        if(message.content.substr(7) === " <@515891064721244162>"){
             return message.channel.send("Je ne peux me mute !")
         }
 
@@ -259,7 +259,7 @@ client.on(`message`, message =>{
         if(!mute) {
             return message.channel.send("Je n'ai pas trouvé l'utilisateur ou il l'existe pas !");
         }
-        if(message.content.substr(8) === " <@515891064721244162>"){
+        if(message.content.substr(7) === " <@515891064721244162>"){
             return message.channel.send("Je ne peux me unmute !")
         }
  
