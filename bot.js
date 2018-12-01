@@ -38,6 +38,9 @@ client.on(`message`, message =>{
     if(message.author.bot) return;
     if(message.author.tag === "JeuxGate#6723") return;
     if(message.system) return;
+    if(message.channel.type === "dm"){
+        return message.channel.send(`Vous ne pouvez pas intéragir avec moi avec des mp. Vous devez intéragir avec moi dans un serveur !`);
+    }
     //help
     if(message.content.startsWith(prefix + "help")){
         var help_embed = new Discord.RichEmbed()
@@ -76,8 +79,6 @@ client.on(`message`, message =>{
         .addField("- - - ","...")
         .addField(":no_bell: Mute", "Fais `" + prefix + "mute @quelqu'un` pour mute `@quelqu'un` !")
         .addField(":bell: Unmute", "Fais `" + prefix + "unmute @quelqu'un` pour unmute `@quelqu'un` !")
-        .addField(":door: Kick", "Fais `" + prefix + "kick @quelqu'un` pour kick `@quelqu'un` !")
-        .addField(":hammer: ban", "Fais `" + prefix + "ban @quelqu'un` pour ban `@quelqu'un` !")
         .addField(":skull_crossbones: purge", "Fais `" + prefix + "purge <un pnombre>` pour supprimer un certain nombre de message !")
         .addField("Bot infos", "Fais `" + prefix + "binfo` pour avoir des infos du bot !")
         .addField("Serveur infos", "Fais `" + prefix + "sinfo` pour avoir des infos du serveur !")
@@ -147,58 +148,6 @@ client.on(`message`, message =>{
     }
 
 //MOD
-
-    //kick
-    if (message.content.startsWith(prefix + "kick")) {
-        if(!message.guild.member(message.author).hasPermission("KICK_MEMBERS")) return message.channel.send("**Hey ...**Vous n'avez pas la permissions d'éxécuter cela !");
-        
-        if(message.mentions.users.size === 0) {
-            return message.channel.send(`Je veux bien ${message.author.username} mais vous devez mentionner un utilisateur`)
-        }
-
-        var kick = message.guild.member(message.mentions.users.first());
-        if(!kick) {
-            return message.channel.send("Je ne sais si l'utilisateur existe !")
-        }
-        if(message.content.substr(7) === " <@515891064721244162>"){
-            return message.channel.send("Je ne peux me kick !")
-        }
-
-        if(!message.guild.member(client.user).hasPermission("KICK_MEMBERS")) {
-            return message.channel.send("**Hey ...**Je n'ai pas la permissions d'éxécuter cela !");
-        }
-
-        kick.kick().then(member => {
-            message.channel.send(`${member.user.username} a été kick par ${message.author.username}`);
-            console.log(`${message.author.tag} a utilisé la commande `+ prefix +`kick dans ${message.guild}`)
-        });
-    }
-
-    //ban
-    if (message.content.startsWith(prefix + "ban")) {
-        if(!message.guild.member(message.author).hasPermission("BAN_MEMBERS")) return message.channel.send("**Hey ...**Vous n'avez pas la permissions d'éxécuter cela !");
-        
-        if(message.mentions.users.size === 0) {
-            return message.channel.send(`Je veux bien ${message.author.username} mais vous devez mentionner un utilisateur`)
-        }
-
-        var ban = message.guild.member(message.mentions.users.first());
-        if(!ban) {
-            return message.channel.send("Je ne sais si l'utilisateur existe !")
-        }
-        if(message.content.substr(7) === " <@515891064721244162>"){
-            return message.channel.send("Je ne peux me ban !")
-        }
-
-        if(!message.guild.member(client.user).hasPermission("BAN_MEMBERS")) {
-            return message.channel.send("**Hey ...**Je n'ai pas la permissions d'éxécuter cela !");
-        }
-
-        ban.ban().then(member => {
-            message.channel.send(`${member.user.username} a été banni par ${message.author.username}`);
-            console.log(`${message.author.tag} a utilisé la commande `+ prefix +`ban dans ${message.guild}`)
-        });
-    }
 
     //purge
     if(message.content.startsWith(prefix + "purge")) {
