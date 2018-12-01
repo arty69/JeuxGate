@@ -4,7 +4,16 @@ const client = new Discord.Client();
 client.login(process.env.TOKEN);
 
 var prefix = "jg/";
-var vers = "Alpha (probablement buggé) 0.9.1";
+var vers = "Alpha (probablement buggé) 0.9.2";
+
+function log(event, guild, serveur) {
+    console.log(`${event} dans ${serveur}`)
+    if(!guild) return;
+    const embed = new Discord.RichEmbed()
+    .setColor(`RANDOM`)
+    .addField("LOG : ", event)
+    guild.send({embed});
+}
 
 client.on('ready', ()=>{
     console.log(`connecté : ${client.user.tag}!`)
@@ -52,7 +61,9 @@ client.on(`message`, message =>{
         .addField(":tools: Modération", "`Fais " + prefix + "mod` pour voir mes commandes de modération !")
         .addField(":tada: Fun", "`Fais " + prefix + "fun` pour voir Les commandes de fun que je possède !")
         message.channel.send(help_embed);
-        console.log(`${message.author.tag} a utilisé la commande `+ prefix +`help dans ${message.guild}`)
+
+        const logchannel = message.guild.channels.find(m => m.name === "log");
+        log(`utilisation de la commande help de ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
     }
     //helpf
     if(message.content.startsWith(prefix + "fun")){
@@ -66,7 +77,9 @@ client.on(`message`, message =>{
         .addField(":hugging: Hug", "Fais `" + prefix + "hug @quelqu'un` pour faire un calin à `@quelqu'un` !")
         .addField(":white_circle: Pile ou face", "Fais `" + prefix + "pf` pour faire un pile ou face !")
         message.channel.send(helpf_embed);
-        console.log(`${message.author.tag} a utilisé la commande `+ prefix +`helpf dans ${message.guild}`)
+
+        const logchannel = message.guild.channels.find(m => m.name === "log");
+        log(`utilisation de la commande fun de ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
     }
     //helpm
     if(message.content.startsWith(prefix + "mod")){
@@ -83,7 +96,9 @@ client.on(`message`, message =>{
         .addField("Bot infos", "Fais `" + prefix + "binfo` pour avoir des infos du bot !")
         .addField("Serveur infos", "Fais `" + prefix + "sinfo` pour avoir des infos du serveur !")
         message.channel.send(helpm_embed);
-        console.log(`${message.author.tag} a utilisé la commande `+ prefix +`helm dans ${message.guild}`)
+
+        const logchannel = message.guild.channels.find(m => m.name === "log");
+        log(`utilisation de la commande mod de ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
     }
 
 //FUN
@@ -96,7 +111,10 @@ client.on(`message`, message =>{
             "https://media.giphy.com/media/108M7gCS1JSoO4/giphy.gif",
             "https://media.giphy.com/media/nyGFcsP0kAobm/giphy.gif",
             "https://media.giphy.com/media/N3IuFaIanEs6I/giphy.gif",
-            "https://media.giphy.com/media/KH1CTZtw1iP3W/giphy.gif"
+            "https://media.giphy.com/media/KH1CTZtw1iP3W/giphy.gif",
+            "https://media.giphy.com/media/wOtkVwroA6yzK/giphy.gif",
+            "https://media.giphy.com/media/hnNyVPIXgLdle/giphy.gif",
+            "https://media.giphy.com/media/11k3oaUjSlFR4I/giphy.gif"
         ];
 
         var gif = kiss[Math.floor(Math.random() * kiss.length)];
@@ -107,7 +125,9 @@ client.on(`message`, message =>{
         .setImage(gif)
         .setTimestamp()
         message.channel.send(kiss_embed);
-        console.log(`${message.author.tag} a utilisé la commande `+ prefix +`kiss dans ${message.guild}`)
+
+        const logchannel = message.guild.channels.find(m => m.name === "log");
+        log(`utilisation de la commande kiss de ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
 
     }
 
@@ -130,7 +150,9 @@ client.on(`message`, message =>{
         .setImage(gif)
         .setTimestamp()
         message.channel.send(hug_embed);
-        console.log(`${message.author.tag} a utilisé la commande `+ prefix +`hug dans ${message.guild}`)
+
+        const logchannel = message.guild.channels.find(m => m.name === "log");
+        log(`utilisation de la commande hug de ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
 
     }
 
@@ -144,7 +166,8 @@ client.on(`message`, message =>{
             message.channel.send("tu viens d'obtenir un : **Face** !")
         }
 
-        console.log(`${message.author.tag} a utilisé la commande `+ prefix +`pf dans ${message.guild}`);
+        const logchannel = message.guild.channels.find(m => m.name === "log");
+        log(`utilisation de la commande pf de ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
     }
 
 //MOD
@@ -169,7 +192,9 @@ client.on(`message`, message =>{
 
         message.channel.bulkDelete(suppression, true).then(ok => {
             message.reply("**Suppression de " + "" + suppression + "" + " messages**");
-            console.log(`${message.author.tag} a utilisé la commande `+ prefix +`purge dans ${message.guild}`)
+
+            const logchannel = message.guild.channels.find(m => m.name === "log");
+            log(`utilisation de la commande purge de ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
         })
     }
 
@@ -192,7 +217,9 @@ client.on(`message`, message =>{
         if(!message.guild.member(client.user).hasPermission("ADMINISTRATOR")) return message.channel.send("Je n'ai pas la permission !");
         message.channel.overwritePermissions(mute, { SEND_MESSAGES: false}).then(member => {
             message.channel.send(`${mute.user.username} a été mute par ${message.author.username} !`);
-            console.log(`${message.author.tag} a utilisé la commande `+ prefix +`mute dans ${message.guild}`)
+            
+            const logchannel = message.guild.channels.find(m => m.name === "log");
+            log(`utilisation de la commande mute par ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
         })
     }
 
@@ -215,7 +242,9 @@ client.on(`message`, message =>{
         if(!message.guild.member(client.user).hasPermission("ADMINISTRATOR")) return message.channel.send("Je n'ai pas la permission !");
         message.channel.overwritePermissions(mute, { SEND_MESSAGES: true}).then(member => {
             message.channel.send(`${mute.user.username} a été unmute par ${message.author.username} !`);
-            console.log(`${message.author.tag} a utilisé la commande `+ prefix +`unmute dans ${message.guild}`)
+
+            const logchannel = message.guild.channels.find(m => m.name === "log");
+            log(`utilisation de la commande unmute de ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
         })
     }
     //Commande d'information serveur :
@@ -230,7 +259,9 @@ client.on(`message`, message =>{
         .addField("Nombre de membres", message.guild.members.size - message.guild.members.filter(member => member.user.bot).size)
         .addField("Nombre de bots", message.guild.members.filter(member => member.user.bot).size)
         message.channel.send(info_embed)
-        console.log(`${message.author.tag} a utilisé la commande `+ prefix +`sinfo dans ${message.guild}`)
+
+        const logchannel = message.guild.channels.find(m => m.name === "log");
+        log(`utilisation de la commande sinfo de ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
     }
     //Commande d'information bot :
     if(message.content.startsWith(prefix + "binfo")) {
@@ -245,9 +276,10 @@ client.on(`message`, message =>{
             .addField("Nombre total de serveur", client.guilds.array().length)
             .addField("nom des serveurs", client.guilds.map(r =>`${r.name} / ${r.memberCount} membres`))
             .addField("log Version", `V.A : `+ vers +`! Complète, et réservées !`)
-
             message.channel.send(binfos_embed)
-            console.log(`${message.author.tag} a utilisé la commande `+ prefix +`binfo absolute version dans ${message.guild}`)
+
+            const logchannel = message.guild.channels.find(m => m.name === "log");
+            log(`utilisation de la commande binfo VERSION ABSOLUE de ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
         }else{
             var binfo_embed = new Discord.RichEmbed()
             .setColor("18d67e")
@@ -257,9 +289,10 @@ client.on(`message`, message =>{
             .addField("nombre total de personnes ", client.users.size)
             .addField("Nombre total de serveur", client.guilds.array().length)
             .addField("log Version", `V.B : `+ vers +` !`)
-
             message.channel.send(binfo_embed)
-            console.log(`${message.author.tag} a utilisé la commande `+ prefix +`binfo dans ${message.guild}`)
+
+            const logchannel = message.guild.channels.find(m => m.name === "log");
+            log(`utilisation de la commande binfo de ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
         }
     }
 })
@@ -267,8 +300,6 @@ client.on(`message`, message =>{
 //selflog
 client.on("guildCreate", guild => {
     console.log(`un nouveau serveur a été ajouté: ${guild.name} (id: ${guild.id}). Il contient ${guild.memberCount} membres!`);
-    const invite = guild.defaultChannel.createInvite;
-    console.log(invite.url);
     const server = guild.channels.find(m => m.name === "log");
     if(!server) return;
     const embed = new Discord.RichEmbed()
