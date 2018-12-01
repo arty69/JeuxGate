@@ -4,7 +4,7 @@ const client = new Discord.Client();
 client.login(process.env.TOKEN);
 
 var prefix = "jg/";
-var vers = "Alpha (probablement buggé) 0.9.2";
+var vers = "Alpha (probablement buggé) 0.9.3";
 
 function log(event, guild, serveur) {
     console.log(`${event} dans ${serveur}`)
@@ -22,27 +22,25 @@ client.on('ready', ()=>{
     setTimeout(game1, 5000);
 })
 
+//game statue
 function game1(){
     client.user.setActivity("Besoin d'aide, faites : " + prefix + "help");
     setTimeout(game2, 30000);
 };
-
 function game2(){
     client.user.setActivity(`Version : ` + vers +` !`);
     setTimeout(game3, 30000);
 };
-
 function game3(){
     client.user.setActivity(`Servir ${client.guilds.array().length} serveurs`);
     setTimeout(game4, 30000);
 };
-
 function game4(){
     client.user.setActivity(`Ouvert au public ! Ceci est un test le bot est donc peu complet !`);
     setTimeout(game1, 30000);
 };
 
-
+//début commandes
 client.on(`message`, message =>{
     if(message.author.bot) return;
     if(message.author.tag === "JeuxGate#6723") return;
@@ -50,6 +48,7 @@ client.on(`message`, message =>{
     if(message.channel.type === "dm"){
         return message.channel.send(`Vous ne pouvez pas intéragir avec moi avec des mp. Vous devez intéragir avec moi dans un serveur !`);
     }
+
     //help
     if(message.content.startsWith(prefix + "help")){
         var help_embed = new Discord.RichEmbed()
@@ -63,8 +62,9 @@ client.on(`message`, message =>{
         message.channel.send(help_embed);
 
         const logchannel = message.guild.channels.find(m => m.name === "log");
-        log(`utilisation de la commande help de ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
+        log(`utilisation de la commande help par ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
     }
+
     //helpf
     if(message.content.startsWith(prefix + "fun")){
         var helpf_embed = new Discord.RichEmbed()
@@ -79,8 +79,9 @@ client.on(`message`, message =>{
         message.channel.send(helpf_embed);
 
         const logchannel = message.guild.channels.find(m => m.name === "log");
-        log(`utilisation de la commande fun de ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
+        log(`utilisation de la commande fun par ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
     }
+
     //helpm
     if(message.content.startsWith(prefix + "mod")){
         var helpm_embed = new Discord.RichEmbed()
@@ -98,16 +99,14 @@ client.on(`message`, message =>{
         message.channel.send(helpm_embed);
 
         const logchannel = message.guild.channels.find(m => m.name === "log");
-        log(`utilisation de la commande mod de ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
+        log(`utilisation de la commande mod par ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
     }
 
 //FUN
 
     //kiss
     if(message.content.startsWith(prefix + "kiss")) {
-
         var kiss = [
-
             "https://media.giphy.com/media/108M7gCS1JSoO4/giphy.gif",
             "https://media.giphy.com/media/nyGFcsP0kAobm/giphy.gif",
             "https://media.giphy.com/media/N3IuFaIanEs6I/giphy.gif",
@@ -116,9 +115,7 @@ client.on(`message`, message =>{
             "https://media.giphy.com/media/hnNyVPIXgLdle/giphy.gif",
             "https://media.giphy.com/media/11k3oaUjSlFR4I/giphy.gif"
         ];
-
         var gif = kiss[Math.floor(Math.random() * kiss.length)];
-
         var kiss_embed = new Discord.RichEmbed()
         .setColor('RANDOM')
         .setTitle(`Tu viens d'embrasser :`)
@@ -127,23 +124,19 @@ client.on(`message`, message =>{
         message.channel.send(kiss_embed);
 
         const logchannel = message.guild.channels.find(m => m.name === "log");
-        log(`utilisation de la commande kiss de ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
+        log(`utilisation de la commande kiss par ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
 
     }
 
     //hug
     if(message.content.startsWith(prefix + "hug")) {
-
         var hug = [
-
             "https://media.giphy.com/media/od5H3PmEG5EVq/giphy.gif",
             "https://media.giphy.com/media/5eyhBKLvYhafu/giphy.gif",
             "https://media.giphy.com/media/lrr9rHuoJOE0w/giphy.gif",
             "https://media.giphy.com/media/svXXBgduBsJ1u/giphy.gif"
         ];
-
         var gif = hug[Math.floor(Math.random() * hug.length)];
-
         var hug_embed = new Discord.RichEmbed()
         .setColor('RANDOM')
         .setTitle(`Tu viens de faire un calin:`)
@@ -152,22 +145,20 @@ client.on(`message`, message =>{
         message.channel.send(hug_embed);
 
         const logchannel = message.guild.channels.find(m => m.name === "log");
-        log(`utilisation de la commande hug de ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
-
+        log(`utilisation de la commande hug par ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
     }
 
     //Commande pile ou face :
     if(message.content.startsWith(prefix + "pf")) {
-        randnum2 = Math.floor(Math.random() * (2 - 0) + 0)
-
-        if(randnum2 === 0){
+        pileface = Math.floor(Math.random() * 2 + 0)
+        if(pileface === 0){
             message.channel.send("Tu viens d'obtenir un : **Pile** !")
         }else{
             message.channel.send("tu viens d'obtenir un : **Face** !")
         }
 
         const logchannel = message.guild.channels.find(m => m.name === "log");
-        log(`utilisation de la commande pf de ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
+        log(`utilisation de la commande pf par ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
     }
 
 //MOD
@@ -180,21 +171,19 @@ client.on(`message`, message =>{
         if (!myrole) {
             return message.channel.send("**Hey ...**Je n'ai pas la permissions d'éxécuter cela !");
         }
-    
         if (!yourole) {
             return message.channel.send("**Hey ...**Vous n'avez pas la permissions d'éxécuter cela !");
         }
-    
         var suppression = message.content.substr(9);
         if (suppression < 2 || suppression > 101) {
             return message.reply("**Hey ...**La valeur que vous avez entré est invalide, merci de choisir une valeur comprise entre 2 et 100");
         }
 
         message.channel.bulkDelete(suppression, true).then(ok => {
-            message.reply("**Suppression de " + "" + suppression + "" + " messages**");
+            message.reply("**" + suppression + "messages ont été supprimés**");
 
             const logchannel = message.guild.channels.find(m => m.name === "log");
-            log(`utilisation de la commande purge de ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
+            log(`utilisation de la commande purge par ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
         })
     }
 
@@ -205,7 +194,6 @@ client.on(`message`, message =>{
         if(message.mentions.users.size === 0) {
             return message.channel.send("Tu dois mentionner quelqu'un pour faire cette commande");
         }
- 
         var mute = message.guild.member(message.mentions.users.first());
         if(!mute) {
             return message.channel.send("Je n'ai pas trouvé l'utilisateur ou il l'existe pas !");
@@ -216,10 +204,10 @@ client.on(`message`, message =>{
 
         if(!message.guild.member(client.user).hasPermission("ADMINISTRATOR")) return message.channel.send("Je n'ai pas la permission !");
         message.channel.overwritePermissions(mute, { SEND_MESSAGES: false}).then(member => {
-            message.channel.send(`${mute.user.username} a été mute par ${message.author.username} !`);
+            message.channel.send(`${mute.user.username} a été mute ppar ${message.author.username} !`);
             
             const logchannel = message.guild.channels.find(m => m.name === "log");
-            log(`utilisation de la commande mute par ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
+            log(`utilisation de la commande mute ppar ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
         })
     }
 
@@ -230,21 +218,20 @@ client.on(`message`, message =>{
         if(message.mentions.users.size === 0) {
             return message.channel.send("Tu dois mentionner quelqu'un pour faire cette commande");
         }
- 
         var mute = message.guild.member(message.mentions.users.first());
         if(!mute) {
             return message.channel.send("Je n'ai pas trouvé l'utilisateur ou il l'existe pas !");
         }
-        if(message.content.substr(7) === " <@515891064721244162>"){
+        if(message.content.substr(9) === " <@515891064721244162>"){
             return message.channel.send("Je ne peux me unmute !")
         }
  
         if(!message.guild.member(client.user).hasPermission("ADMINISTRATOR")) return message.channel.send("Je n'ai pas la permission !");
         message.channel.overwritePermissions(mute, { SEND_MESSAGES: true}).then(member => {
-            message.channel.send(`${mute.user.username} a été unmute par ${message.author.username} !`);
+            message.channel.send(`${mute.user.username} a été unmute ppar ${message.author.username} !`);
 
             const logchannel = message.guild.channels.find(m => m.name === "log");
-            log(`utilisation de la commande unmute de ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
+            log(`utilisation de la commande unmute par ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
         })
     }
     //Commande d'information serveur :
@@ -261,7 +248,7 @@ client.on(`message`, message =>{
         message.channel.send(info_embed)
 
         const logchannel = message.guild.channels.find(m => m.name === "log");
-        log(`utilisation de la commande sinfo de ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
+        log(`utilisation de la commande sinfo par ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
     }
     //Commande d'information bot :
     if(message.content.startsWith(prefix + "binfo")) {
@@ -279,7 +266,7 @@ client.on(`message`, message =>{
             message.channel.send(binfos_embed)
 
             const logchannel = message.guild.channels.find(m => m.name === "log");
-            log(`utilisation de la commande binfo VERSION ABSOLUE de ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
+            log(`utilisation de la commande binfo VERSION ABSOLUE par ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
         }else{
             var binfo_embed = new Discord.RichEmbed()
             .setColor("18d67e")
@@ -292,7 +279,7 @@ client.on(`message`, message =>{
             message.channel.send(binfo_embed)
 
             const logchannel = message.guild.channels.find(m => m.name === "log");
-            log(`utilisation de la commande binfo de ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
+            log(`utilisation de la commande binfo par ${message.author.username}`,logchannel, message.guild.name, message.guild.name)
         }
     }
 })
