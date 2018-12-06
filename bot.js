@@ -310,8 +310,6 @@ client.on(`message`, message =>{
         }
     }else{
 //levels
-        var blackguilds = JSON.parse(fs.readFileSync('guild.json', 'utf-8'));
-        if(blackguilds[message.guild.id].ban === 1) return;
         var blackuser = JSON.parse(fs.readFileSync('bu.json', 'utf-8'));
         if(blackuser[message.author.id]) return;
 
