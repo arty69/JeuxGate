@@ -81,6 +81,7 @@ client.on(`message`, message =>{
             .addField(":hugging: Hug", "Fais `" + prefix + "hug @quelqu'un` pour faire un calin à `@quelqu'un` !")
             .addField(":keyboard: Messages", "Fais `" + prefix + "msg` pour savoir le nombre de messages que tu as envoyé !")
             .addField(":white_circle: Pile ou face", "Fais `" + prefix + "pf` pour faire un pile ou face !")
+            .addField(":keyboard: Statistiques", "Fais `" + prefix + "stats` pour obtenir vos statistiques (niveau + messages envoyé) !")
             message.channel.send(helpf_embed);
 
             const logchannel = message.guild.channels.find(m => m.name === "log");
@@ -167,16 +168,21 @@ client.on(`message`, message =>{
         }
         //stats
         if(message.content.startsWith(prefix + "stats")) { 
-            var userData = JSON.parse(fs.readFileSync('userData.json', 'utf-8'));
-            var levels = JSON.parse(fs.readFileSync('level.json', 'utf-8'));
-            var lvl_embed = new Discord.RichEmbed()
-            .setColor('RANDOM')
-            .setTitle('Votre niveau :')
-            .addField('Vous avez envoyé **' + userData[message.author.id].messageSent + '** messages !', `.`)
-            .addField('voici vôtre niveau :' + userData[message.author.id].level, `.`)
-            message.channel.send(lvl_embed);
+            var blackuser = JSON.parse(fs.readFileSync('bu.json', 'utf-8'));
+            if(blackuser[message.author.id]){
+                message.channel.send(`Je suis désolé, or, vous êtes un utiisateur banni !`)
+            }else{
+                var userData = JSON.parse(fs.readFileSync('userData.json', 'utf-8'));
+                var levels = JSON.parse(fs.readFileSync('level.json', 'utf-8'));
+                var lvl_embed = new Discord.RichEmbed()
+                .setColor('RANDOM')
+                .setTitle('Votre niveau :')
+                .addField('Vous avez envoyé **' + userData[message.author.id].messageSent + '** messages !', `.`)
+                .addField('voici vôtre niveau :' + userData[message.author.id].level, `.`)
+                message.channel.send(lvl_embed);
+            }
             var blackguilds = JSON.parse(fs.readFileSync('guild.json', 'utf-8'));
-            if(blackguilds[message.guild.id]){
+            if(blackguilds[message.guild.id].ban === 1){
                 message.channel.send(`:warning: ce serveur ne vous fait pas monté en niveau, il a été enregistrer pour ne pas pouvoir faire monter ses membres en niveaux. Désolé :disappointed_relieved: `)
             }
         }
@@ -272,7 +278,7 @@ client.on(`message`, message =>{
         }
         //Commande d'information bot :
         if(message.content.startsWith(prefix + "binfo")) {
-            if(message.author.tag === "Jeuxdictator - . . .#3800"){
+            if(message.author.id === "244874298714619904"){
                 var binfos_embed = new Discord.RichEmbed()
                 .setColor("18d67e")
                 .setTitle(`Infos sur le bot : ${client.user.tag}`)
@@ -305,7 +311,9 @@ client.on(`message`, message =>{
     }else{
 //levels
         var blackguilds = JSON.parse(fs.readFileSync('guild.json', 'utf-8'));
-        if(blackguilds[message.guild.id]) return;
+        if(blackguilds[message.guild.id].ban === 1) return;
+        var blackuser = JSON.parse(fs.readFileSync('bu.json', 'utf-8'));
+        if(blackuser[message.author.id]) return;
 
         var userData = JSON.parse(fs.readFileSync('userData.json', 'utf-8'));
         var levels = JSON.parse(fs.readFileSync('level.json', 'utf-8'));
@@ -349,6 +357,8 @@ client.on(`message`, message =>{
                 });
                 message.channel.send(`**Hey ${message.author.username}, sache que tu viens de gagner un niveau, tu es désormais au niveau : ${userData[message.author.id].level} . GG à toi**`);
 
+                const logchannel = message.guild.channels.find(m => m.name === "log");
+                log(`${message.author.username} est au niveau : ${userData[message.author.id].level} ; dans serveur avec id : ${message.guild.id}`,logchannel, message.guild.name)
                 var nextlvl = levels[userData[message.author.id].level].messages * 2
                 if(!levels[userData[message.author.id].level + 1]) levels[userData[message.author.id].level + 1] = {
                     messages: nextlvl
