@@ -24,7 +24,7 @@ function log(event, guild, serveur) {
 client.on('ready', ()=>{
     console.log(`connecté : ${client.user.tag}!`)
     client.user.setStatus('dnd');
-    client.user.setActivity("Besoin d'aide, faites : " + prefix + "help | version" + vers);
+    client.user.setActivity("Besoin d'aide, faites : " + prefix + "help | version : " + vers);
 })
 
 client.on(`message`, message=>{
