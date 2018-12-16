@@ -24,7 +24,7 @@ function log(event, guild, serveur) {
 client.on('ready', ()=>{
     console.log(`connecté : ${client.user.tag}!`)
     client.user.setStatus('dnd');
-    client.user.setActivity("Besoin d'aide, faites : " + prefix + "help | version : " + vers);
+    client.user.setActivity("Besoin d'aide, faites : " + prefix + "help | version" + vers);
 })
 
 client.on(`message`, message=>{
@@ -156,6 +156,23 @@ client.on(`message`, message =>{
 
         //stats
         if(message.content.startsWith(prefix + "stats")) { 
+            //verifyguild / user
+            if(!blackguilds[message.guild.id]){
+                blackguilds[message.guild.id] = {
+                    ban: 0,
+                };
+                fs.writeFile('guild.json', JSON.stringify(blackguilds), (err) => {
+                    if (err) message.channel.send(err);
+                });
+            }
+            if(!blackuser[message.author.id]){
+                blackuser[message.author.id] = {
+                    ban: 0,
+                };
+                fs.writeFile('bu.json', JSON.stringify(blackuser), (err) => {
+                    if (err) message.channel.send(err);
+                });
+            }
             if(blackuser[message.author.id].ban === 1){
                 message.channel.send(`Je suis désolé, or, vous êtes un utiisateur banni !`)
             }else{
@@ -185,6 +202,9 @@ client.on(`message`, message =>{
                 blackguilds[bang] = {
                     ban: 1,
                 };
+                fs.writeFile('guild.json', JSON.stringify(blackguilds), (err) => {
+                    if (err) message.channel.send(err);
+                });
                 message.channel.send(`serveur banni ! (`+ bang +`)`)
             }
         }
@@ -201,6 +221,9 @@ client.on(`message`, message =>{
                 blackuser[banu] = {
                     ban: 1,
                 };
+                fs.writeFile('bu.json', JSON.stringify(blackuser), (err) => {
+                    if (err) message.channel.send(err);
+                });
                 message.channel.send(`Personne banni ! (`+ banu +`)`)
             }
         }
@@ -217,6 +240,9 @@ client.on(`message`, message =>{
                 blackguilds[unbang] = {
                     ban: 0,
                 };
+                fs.writeFile('guild.json', JSON.stringify(blackguilds), (err) => {
+                    if (err) message.channel.send(err);
+                });
                 message.channel.send(`serveur unbanni ! (`+ unbang +`)`)
             }
         }
@@ -233,6 +259,9 @@ client.on(`message`, message =>{
                 blackuser[unbanu] = {
                     ban: 0,
                 };
+                fs.writeFile('bu.json', JSON.stringify(blackuser), (err) => {
+                    if (err) message.channel.send(err);
+                });
                 message.channel.send(`Personne unbanni ! (`+ unbanu +`)`)
             }
         }
