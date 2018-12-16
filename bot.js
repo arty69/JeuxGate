@@ -24,27 +24,8 @@ function log(event, guild, serveur) {
 client.on('ready', ()=>{
     console.log(`connecté : ${client.user.tag}!`)
     client.user.setStatus('dnd');
-    client.user.setActivity("Démarrage . . .");
-    setTimeout(game1, 5000);
+    client.user.setActivity("Besoin d'aide, faites : " + prefix + "help | version" + vers);
 })
-
-//game statue
-function game1(){
-    client.user.setActivity("Besoin d'aide, faites : " + prefix + "help");
-    setTimeout(game2, 30000);
-};
-function game2(){
-    client.user.setActivity(`Version : ` + vers +` !`);
-    setTimeout(game3, 30000);
-};
-function game3(){
-    client.user.setActivity(`Servir ${client.guilds.array().length} serveurs`);
-    setTimeout(game4, 30000);
-};
-function game4(){
-    client.user.setActivity(`Ouvert au public ! Ceci est un test le bot est donc peu complet !`);
-    setTimeout(game1, 30000);
-};
 
 client.on(`message`, message=>{
 })
