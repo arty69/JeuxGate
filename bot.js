@@ -5,7 +5,11 @@ const fs = require('fs');
 client.login(process.env.TOKEN);
 
 var prefix = "jg/";
-var vers = "Alpha (probablement buggé) 0.9.3";
+var vers = "Alpha (probablement buggé) 0.9.4";
+var blackuser = JSON.parse(fs.readFileSync('bu.json', 'utf-8'));
+var blackguilds = JSON.parse(fs.readFileSync('guild.json', 'utf-8'));
+var userData = JSON.parse(fs.readFileSync('userData.json', 'utf-8'));
+var levels = JSON.parse(fs.readFileSync('level.json', 'utf-8'));
 
 
 function log(event, guild, serveur) {
@@ -53,7 +57,9 @@ client.on(`message`, message =>{
         return message.channel.send(`Vous ne pouvez pas intéragir avec moi avec des mp. Vous devez intéragir avec moi dans un serveur !`);
     }
     if(message.content.startsWith(prefix)){
-//help
+//HELP
+
+        //help
         if(message.content.startsWith(prefix + "help")){
             var help_embed = new Discord.RichEmbed()
             .setColor("18d67e")
@@ -166,29 +172,91 @@ client.on(`message`, message =>{
             const logchannel = message.guild.channels.find(m => m.name === "log");
             log(`utilisation de la commande pf par ${message.author.username}`,logchannel, message.guild.name)
         }
+
         //stats
         if(message.content.startsWith(prefix + "stats")) { 
-            var blackuser = JSON.parse(fs.readFileSync('bu.json', 'utf-8'));
-            if(blackuser[message.author.id]){
+            if(blackuser[message.author.id].ban === 1){
                 message.channel.send(`Je suis désolé, or, vous êtes un utiisateur banni !`)
             }else{
-                var userData = JSON.parse(fs.readFileSync('userData.json', 'utf-8'));
-                var levels = JSON.parse(fs.readFileSync('level.json', 'utf-8'));
+                var needtobesend = levels[userData[message.author.id].level + 1].messages - userData[message.author.id].messageSent
                 var lvl_embed = new Discord.RichEmbed()
                 .setColor('RANDOM')
                 .setTitle('Votre niveau :')
-                .addField('Vous avez envoyé **' + userData[message.author.id].messageSent + '** messages !', `.`)
-                .addField('voici vôtre niveau :' + userData[message.author.id].level, `.`)
+                .addField('Vous avez envoyé **' + userData[message.author.id].messageSent + '** messages !', `Pour passer de niveau vous devez envoyer ` + needtobesend + ` messages !`)
+                .setDescription('voici vôtre niveau :' + userData[message.author.id].level)
                 message.channel.send(lvl_embed);
             }
-            var blackguilds = JSON.parse(fs.readFileSync('guild.json', 'utf-8'));
             if(blackguilds[message.guild.id].ban === 1){
                 message.channel.send(`:warning: ce serveur ne vous fait pas monté en niveau, il a été enregistrer pour ne pas pouvoir faire monter ses membres en niveaux. Désolé :disappointed_relieved: `)
             }
         }
 
-//MOD
+//BANXP
+        //banguild 
+        if(message.content.startsWith(prefix + "banguild ")) {
+            if(message.author.id === "244874298714619904"){
+                var bang = message.content.substr(12);
+                message.reply(bang);
+                if(!bang){
+                    message.channel.send(`ça doit être un id de serveur`);
+                    return
+                }
+                blackguilds[bang] = {
+                    ban: 1,
+                };
+                message.channel.send(`serveur banni ! (`+ bang +`)`)
+            }
+        }
 
+        //banuser
+        if(message.content.startsWith(prefix + "banuser ")) {
+            if(message.author.id === "244874298714619904"){
+                var banu = message.content.substr(11);
+                message.reply(banu);
+                if(!banu){
+                    message.channel.send(`ça doit être un id de personne`);
+                    return
+                }
+                blackuser[banu] = {
+                    ban: 1,
+                };
+                message.channel.send(`Personne banni ! (`+ banu +`)`)
+            }
+        }
+
+        //unbanguild
+        if(message.content.startsWith(prefix + "unbanguild ")) {
+            if(message.author.id === "244874298714619904"){
+                var unbang = message.content.substr(14);
+                message.reply(unbang);
+                if(!unbang){
+                    message.channel.send(`ça doit être un id de serveur`);
+                    return
+                }
+                blackguilds[unbang] = {
+                    ban: 0,
+                };
+                message.channel.send(`serveur unbanni ! (`+ unbang +`)`)
+            }
+        }
+
+        //unban user
+        if(message.content.startsWith(prefix + "unbanuser ")) {
+            if(message.author.id === "244874298714619904"){
+                var unbanu = message.content.substr(13);
+                message.reply(unbang);
+                if(!unbanu){
+                    message.channel.send(`ça doit être un id de personne`);
+                    return
+                }
+                blackuser[unbanu] = {
+                    ban: 0,
+                };
+                message.channel.send(`Personne unbanni ! (`+ unbanu +`)`)
+            }
+        }
+
+//MOD
         //purge
         if(message.content.startsWith(prefix + "purge")) {
             let myrole = message.guild.member(client.user).hasPermission("MANAGE_MESSAGES"); //Récupère les droits nécessaires
@@ -260,6 +328,7 @@ client.on(`message`, message =>{
                 log(`utilisation de la commande unmute par ${message.author.username}`,logchannel, message.guild.name)
             })
         }
+
         //Commande d'information serveur :
         if(message.content.startsWith(prefix + "sinfo")) {
             var info_embed = new Discord.RichEmbed()
@@ -276,6 +345,7 @@ client.on(`message`, message =>{
             const logchannel = message.guild.channels.find(m => m.name === "log");
             log(`utilisation de la commande sinfo par ${message.author.username}`,logchannel, message.guild.name)
         }
+
         //Commande d'information bot :
         if(message.content.startsWith(prefix + "binfo")) {
             if(message.author.id === "244874298714619904"){
@@ -310,11 +380,44 @@ client.on(`message`, message =>{
         }
     }else{
 //levels
-        var blackuser = JSON.parse(fs.readFileSync('bu.json', 'utf-8'));
-        if(blackuser[message.author.id]) return;
 
-        var userData = JSON.parse(fs.readFileSync('userData.json', 'utf-8'));
-        var levels = JSON.parse(fs.readFileSync('level.json', 'utf-8'));
+        //verifyguild / user
+        if(!blackguilds[message.guild.id]){
+            blackguilds[message.guild.id] = {
+                ban: 0,
+            };
+            fs.writeFile('guild.json', JSON.stringify(blackguilds), (err) => {
+                if (err) message.channel.send(err);
+            });
+        }
+        if(!blackuser[message.author.id]){
+            blackuser[message.author.id] = {
+                ban: 0,
+            };
+            fs.writeFile('bu.json', JSON.stringify(blackuser), (err) => {
+                if (err) message.channel.send(err);
+            });
+        }
+        if(blackguilds[message.guild.id].ban === 1) return;
+        if(blackuser[message.author.id].ban === 1) return;
+
+        //setlevelsdata (first / reset)
+        if(!levels[1]){ 
+            levels[1] = {
+                messages: 20
+            };
+        
+            if(!levels[0]){ 
+                levels[0] = {
+                    messages: 0
+                };
+            }
+            fs.writeFile('level.json', JSON.stringify(levels), (err) => {
+                if (err) message.channel.send(err);
+            });
+        }
+
+        //setuserdata
         if (!userData[message.author.id]){
             userData[message.author.id] = {
                 messageSent: 1,
@@ -323,24 +426,9 @@ client.on(`message`, message =>{
             fs.writeFile('userData.json', JSON.stringify(userData), (err) => {
                 if (err) message.channel.send(err);
             });
-            if(!levels[1]){ 
-                levels[1] = {
-                    messages: 20
-                };
-                fs.writeFile('level.json', JSON.stringify(levels), (err) => {
-                    if (err) message.channel.send(err);
-                });
-            }
-            if(!levels[0]){ 
-                levels[0] = {
-                    messages: 0
-                };
-                fs.writeFile('level.json', JSON.stringify(levels), (err) => {
-                    if (err) message.channel.send(err);
-                });
-            }
         }else{
-            
+
+            //up user msg sent
             if(!message.content.startsWith(prefix)){
                 userData[message.author.id].messageSent++;
                 fs.writeFile('userData.json', JSON.stringify(userData), (err) => {
@@ -348,6 +436,7 @@ client.on(`message`, message =>{
                 });
             }
 
+            //up user level
             if(userData[message.author.id].messageSent === levels[userData[message.author.id].level + 1].messages){
                 userData[message.author.id].level++;
                 fs.writeFile('userData.json', JSON.stringify(userData), (err) => {
@@ -357,6 +446,8 @@ client.on(`message`, message =>{
 
                 const logchannel = message.guild.channels.find(m => m.name === "log");
                 log(`${message.author.username} est au niveau : ${userData[message.author.id].level} ; dans serveur avec id : ${message.guild.id}`,logchannel, message.guild.name)
+
+                //add next level if isn't already added
                 var nextlvl = levels[userData[message.author.id].level].messages * 2
                 if(!levels[userData[message.author.id].level + 1]) levels[userData[message.author.id].level + 1] = {
                     messages: nextlvl
