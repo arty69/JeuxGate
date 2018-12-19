@@ -156,7 +156,15 @@ client.on(`message`, message =>{
 
         //stats
         if(message.content.startsWith(prefix + "stats")) { 
-            //verifyguild / user
+            console.log(`sended`)
+            var stat = message.content.substr(9);
+            if(stat){
+                var sstat = stat
+            }else{
+                var sstat = message.author.id
+            }
+
+            //verifyguild *and user
             if(!blackguilds[message.guild.id]){
                 blackguilds[message.guild.id] = {
                     ban: 0,
@@ -165,25 +173,29 @@ client.on(`message`, message =>{
                     if (err) message.channel.send(err);
                 });
             }
-            if(!blackuser[message.author.id]){
-                blackuser[message.author.id] = {
+            if(!blackuser[sstat]){
+                blackuser[sstat] = {
                     ban: 0,
                 };
                 fs.writeFile('bu.json', JSON.stringify(blackuser), (err) => {
                     if (err) message.channel.send(err);
                 });
             }
-            if(blackuser[message.author.id].ban === 1){
+
+            //notify banned user
+            if(blackuser[sstat].ban === 1){
                 message.channel.send(`Je suis désolé, or, vous êtes un utiisateur banni !`)
             }else{
-                var needtobesend = levels[userData[message.author.id].level + 1].messages - userData[message.author.id].messageSent
+                var needtobesend = levels[userData[sstat].level + 1].messages - userData[sstat].messageSent
                 var lvl_embed = new Discord.RichEmbed()
                 .setColor('RANDOM')
                 .setTitle('Votre niveau :')
-                .addField('Vous avez envoyé **' + userData[message.author.id].messageSent + '** messages !', `Pour passer de niveau vous devez envoyer ` + needtobesend + ` messages !`)
-                .setDescription('voici vôtre niveau :' + userData[message.author.id].level)
+                .addField('Vous avez envoyé **' + userData[sstat].messageSent + '** messages !', `Pour passer de niveau vous devez envoyer ` + needtobesend + ` messages !`)
+                .setDescription('voici vôtre niveau :' + userData[sstat].level)
                 message.channel.send(lvl_embed);
             }
+
+            //notify banned guild
             if(blackguilds[message.guild.id].ban === 1){
                 message.channel.send(`:warning: ce serveur ne vous fait pas monté en niveau, il a été enregistrer pour ne pas pouvoir faire monter ses membres en niveaux. Désolé :disappointed_relieved: `)
             }
