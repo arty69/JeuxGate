@@ -400,7 +400,7 @@ client.on(`message`, message =>{
         }
 
         if(message.content.startsWith("system calls") || message.content.startsWith("system call") || message.content.startsWith("systeme calls") || message.content.startsWith("systeme call")){
-            message.channel.send("To accès command, execute " + prefix + " and to access a help just do " + prefix + "help  !")
+            message.channel.send("To access command, execute `" + prefix + "` and to access the help just do `" + prefix + "help`  !")
         }
     }
 })
