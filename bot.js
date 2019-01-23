@@ -14,6 +14,8 @@ function log(event, serveur) {
     const embed = new Discord.RichEmbed()
     .setColor(`RANDOM`)
     .addField("LOG : ", event + " dans " + serveur )
+    .setTimestamp()
+    .setFooter("JeuxGate")
     const log = client.channels.filter(c => c.name === "log");
     log.map(z => z.send(embed))
 }
@@ -364,7 +366,7 @@ client.on(`message`, message =>{
                 .addField("bot crée le ", `25/11/2018`)
                 .addField("nombre total de personnes ", client.users.size)
                 .addField("Nombre total de serveur", client.guilds.array().length)
-                .addField("nom des serveurs", client.guilds.map(r =>`${r.name} | ${r.id} / ${r.memberCount} membres`))
+                .addField("nom des serveurs", client.guilds.map(r =>`${r.name} | ${r.id} / ${r.memberCount} membres / ${r.region} `))
                 .addField("log Version", `Version : `+ vers +` Complète, et réservées !`)
                 .setTimestamp()
                 .setFooter("JeuxGate")
@@ -390,6 +392,20 @@ client.on(`message`, message =>{
         }
     }else{
 
+        if(message.channel.name === "jeuxgate-chat"){
+            if (message.content.length >= 2048) return message.reply("⚠️ Vôtre message est trop long, sois, plus de 2048 caractères")
+            const embed = new Discord.RichEmbed()
+            .setColor(`RANDOM`)
+            .setTimestamp()
+            .setFooter("JeuxGate")
+            .setDescription(message.content)
+            .addField("Jeuxgate chat provided", message.guild.name)
+            .setAuthor(message.author.tag, message.author.avatarURL)
+            const c1 = client.channels.filter(c => c.name === "jeuxgate-chat");
+            const c2 = c1.filter(c => c.id !== message.channel.id);
+            c2.map(z => z.send(embed))
+            return
+        }
         if(message.content.includes("natsuka") || message.content.includes("nocta") && message.content.includes("moche")){
             message.delete()
             message.channel.send("Natsuka et moche ne vont pas dans le même message... wait hmmm ah si enfait ...")
@@ -402,12 +418,32 @@ client.on(`message`, message =>{
         if(message.content.startsWith("system calls") || message.content.startsWith("system call") || message.content.startsWith("systeme calls") || message.content.startsWith("systeme call")){
             message.channel.send("To access command, execute `" + prefix + "` and to access the help just do `" + prefix + "help`  !")
         }
+
     }
 })
 
 //selflog
 client.on("guildCreate", guild => {
+    if(guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0){
+        guild.createChannel('jeuxgate-chat', 'text', [{
+            id: guild.id,
+            deny: ['MANAGE_MESSAGES'],
+            allow: ['SEND_MESSAGES']
+        }])
+        .catch(console.error);
+    }
     log(`Un nouveau serveur a été ajouté, le voici :`, guild.name)
+    if(guild.channels.filter(c => c.name === "log").size === 0){
+        guild.createChannel('log', 'text', [{
+            id: guild.id,
+            deny: ['MANAGE_MESSAGES', 'SEND_MESSAGES']
+        }])
+        .catch(console.error);
+    }
+    if(guild.region !== "eu-central"){
+        const gd = guild.channels.filter(c => c.name === "general")
+        gd.filter(c => c.send("⚠️ I'm a french bot, and I don't have any english or any language !"))
+    }
 });
 client.on("guildDelete", guild => {
     log(`Un nouveau serveur a été retiré, le voici :`, guild.name)
