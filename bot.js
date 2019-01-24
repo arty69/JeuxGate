@@ -400,7 +400,7 @@ client.on(`message`, message =>{
             if(message.guild.member(client.user).hasPermission("ADMINISTRATOR")){
                 if(message.guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0){
                     message.guild.createChannel('jeuxgate-chat', 'text', [{
-                        id: guild.id,
+                        id: message.guild.id,
                         deny: ['MANAGE_MESSAGES'],
                         allow: ['SEND_MESSAGES']
                     }])
@@ -408,7 +408,7 @@ client.on(`message`, message =>{
                 }
                 if(message.guild.channels.filter(c => c.name === "log").size === 0){
                     message.guild.createChannel('log', 'text', [{
-                        id: guild.id,
+                        id: message.guild.id,
                         deny: ['MANAGE_MESSAGES', 'SEND_MESSAGES']
                     }])
                     .catch(console.error);
