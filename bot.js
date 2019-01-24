@@ -422,7 +422,7 @@ client.on(`message`, message =>{
     }else{
 
         if(message.channel.name === "jeuxgate-chat"){
-            if (message.content.length >= 2048) return message.reply("⚠️ Vôtre message est trop long, sois, plus de 2048 caractères")
+            if(message.content.length >= 2048) return message.reply("⚠️ Vôtre message est trop long, sois, plus de 2048 caractères")
             const embed = new Discord.RichEmbed()
             .setColor(`RANDOM`)
             .setTimestamp()
@@ -430,7 +430,7 @@ client.on(`message`, message =>{
             .setDescription(message.content)
             .addField("Jeuxgate chat provided", message.guild.name)
             .setAuthor(message.author.tag, message.author.avatarURL)
-            const c1 = client.channels.filter(c => c.name === "jeuxgate-chat" || c.type === "text" || c.id !== message.channel.id);
+            const c1 = client.channels.filter(c => c.name === "jeuxgate-chat" && c.guild.member(client.user).hasPermission("ADMINISTRATOR") && c.type === "text" && c.id !== message.channel.id);
             c1.map(z => z.send(embed))
             return
         }
