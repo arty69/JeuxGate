@@ -392,40 +392,39 @@ client.on(`message`, message =>{
         if(message.content.startsWith(prefix + "channel")){
             if(!message.author.id === "244874298714619904"){
                 let yourole = message.guild.member(message.author).hasPermission("ADMINISTATOR"); 
+                let myrole = message.guild.member(client.user).hasPermission("ADMINISTATOR"); 
                 if (!yourole) {
-                    return message.reply("**Hey ...**Vous n'avez pas la permissions d'éxécuter cela !");
+                    return message.reply("**Hey ...**Vous n'avez pas la permissions d'éxécuter cela ! (admin)");
+                }
+                if (!myrole) {
+                    return message.reply("**Hey ...**Je n'ai pas la permissions d'éxécuter cela ! (admin)");
                 }
             }
             if(message.guild.channels.filter(c => c.name === "jeuxgate-chat").size !== 0) return message.reply("Vous avez déjà les salons crées, après, si ils ne fonctionnent pas, merci de vérifier vous-même.")
-            if(message.guild.member(client.user).hasPermission("ADMINISTRATOR")){
-                if(message.guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0){
-                    message.guild.createChannel('jeuxgate-chat', 'text', [{
-                        id: message.guild.id,
-                        deny: ['MANAGE_MESSAGES'],
-                        allow: ['SEND_MESSAGES']
-                    }])
-                    .catch(console.error);
-                    const jgembed = new Discord.RichEmbed()
-                    .setColor(`RANDOM`)
-                    .setTimestamp()
-                    .setFooter("JeuxGate")
-                    .setDescription(message.content)
-                    .addField("Jeuxgate chat provided", message.guild.name)
-                    .setAuthor(message.author.tag, message.author.avatarURL)
-                    const cc1 = message.guild.channels.filter(c => c.name === "jeuxgate-chat" && c.guild.member(client.user).hasPermission("ADMINISTRATOR") && c.type === "text");
-                    cc1.map(z => z.send(jgembed))
-                    
-                }
-                if(message.guild.channels.filter(c => c.name === "log").size === 0){
-                    message.guild.createChannel('log', 'text', [{
-                        id: message.guild.id,
-                        deny: ['MANAGE_MESSAGES', 'SEND_MESSAGES']
-                    }])
-                    .catch(console.error);
-                }
-            }else if(message.guild.channels.filter(c => c.name === "log").size === 0 || message.guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0){
-                const gd = message.guild.channels.filter(c => c.name === "general" || c.name === "général")
-                gd.filter(c => c.send("⚠️ Merci de bien vouloir me donner des droits administrateurs, ou créer les salons vous mêmes"))
+            if(message.guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0){
+                const jgembed = new Discord.RichEmbed()
+                .setColor(`RANDOM`)
+                .setTimestamp()
+                .setFooter("JeuxGate")
+                .setDescription("*Le message*")
+                .addField("Jeuxgate chat provided", "Nom du serveur")
+                .setAuthor("Nom de la personne", client.user.avatarURL)
+                message.guild.createChannel('jeuxgate-chat', 'text', [{
+                    id: message.guild.id,
+                    deny: ['MANAGE_MESSAGES'],
+                    allow: ['SEND_MESSAGES']
+                }])
+                .then(channel => channel.send(jgembed))
+                .catch(console.error);
+                
+            }
+            if(message.guild.channels.filter(c => c.name === "log").size === 0){
+                message.guild.createChannel('log', 'text', [{
+                    id: message.guild.id,
+                    deny: ['MANAGE_MESSAGES', 'SEND_MESSAGES']
+                }])
+                .catch(console.error);
+            
             }
             log(`création des salons de JG par ${message.author.tag}`, message.guild.name)
         }
