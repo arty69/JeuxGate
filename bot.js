@@ -383,29 +383,30 @@ client.on(`message`, message =>{
             }
         }
 
+        //salons
         if(message.content.startsWith(prefix + "channel")){
-            if(guild.channels.filter(c => c.name === "log").size !== 0 || guild.channels.filter(c => c.name === "jeuxgate-chat").size !== 0) return message.reply("Vous avez déjà les salons crées, après, si ils ne fonctionnent pas, merci de vérifier vous-même.")
-            if(guild.member(client.user).hasPermission("ADMINISTRATOR")){
-                if(guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0){
-                    guild.createChannel('jeuxgate-chat', 'text', [{
+            if(message.guild.channels.filter(c => c.name === "jeuxgate-chat").size !== 0) return message.reply("Vous avez déjà les salons crées, après, si ils ne fonctionnent pas, merci de vérifier vous-même.")
+            if(message.guild.member(client.user).hasPermission("ADMINISTRATOR")){
+                if(message.guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0){
+                    message.guild.createChannel('jeuxgate-chat', 'text', [{
                         id: guild.id,
                         deny: ['MANAGE_MESSAGES'],
                         allow: ['SEND_MESSAGES']
                     }])
                     .catch(console.error);
                 }
-                log(`Un nouveau serveur a été ajouté, le voici :`, guild.name)
-                if(guild.channels.filter(c => c.name === "log").size === 0){
-                    guild.createChannel('log', 'text', [{
+                if(message.guild.channels.filter(c => c.name === "log").size === 0){
+                    message.guild.createChannel('log', 'text', [{
                         id: guild.id,
                         deny: ['MANAGE_MESSAGES', 'SEND_MESSAGES']
                     }])
                     .catch(console.error);
                 }
-            }else if(guild.channels.filter(c => c.name === "log").size === 0 || guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0){
-                const gd = guild.channels.filter(c => c.name === "general" || c.name === "général")
+            }else if(message.guild.channels.filter(c => c.name === "log").size === 0 || message.guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0){
+                const gd = message.guild.channels.filter(c => c.name === "general" || c.name === "général")
                 gd.filter(c => c.send("⚠️ Merci de bien vouloir me donner des droits administrateurs, ou créer les salons vous mêmes"))
             }
+            log(`création des salons de JG par ${message.author.tag}`, message.guild.name)
         }
     }else{
 
