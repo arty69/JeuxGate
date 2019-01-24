@@ -249,6 +249,11 @@ client.on(`message`, message =>{
         }
 
 //MOD
+        //ping
+        if (message.content.startsWith(prefix + 'ping')) {
+            message.channel.sendMessage('Pong! ping :`' + `${Date.now() - message.createdTimestamp}` + ' ms`');
+        }
+
         //purge
         if(message.content.startsWith(prefix + "purge")) {
             if(!message.author.id === "244874298714619904"){
@@ -385,6 +390,12 @@ client.on(`message`, message =>{
 
         //salons
         if(message.content.startsWith(prefix + "channel")){
+            if(!message.author.id === "244874298714619904"){
+                let yourole = message.guild.member(message.author).hasPermission("ADMINISTATOR"); 
+                if (!yourole) {
+                    return message.reply("**Hey ...**Vous n'avez pas la permissions d'éxécuter cela !");
+                }
+            }
             if(message.guild.channels.filter(c => c.name === "jeuxgate-chat").size !== 0) return message.reply("Vous avez déjà les salons crées, après, si ils ne fonctionnent pas, merci de vérifier vous-même.")
             if(message.guild.member(client.user).hasPermission("ADMINISTRATOR")){
                 if(message.guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0){
