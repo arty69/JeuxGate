@@ -405,6 +405,16 @@ client.on(`message`, message =>{
                         allow: ['SEND_MESSAGES']
                     }])
                     .catch(console.error);
+                    const jgembed = new Discord.RichEmbed()
+                    .setColor(`RANDOM`)
+                    .setTimestamp()
+                    .setFooter("JeuxGate")
+                    .setDescription(message.content)
+                    .addField("Jeuxgate chat provided", message.guild.name)
+                    .setAuthor(message.author.tag, message.author.avatarURL)
+                    const cc1 = message.guild.channels.filter(c => c.name === "jeuxgate-chat" && c.guild.member(client.user).hasPermission("ADMINISTRATOR") && c.type === "text");
+                    cc1.map(z => z.send(jgembed))
+                    
                 }
                 if(message.guild.channels.filter(c => c.name === "log").size === 0){
                     message.guild.createChannel('log', 'text', [{
