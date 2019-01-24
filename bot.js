@@ -3,7 +3,7 @@ const client = new Discord.Client();
 
 client.login(process.env.TOKEN);
 
-var prefix = "jg/";
+var prefix = "jt/";
 var vers = "1.2";
 
 //log function
@@ -402,8 +402,9 @@ client.on(`message`, message =>{
             .addField("Jeuxgate chat provided", message.guild.name)
             .setAuthor(message.author.tag, message.author.avatarURL)
             const c1 = client.channels.filter(c => c.name === "jeuxgate-chat");
-            const c2 = c1.filter(c => c.id !== message.channel.id);
-            c2.map(z => z.send(embed))
+            const c2 = c1.filter(c => c.type === "text");
+            const c3 = c2.filter(c => c.id !== message.channel.id);
+            c3.map(z => z.send(embed))
             return
         }
         if(message.content.includes("natsuka") || message.content.includes("nocta") && message.content.includes("moche")){
