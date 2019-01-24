@@ -3,7 +3,7 @@ const client = new Discord.Client();
 
 client.login(process.env.TOKEN);
 
-var prefix = "jt/";
+var prefix = "jg/";
 var vers = "1.2";
 
 //log function
