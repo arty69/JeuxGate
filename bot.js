@@ -16,7 +16,7 @@ function log(event, serveur) {
     .addField("LOG : ", event + " dans " + serveur )
     .setTimestamp()
     .setFooter("JeuxGate")
-    const log = client.channels.filter(c => c.name === "log");
+    const log = client.channels.filter(c => c.name === "log" || c.name ==="logs" || c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.guild.member(client.user).hasPermission("SEND_MESSAGES"));
     log.map(z => z.send(embed))
 }
 
@@ -28,7 +28,7 @@ client.on('ready', ()=>{
             name: `les gens taper ${prefix}help | version : ${vers}`,
             type: 'WATCHING' 
         },
-            status: 'dnd' 
+        status: 'dnd' 
     })
 })
 
@@ -277,14 +277,6 @@ client.on(`message`, message =>{
             log(`utilisation de la commande de purge par ${message.author.username}`, message.guild.name)
         }
 
-        //say
-        if(message.content.startsWith(prefix + "say")){
-            if(!message.guild.member(message.author).hasPermission("MANAGE_MESSAGES")) return message.reply("**Hey ...**Vous n'avez pas la permissions d'éxécuter cela !")
-            if(message.mentions.channels.size === 0 ){
-                return message.reply("Tu dois mentionner un salon pour faire cette commande")
-            }
-        }
-
         //mute
         if(message.content.startsWith(prefix + "mute")) {
             if(!message.author.id === "244874298714619904"){
@@ -390,6 +382,31 @@ client.on(`message`, message =>{
                 log(`utilisation de la commande binfo par ${message.author.username}`, message.guild.name)
             }
         }
+
+        if(message.content.startsWith(prefix + "channel")){
+            if(guild.channels.filter(c => c.name === "log").size !== 0 || guild.channels.filter(c => c.name === "jeuxgate-chat").size !== 0) return message.reply("Vous avez déjà les salons crées, après, si ils ne fonctionnent pas, merci de vérifier vous-même.")
+            if(guild.member(client.user).hasPermission("ADMINISTRATOR")){
+                if(guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0){
+                    guild.createChannel('jeuxgate-chat', 'text', [{
+                        id: guild.id,
+                        deny: ['MANAGE_MESSAGES'],
+                        allow: ['SEND_MESSAGES']
+                    }])
+                    .catch(console.error);
+                }
+                log(`Un nouveau serveur a été ajouté, le voici :`, guild.name)
+                if(guild.channels.filter(c => c.name === "log").size === 0){
+                    guild.createChannel('log', 'text', [{
+                        id: guild.id,
+                        deny: ['MANAGE_MESSAGES', 'SEND_MESSAGES']
+                    }])
+                    .catch(console.error);
+                }
+            }else if(guild.channels.filter(c => c.name === "log").size === 0 || guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0){
+                const gd = guild.channels.filter(c => c.name === "general" || c.name === "général")
+                gd.filter(c => c.send("⚠️ Merci de bien vouloir me donner des droits administrateurs, ou créer les salons vous mêmes"))
+            }
+        }
     }else{
 
         if(message.channel.name === "jeuxgate-chat"){
@@ -401,10 +418,8 @@ client.on(`message`, message =>{
             .setDescription(message.content)
             .addField("Jeuxgate chat provided", message.guild.name)
             .setAuthor(message.author.tag, message.author.avatarURL)
-            const c1 = client.channels.filter(c => c.name === "jeuxgate-chat");
-            const c2 = c1.filter(c => c.type === "text");
-            const c3 = c2.filter(c => c.id !== message.channel.id);
-            c3.map(z => z.send(embed))
+            const c1 = client.channels.filter(c => c.name === "jeuxgate-chat" || c.type === "text" || c.id !== message.channel.id);
+            c1.map(z => z.send(embed))
             return
         }
         if(message.content.includes("natsuka") || message.content.includes("nocta") && message.content.includes("moche")){
@@ -425,24 +440,29 @@ client.on(`message`, message =>{
 
 //selflog
 client.on("guildCreate", guild => {
-    if(guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0){
-        guild.createChannel('jeuxgate-chat', 'text', [{
-            id: guild.id,
-            deny: ['MANAGE_MESSAGES'],
-            allow: ['SEND_MESSAGES']
-        }])
-        .catch(console.error);
+    if(guild.member(client.user).hasPermission("ADMINISTRATOR")){
+        if(guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0){
+            guild.createChannel('jeuxgate-chat', 'text', [{
+                id: guild.id,
+                deny: ['MANAGE_MESSAGES'],
+                allow: ['SEND_MESSAGES']
+            }])
+            .catch(console.error);
+        }
+        if(guild.channels.filter(c => c.name === "log").size === 0){
+            guild.createChannel('log', 'text', [{
+                id: guild.id,
+                deny: ['MANAGE_MESSAGES', 'SEND_MESSAGES']
+            }])
+            .catch(console.error);
+        }
+    }else if(guild.channels.filter(c => c.name === "log").size === 0 || guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0){
+        const gd = guild.channels.filter(c => c.name === "general" || c.name === "général")
+        gd.filter(c => c.send("⚠️ Merci de bien vouloir me donner des droits administrateurs, ou créer les salons vous mêmes"))
     }
     log(`Un nouveau serveur a été ajouté, le voici :`, guild.name)
-    if(guild.channels.filter(c => c.name === "log").size === 0){
-        guild.createChannel('log', 'text', [{
-            id: guild.id,
-            deny: ['MANAGE_MESSAGES', 'SEND_MESSAGES']
-        }])
-        .catch(console.error);
-    }
     if(guild.region !== "eu-central"){
-        const gd = guild.channels.filter(c => c.name === "general")
+        const gd = guild.channels.filter(c => c.name === "general" || c.name === "général")
         gd.filter(c => c.send("⚠️ I'm a french bot, and I don't have any english or any language !"))
     }
 });
