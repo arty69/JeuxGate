@@ -33,7 +33,7 @@ C'est un Bot Discord créé par JeuxDictator. (préfixe : `jg/`)
  - Do `jg/channel` to create the needed channel for jeuxgate.
  - Faites `jg/channel` pour créer les salons nécessaires au fonctionnement de jeuxgate.
 
-### Fun
+### Fun `jg/fun`
 ##### Kiss
  - Do `jg/kiss @someone` to kiss `@someone`.
  - Faites `jg/kiss @quelqu'un` pour faire un bisou à `@quelqu'un`.
