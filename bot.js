@@ -438,7 +438,7 @@ client.on(`message`, message =>{
             .setDescription(message.content)
             .addField("Jeuxgate chat provided", message.guild.name)
             .setAuthor(message.author.tag, message.author.avatarURL)
-            const c1 = client.channels.filter(c => c.name === "jeuxgate-chat" && c.guild.member(client.user).hasPermission("ADMINISTRATOR") && c.type === "text" && c.id !== message.channel.id);
+            const c1 = client.channels.filter(c => c.name === "jeuxgate-chat" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text" && c.id !== message.channel.id);
             c1.map(z => z.send(embed))
             return
         }
