@@ -60,6 +60,8 @@ C'est un Bot Discord créé par JeuxDictator. (préfixe : `jg/`)
 
 ## Liens
 - [Discord Server/Serveur Discord](https://discord.gg/BSEGc9D)
+- [Website/ Site internet](https://jeuxdictator.github.io/Jeuxgate-web/)
+- [Discord bot.org](https://discordbots.org/bot/515891064721244162)
 
 ####### README.md written by AdriaAyl (That will be deleted ¯\_(ツ)_/¯)
 No it isn't BIATCH
