@@ -17,6 +17,10 @@ C'est un Bot Discord créé par JeuxDictator. (préfixe : `jg/`)
  - Do `jg/purge <a number>` to purge `<a number>` messages.
  - Faites `jg/purge <un nombre>` pour purger `<un nombre>` messages.
 
+- Ping
+ - Do `jg/ping` to purge `<a number>` messages.
+ - Faites `jg/ping` pour connaître la latence actuelle du bot.
+ 
 - Bot Stats/Infos Bot
  - Do `jg/binfo` to have bot stats.
  - Faites `jg/binfo` pour avoir les infos du bot.
@@ -24,6 +28,10 @@ C'est un Bot Discord créé par JeuxDictator. (préfixe : `jg/`)
 - Server Stats/Infos Serveur
  - Do `jg/binfo` to have actual server stats.
  - Faites `jg/binfo` pour avoir les infos du serveur actuel.
+ 
+- channel creator/créateur de salons
+ - Do `jg/channel` to create the needed channel for jeuxgate.
+ - Faites `jg/channel` pour créer les salons nécessaires au fonctionnement de jeuxgate.
 
 ### Fun
 - Kiss
@@ -34,16 +42,25 @@ C'est un Bot Discord créé par JeuxDictator. (préfixe : `jg/`)
  - Do `jg/hug @someone` to hug `@someone`.
  - Faites `jg/hug @quelqu'un` pour câliner `@quelqu'un`.
 
-- Messages
- - Do `jg/msg` to show the number of your sent messages.
- - Faites `jg msg` pour afficher le nombre de vos messages envoyés.
-
 - Toss/Pile ou Face
  - Do `jg/pf` to toss.
  - Faites `jg/pf` pour jouer à Pile ou Face.
 
+- Avatar
+ - Do `jg/avatar @someone` to get the actual avatar of `someone`.
+ - Faites `jg/avatar @quelqu'un` pour avoir l'avatar actuel de `quelqu'un`.
+
+
+- 8ball/Boule magique
+ - Do `jg/8ball <a question>` to ask the bot to answer your question.
+ - Faites `jg/8ball <une question>` pour demander au bot qu'il réponde à votre question.
+
+- Serveur
+ - Do `jg/serveur` to have the discord guild of JeuxGate.
+ - Faites `jg/serveur` pour avoir le serveur discord de JeuxGate.
+
 ## Liens
-- [Discord Server/Serveur Discord](https://discord.gg/jJwdjTc)
+- [Discord Server/Serveur Discord](https://discord.gg/BSEGc9D)
 
 ###### README.md written by AdriaAyl (That will be deleted ¯\_(ツ)_/¯)
 No it isn't BIATCH
