@@ -1,4 +1,4 @@
-# JeuxGate [![Discord Bots status](https://discordbots.org/api/widget/status/515891064721244162.svg?noavatar=true)]
+# JeuxGate ![Discord Bots status](https://discordbots.org/api/widget/status/515891064721244162.svg?noavatar=true)
 
 It's a simple Discord Bot created by JeuxDictator. (prefix : `jg/`)
 
