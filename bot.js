@@ -75,7 +75,6 @@ client.on(`message`, message =>{
             .addField(":white_circle: Pile ou face", "Fais `" + prefix + "pf` pour faire un pile ou face !")
             .addField(":frame_photo: Avatar", "Fais `" + prefix + "avatar @quelqu'un` pour voir la photo de profile de `@quelqu'un` !")
             .addField(":8ball: Boule magique", "Fais `" + prefix + "8ball <vôtre question>` pour que la boule magive vous répondes")
-            .addField(":keyboard: Statistiques", "Fais `" + prefix + "stats` pour obtenir vos statistiques (niveau(x) + message(s) envoyé) !")
             .addField(":envelope: Serveur", "Fais `" + prefix + "serveur` pour obtenir le serveur du bot !")
             .addField(":door: Invitation", "Fais `" + prefix + "invite` pour obtenir le lien pour inviter le bot dans votre serveur !")
             .setTimestamp()
