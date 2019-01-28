@@ -27,8 +27,8 @@ C'est un Bot Discord créé par JeuxDictator. (préfixe : `jg/`)
  - Faites `jg/binfo` pour avoir les infos du bot.
 
 ##### Server Stats/Infos Serveur
- - Do `jg/binfo` to have actual server stats.
- - Faites `jg/binfo` pour avoir les infos du serveur actuel.
+ - Do `jg/sinfo` to have actual server stats.
+ - Faites `jg/sinfo` pour avoir les infos du serveur actuel.
  
 ##### channel creator/créateur de salons
  - Do `jg/channel` to create the needed channel for jeuxgate.
