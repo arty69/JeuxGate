@@ -16,7 +16,7 @@ function log(event, serveur) {
     .addField("LOG : ", event + " dans " + serveur )
     .setTimestamp()
     .setFooter("JeuxGate")
-    const log = client.channels.filter(c => c.name === "log" && c.name ==="logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.guild.member(client.user).hasPermission("SEND_MESSAGES"));
+    const log = client.channels.filter(c => c.name === "log" || c.name ==="logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.guild.member(client.user).hasPermission("SEND_MESSAGES"));
     log.map(z => z.send(embed))
 }
 
