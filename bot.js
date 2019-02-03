@@ -11,7 +11,7 @@ function log(event, serveur, version) {
     if(!event) return;
     if(!serveur) return;
     console.log(`${event} dans ${serveur}`)
-    if(version === 1 || !version){
+    if(version === 1){
         const embed = new Discord.RichEmbed()
         .setColor(`RANDOM`)
         .addField("LOG : ", event + " dans " + serveur )
@@ -66,7 +66,7 @@ client.on(`message`, message =>{
             message.channel.send(help_embed);
 
             
-            log(`utilisation de la commande help par ${message.author.username}`, message.guild.name)
+            log(`utilisation de la commande help par ${message.author.username}`, message.guild.name, 1)
         }
 
         //fun
@@ -89,7 +89,7 @@ client.on(`message`, message =>{
             message.channel.send(helpf_embed);
 
             
-            log(`utilisation de la commande fun par ${message.author.username}`, message.guild.name)
+            log(`utilisation de la commande fun par ${message.author.username}`, message.guild.name, 1)
         }
 
         //mod
@@ -111,7 +111,7 @@ client.on(`message`, message =>{
             message.channel.send(helpm_embed);
 
             
-            log(`utilisation de la commande mod par ${message.author.username}`, message.guild.name)
+            log(`utilisation de la commande mod par ${message.author.username}`, message.guild.name, 1)
         }
 
 //FUN
@@ -137,7 +137,7 @@ client.on(`message`, message =>{
             message.channel.send(kiss_embed);
 
             
-            log(`utilisation de la commande kiss par ${message.author.username}`, message.guild.name)
+            log(`utilisation de la commande kiss par ${message.author.username}`, message.guild.name, 1)
 
         }
 
@@ -159,7 +159,7 @@ client.on(`message`, message =>{
             message.channel.send(hug_embed);
 
             
-            log(`utilisation de la commande hug par ${message.author.username}`, message.guild.name)
+            log(`utilisation de la commande hug par ${message.author.username}`, message.guild.name, 1)
         }
 
         //Commande pile ou face :
@@ -172,7 +172,7 @@ client.on(`message`, message =>{
             }
 
             
-            log(`utilisation de la commande pf par ${message.author.username}`, message.guild.name)
+            log(`utilisation de la commande pf par ${message.author.username}`, message.guild.name, 1)
         }
 
         //avatar
@@ -193,7 +193,7 @@ client.on(`message`, message =>{
             message.channel.send(avatar_embed);
 
             
-            log(`utilisation de la commande d'avatar par ${message.author.username}`, message.guild.name)
+            log(`utilisation de la commande d'avatar par ${message.author.username}`, message.guild.name, 1)
         }
 
         //magic ball
@@ -225,7 +225,7 @@ client.on(`message`, message =>{
                 message.channel.send(ball_embed);
 
                 
-                log(`utilisation de la commande 8ball par ${message.author.username}`, message.guild.name)
+                log(`utilisation de la commande 8ball par ${message.author.username}`, message.guild.name, 1)
             }else{
                 message.channel.send("Si vous voulez que la boule magique vous répondes, vous devez déjà poser la question !")
             }
@@ -288,7 +288,7 @@ client.on(`message`, message =>{
             
             })
             
-            log(`utilisation de la commande de purge par ${message.author.username}`, message.guild.name)
+            log(`utilisation de la commande de purge par ${message.author.username}`, message.guild.name, 1)
         }
 
         //mute
@@ -313,7 +313,7 @@ client.on(`message`, message =>{
                 message.channel.send(`${mute.user.username} a été mute par ${message.author.username} !`);
                 
                 
-                log(`utilisation de la commande mute par ${message.author.username}`, message.guild.name)
+                log(`utilisation de la commande mute par ${message.author.username}`, message.guild.name, 1)
             })
         }
 
@@ -339,7 +339,7 @@ client.on(`message`, message =>{
                 message.channel.send(`${mute.user.username} a été unmute par ${message.author.username} !`);
 
                 
-                log(`utilisation de la commande unmute par ${message.author.username}`, message.guild.name)
+                log(`utilisation de la commande unmute par ${message.author.username}`, message.guild.name, 1)
             })
         }
 
@@ -359,7 +359,7 @@ client.on(`message`, message =>{
             message.channel.send(info_embed)
 
             
-            log(`utilisation de la commande sinfo par ${message.author.username}`, message.guild.name)
+            log(`utilisation de la commande sinfo par ${message.author.username}`, message.guild.name, 1)
         }
 
         //Commande d'information bot :
@@ -392,7 +392,7 @@ client.on(`message`, message =>{
                 .setFooter("JeuxGate")
                 message.channel.send(binfo_embed)
 
-                log(`utilisation de la commande binfo par ${message.author.username}`, message.guild.name)
+                log(`utilisation de la commande binfo par ${message.author.username}`, message.guild.name, 1)
             }
         }
 
@@ -434,7 +434,7 @@ client.on(`message`, message =>{
                 .catch(console.error);
             
             }
-            log(`création des salons de JG par ${message.author.tag}`, message.guild.name)
+            log(`création des salons de JG par ${message.author.tag}`, message.guild.name, 1)
         }
     }else{
 
