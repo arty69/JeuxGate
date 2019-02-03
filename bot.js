@@ -4,19 +4,27 @@ const client = new Discord.Client();
 client.login(process.env.TOKEN);
 
 var prefix = "jg/";
-var vers = "1.2";
+var vers = "1.2.2";
 
 //log function
-function log(event, serveur) {
+function log(event, serveur, version) {
     if(!event) return;
     if(!serveur) return;
     console.log(`${event} dans ${serveur}`)
-    const embed = new Discord.RichEmbed()
-    .setColor(`RANDOM`)
-    .addField("LOG : ", event + " dans " + serveur )
-    .setTimestamp()
-    .setFooter("JeuxGate")
-    const log = client.channels.filter(c => c.name === "log" || c.name ==="logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.guild.member(client.user).hasPermission("SEND_MESSAGES"));
+    if(version === 1 || !version){
+        const embed = new Discord.RichEmbed()
+        .setColor(`RANDOM`)
+        .addField("LOG : ", event + " dans " + serveur )
+        .setTimestamp()
+        .setFooter("JeuxGate")
+    }else if(version === 2){
+        const embed = new Discord.RichEmbed()
+        .setColor(`RANDOM`)
+        .addField("LOG : ", event )
+        .setTimestamp()
+        .setFooter("JeuxGate")
+    }
+    const log = client.channels.filter(c => c.name === "log" || c.name === "jg-log" || c.name ==="logs" || c.name === "jg-logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS"));
     log.map(z => z.send(embed))
 }
 
@@ -37,9 +45,8 @@ client.on(`message`, message =>{
     //anti kikoo
     if(message.author.bot) return;
     if(message.system) return;
-    if(message.channel.type === "dm"){
-        return message.channel.send(`Vous ne pouvez pas intéragir avec moi avec des mp. Vous devez intéragir avec moi dans un serveur !`);
-    }
+    if(message.channel.type === "dm") return message.channel.send(`Vous ne pouvez pas intéragir avec moi avec des mp. Vous devez intéragir avec moi dans un serveur !`);
+
     //commandes
     if(message.content.startsWith(prefix)){
 //HELP
@@ -203,7 +210,7 @@ client.on(`message`, message =>{
                     "Non",
                     "Mes sources disent non.",
                     "Les signes disent que non.",
-                    "C'est incertain.",
+                    "Je dirais que non",
 
                     //autres
                     "Actuellement, je ne peux prédire ...",
@@ -230,7 +237,8 @@ client.on(`message`, message =>{
             var serveur_embed = new Discord.RichEmbed()
             .setColor('RANDOM')
             .setTitle('Voici le serveur du bot : ')
-            .addField('Si vous accèdez au serveur, merci de bien vouloir me pardonner de la faible présentation de celui-ci !', `https://discord.gg/BSEGc9D`)
+            .setDescription(`https://discord.gg/BSEGc9D`)
+            .setURL(`https://discord.gg/BSEGc9D`)
             .setTimestamp()
             .setFooter("JeuxGate")
             message.channel.send(serveur_embed);
@@ -241,7 +249,8 @@ client.on(`message`, message =>{
             var invite_embed = new Discord.RichEmbed()
             .setColor('RANDOM')
             .setTitle('Voici le lien du bot : ')
-            .addField('Si vous voulez ajouter JeuxGate à vôtre serveur, merci de lui donner un rôle administrateur (le rôle par défaut est censé êtres admin) !', `https://discordapp.com/api/oauth2/authorize?client_id=515891064721244162&permissions=8&scope=bot`)
+            .setDescription(`https://discordapp.com/api/oauth2/authorize?client_id=515891064721244162&permissions=8&scope=bot`)
+            .setURL(`https://discordapp.com/api/oauth2/authorize?client_id=515891064721244162&permissions=8&scope=bot`)
             .setTimestamp()
             .setFooter("JeuxGate")
             message.channel.send(invite_embed);
@@ -251,6 +260,7 @@ client.on(`message`, message =>{
         //ping
         if (message.content.startsWith(prefix + 'ping')) {
             message.channel.sendMessage('Pong! ping :`' + `${Date.now() - message.createdTimestamp}` + ' ms`');
+            log(`Ping de ${message.author.username}`, message.guild.name)
         }
 
         //purge
@@ -273,7 +283,7 @@ client.on(`message`, message =>{
 
             message.channel.bulkDelete(suppression, true).then(ok => {
                 message.reply("**Suppression de " + "" + suppression + "" + " messages**")
-                .then(message => setTimeout(function(){message.delete()}, 1000))
+                .then(message => setTimeout(function(){message.delete()}, 10000))
                 .catch(err => console.log(err));
             
             })
@@ -292,7 +302,7 @@ client.on(`message`, message =>{
             }
             var mute = message.guild.member(message.mentions.users.first());
             if(!mute) {
-                return message.reply("Je n'ai pas trouvé l'utilisateur ou il l'existe pas !");
+                return message.reply("Je n'ai pas trouvé l'utilisateur ou il n'existe pas !");
             }
             if(message.content.substr(prefix.length + 4) === " <@515891064721244162>"){
                 return message.reply("Je ne peux me mute !")
@@ -369,7 +379,6 @@ client.on(`message`, message =>{
                 message.channel.send(binfos_embed)
 
                 
-                log(`utilisation de la commande binfo VERSION ABSOLUE par ${message.author.username}`, message.guild.name)
             }else{
                 var binfo_embed = new Discord.RichEmbed()
                 .setColor("18d67e")
@@ -431,7 +440,7 @@ client.on(`message`, message =>{
 
         if(message.channel.name === "jeuxgate-chat"){
             if(message.content.length >= 2048) return message.reply("⚠️ Vôtre message est trop long, sois, plus de 2048 caractères")
-            const embed = new Discord.RichEmbed()
+            const chembed = new Discord.RichEmbed()
             .setColor(`RANDOM`)
             .setTimestamp()
             .setFooter("JeuxGate")
@@ -439,20 +448,17 @@ client.on(`message`, message =>{
             .addField("Jeuxgate chat provided", message.guild.name)
             .setAuthor(message.author.tag, message.author.avatarURL)
             const c1 = client.channels.filter(c => c.name === "jeuxgate-chat" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text" && c.id !== message.channel.id);
-            c1.map(z => z.send(embed))
+            c1.map(z => z.send(chembed))
             return
-        }
-        if(message.content.includes("natsuka") || message.content.includes("nocta") && message.content.includes("moche")){
-            message.delete()
-            message.channel.send("Natsuka et moche ne vont pas dans le même message... wait hmmm ah si enfait ...")
         }
 
         if(message.content.includes("adriaayl")){
             message.channel.send ("adriaaaaaaaaaaaaaaaaaaaaaaaayl play despacito")
+            log(`adriaaaaaaaaaaaaaaaaaaaaaaaayl`, message.guild.name, 2)
         }
 
         if(message.content.startsWith("system calls") || message.content.startsWith("system call") || message.content.startsWith("systeme calls") || message.content.startsWith("systeme call")){
-            message.channel.send("To access command, execute `" + prefix + "` and to access the help just do `" + prefix + "help`  !")
+            message.channel.send("To access commands, execute `" + prefix + "` and to access the help just do `" + prefix + "help`  !")
         }
 
     }
@@ -469,7 +475,7 @@ client.on("guildCreate", guild => {
             }])
             .catch(console.error);
         }
-        if(guild.channels.filter(c => c.name === "log").size === 0){
+        if(guild.channels.filter(c => c.name === "log" || c.name === "logs").size === 0){
             guild.createChannel('log', 'text', [{
                 id: guild.id,
                 deny: ['MANAGE_MESSAGES', 'SEND_MESSAGES']
@@ -479,13 +485,13 @@ client.on("guildCreate", guild => {
     }else if(guild.channels.filter(c => c.name === "log").size === 0 || guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0){
         const gd = guild.channels.filter(c => c.name === "general" || c.name === "général")
         gd.filter(c => c.send("⚠️ Merci de bien vouloir me donner des droits administrateurs, ou créer les salons vous mêmes"))
-    }
-    log(`Un nouveau serveur a été ajouté, le voici :`, guild.name)
+    }   
+    log(`Un nouveau serveur a été ajouté, le voici : ` + guild.name, guild.name, 2)
     if(guild.region !== "eu-central"){
         const gd = guild.channels.filter(c => c.name === "general" || c.name === "général")
-        gd.filter(c => c.send("⚠️ I'm a french bot, and I don't have any english or any language !"))
+        gd.filter(c => c.send("⚠️ I'm a french bot, and I don't support english or any language !"))
     }
 });
 client.on("guildDelete", guild => {
-    log(`Un nouveau serveur a été retiré, le voici :`, guild.name)
+    log(`Un nouveau serveur a été retiré, le voici : `+ guild.name, guild.name, 2)
 });
