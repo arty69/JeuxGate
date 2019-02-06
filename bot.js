@@ -5,6 +5,8 @@ client.login(process.env.TOKEN);
 
 var prefix = "jg/";
 var vers = "1.2.2";
+var fryourperm = "**Hey ...** Je suis désolé or, vous n'avez pas la permission d'éxécuter celà !"
+var frmyperm = "**Hey ...** Je suis désolé or, je n'ai pas la permission d'éxécuter celà !"
 
 //log function
 function log(event, serveur, version) {
@@ -262,22 +264,16 @@ client.on(`message`, message =>{
         //ping
         if (message.content.startsWith(prefix + 'ping')) {
             message.channel.sendMessage('Pong! ping :`' + `${Date.now() - message.createdTimestamp}` + ' ms`');
-            log(`Ping de ${message.author.username}`, message.guild.name, 1)
+            log(`Ping de ${message.author.username}`, message.guild.name)
         }
 
         //purge
         if(message.content.startsWith(prefix + "purge")) {
             if(!message.author.id === "244874298714619904"){
-                let myrole = message.guild.member(client.user).hasPermission("MANAGE_MESSAGES"); 
-                let yourole = message.guild.member(message.author).hasPermission("MANAGE_MESSAGES"); 
-            
-                if (!myrole) {
-                    return message.reply("**Hey ...**Je n'ai pas la permissions d'éxécuter cela !");
-                }
-                if (!yourole) {
-                    return message.reply("**Hey ...**Vous n'avez pas la permissions d'éxécuter cela !");
-                }
+                if(!message.guild.member(message.author).hasPermission("MANAGE_MESSAGES")) return message.channel.send(fryourperm);
             }
+            if(!message.guild.member(client.user).hasPermission("MANAGE_MESSAGES")) return message.channel.send(frmyperm);
+
             var suppression = message.content.substr(prefix.length + 6);
             if (suppression < 2 || suppression > 101) {
                 return message.reply("**Hey ...**La valeur que vous avez entré est invalide, merci de choisir une valeur comprise entre 2 et 100");
@@ -296,8 +292,9 @@ client.on(`message`, message =>{
         //mute
         if(message.content.startsWith(prefix + "mute")) {
             if(!message.author.id === "244874298714619904"){
-                if(!message.guild.member(message.author).hasPermission("ADMINISTRATOR")) return message.channel.send("**Hey ...**Vous n'avez pas la permissions d'éxécuter cela !");
+                if(!message.guild.member(message.author).hasPermission("ADMINISTRATOR")) return message.channel.send(fryourperm);
             }
+            if(!message.guild.member(client.user).hasPermission("ADMINISTRATOR")) return message.channel.send(frmyperm);
 
             if(message.mentions.users.size === 0) {
                 return message.reply("Tu dois mentionner quelqu'un pour faire cette commande");
@@ -307,10 +304,9 @@ client.on(`message`, message =>{
                 return message.reply("Je n'ai pas trouvé l'utilisateur ou il n'existe pas !");
             }
             if(message.content.substr(prefix.length + 4) === " <@515891064721244162>"){
-                return message.reply("Je ne peux me mute !")
+                return message.reply("Je ne peux me mute !");
             }
 
-            if(!message.guild.member(client.user).hasPermission("ADMINISTRATOR")) return message.channel.send("Je n'ai pas la permission !");
             message.channel.overwritePermissions(mute, { SEND_MESSAGES: false}).then(member => {
                 message.channel.send(`${mute.user.username} a été mute par ${message.author.username} !`);
                 
@@ -324,6 +320,7 @@ client.on(`message`, message =>{
             if(!message.author.id === "244874298714619904"){
                 if(!message.guild.member(message.author).hasPermission("ADMINISTRATOR")) return message.channel.send("**Hey ...**Vous n'avez pas la permissions d'éxécuter cela !");
             }
+            if(!message.guild.member(client.user).hasPermission("ADMINISTRATOR")) return message.channel.send("Je n'ai pas la permission !");
 
             if(message.mentions.users.size === 0) {
                 return message.reply("Tu dois mentionner quelqu'un pour faire cette commande");
@@ -336,7 +333,6 @@ client.on(`message`, message =>{
                 return message.reply("Je ne peux me unmute !")
             }
     
-            if(!message.guild.member(client.user).hasPermission("ADMINISTRATOR")) return message.channel.send("Je n'ai pas la permission !");
             message.channel.overwritePermissions(mute, { SEND_MESSAGES: true}).then(member => {
                 message.channel.send(`${mute.user.username} a été unmute par ${message.author.username} !`);
 
@@ -401,15 +397,9 @@ client.on(`message`, message =>{
         //salons
         if(message.content.startsWith(prefix + "channel")){
             if(!message.author.id === "244874298714619904"){
-                let yourole = message.guild.member(message.author).hasPermission("ADMINISTATOR"); 
-                let myrole = message.guild.member(client.user).hasPermission("ADMINISTATOR"); 
-                if (!yourole) {
-                    return message.reply("**Hey ...**Vous n'avez pas la permissions d'éxécuter cela ! (admin)");
-                }
-                if (!myrole) {
-                    return message.reply("**Hey ...**Je n'ai pas la permissions d'éxécuter cela ! (admin)");
-                }
+                if(!message.guild.member(message.author).hasPermission("ADMINISTRATOR")) return message.channel.send(fryourperm);
             }
+            if(!message.guild.member(client.user).hasPermission("ADMINISTRATOR")) return message.channel.send(frmyperm);
             if(message.guild.channels.filter(c => c.name === "jeuxgate-chat").size !== 0) return message.reply("Vous avez déjà les salons crées, après, si ils ne fonctionnent pas, merci de vérifier vous-même.")
             if(message.guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0){
                 const jgembed = new Discord.RichEmbed()
