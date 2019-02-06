@@ -262,7 +262,7 @@ client.on(`message`, message =>{
         //ping
         if (message.content.startsWith(prefix + 'ping')) {
             message.channel.sendMessage('Pong! ping :`' + `${Date.now() - message.createdTimestamp}` + ' ms`');
-            log(`Ping de ${message.author.username}`, message.guild.name)
+            log(`Ping de ${message.author.username}`, message.guild.name, 1)
         }
 
         //purge
