@@ -3,12 +3,13 @@ const client = new Discord.Client();
 
 client.login(process.env.TOKEN);
 
+//ANCHOR Variable globales
 var prefix = "jg/";
 var vers = "1.2.2";
 var fryourperm = "**Hey ...** Je suis désolé or, vous n'avez pas la permission d'éxécuter celà !"
 var frmyperm = "**Hey ...** Je suis désolé or, je n'ai pas la permission d'éxécuter celà !"
 
-//log function
+//ANCHOR log function
 function log(event, serveur, version) {
     if(!event) return;
     if(!serveur) return;
@@ -20,7 +21,7 @@ function log(event, serveur, version) {
         .setTimestamp()
         .setFooter("JeuxGate")
         const log = client.channels.filter(c => c.name === "log" || c.name === "jg-log" || c.name === "logs" || c.name === "jg-logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS"));
-        log.map(z => z.send(embed))
+        log.map(z => z.send(embed).catch(err => return;)
     }else if(version === 2){
         const embed = new Discord.RichEmbed()
         .setColor(`RANDOM`)
@@ -28,11 +29,11 @@ function log(event, serveur, version) {
         .setTimestamp()
         .setFooter("JeuxGate")
         const log = client.channels.filter(c => c.name === "log" || c.name === "jg-log" || c.name === "logs" || c.name === "jg-logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS"));
-        log.map(z => z.send(embed))
+        log.map(z => z.send(embed).catch(err => return;)
     }
 }
 
-//stat
+//ANCHOR state
 client.on('ready', ()=>{
     console.log(`connecté : ${client.user.tag}!`)
     client.user.setPresence({
@@ -44,7 +45,7 @@ client.on('ready', ()=>{
     })
 })
 
-//début commandes
+// ANCHOR commandes
 client.on(`message`, message =>{
     //anti kikoo
     if(message.author.bot) return;
@@ -55,7 +56,7 @@ client.on(`message`, message =>{
     if(message.content.startsWith(prefix)){
 //HELP
 
-        //help
+        //REVIEW help
         if(message.content.startsWith(prefix + "help")){
             var help_embed = new Discord.RichEmbed()
             .setColor("18d67e")
@@ -73,7 +74,7 @@ client.on(`message`, message =>{
             log(`utilisation de la commande help par ${message.author.username}`, message.guild.name, 1)
         }
 
-        //fun
+        //REVIEW fun
         if(message.content.startsWith(prefix  + "fun")){
             var helpf_embed = new Discord.RichEmbed()
             .setColor("18d67e")
@@ -96,7 +97,7 @@ client.on(`message`, message =>{
             log(`utilisation de la commande fun par ${message.author.username}`, message.guild.name, 1)
         }
 
-        //mod
+        //REVIEW mod
         if(message.content.startsWith(prefix  + "mod")){
             var helpm_embed = new Discord.RichEmbed()
             .setColor("18d67e")
@@ -118,9 +119,9 @@ client.on(`message`, message =>{
             log(`utilisation de la commande mod par ${message.author.username}`, message.guild.name, 1)
         }
 
-//FUN
+//ANCHOR FUN COMMANDES
 
-        //kiss
+        //REVIEW kiss
         if(message.content.startsWith(prefix + "kiss")) {
             var kiss = [
                 "https://media.giphy.com/media/108M7gCS1JSoO4/giphy.gif",
@@ -145,7 +146,7 @@ client.on(`message`, message =>{
 
         }
 
-        //hug
+        //REVIEW hug
         if(message.content.startsWith(prefix + "hug")) {
             var hug = [
                 "https://media.giphy.com/media/od5H3PmEG5EVq/giphy.gif",
@@ -166,7 +167,7 @@ client.on(`message`, message =>{
             log(`utilisation de la commande hug par ${message.author.username}`, message.guild.name, 1)
         }
 
-        //Commande pile ou face :
+        //REVIEW pile face
         if(message.content.startsWith(prefix + "pf")) {
             pileface = Math.floor(Math.random() * 2 + 0)
             if(pileface === 0){
@@ -179,7 +180,8 @@ client.on(`message`, message =>{
             log(`utilisation de la commande pf par ${message.author.username}`, message.guild.name, 1)
         }
 
-        //avatar
+        //REVIEW avatar
+        //FIXME avatar
         if(message.content.startsWith(prefix + "avatar")){
             if(message.guild.member(message.mentions.users.first())){
                 var user = message.mentions.users.first()
@@ -200,7 +202,7 @@ client.on(`message`, message =>{
             log(`utilisation de la commande d'avatar par ${message.author.username}`, message.guild.name, 1)
         }
 
-        //magic ball
+        //REVIEW 8ball
         if(message.content.startsWith(prefix + "8ball")) {
             if(message.content.substr(prefix.length + + 5)){
                 var ball = [
@@ -236,7 +238,7 @@ client.on(`message`, message =>{
         }
 
 
-        //serveur
+        //REVIEW serveur
         if(message.content.startsWith(prefix + "serveur")){
             var serveur_embed = new Discord.RichEmbed()
             .setColor('RANDOM')
@@ -248,7 +250,7 @@ client.on(`message`, message =>{
             message.channel.send(serveur_embed);
         }
 
-        //invite
+        //REVIEW invite
         if(message.content.startsWith(prefix + "invite")){
             var invite_embed = new Discord.RichEmbed()
             .setColor('RANDOM')
@@ -260,14 +262,15 @@ client.on(`message`, message =>{
             message.channel.send(invite_embed);
         }
 
-//MOD
-        //ping
+//ANCHOR MOD COMMANDES
+
+        //REVIEW ping
         if (message.content.startsWith(prefix + 'ping')) {
             message.channel.sendMessage('Pong! ping :`' + `${Date.now() - message.createdTimestamp}` + ' ms`');
             log(`Ping de ${message.author.username}`, message.guild.name)
         }
 
-        //purge
+        //REVIEW purge
         if(message.content.startsWith(prefix + "purge")) {
             if(!message.author.id === "244874298714619904"){
                 if(!message.guild.member(message.author).hasPermission("MANAGE_MESSAGES")) return message.channel.send(fryourperm);
@@ -289,7 +292,7 @@ client.on(`message`, message =>{
             log(`utilisation de la commande de purge par ${message.author.username}`, message.guild.name, 1)
         }
 
-        //mute
+        //REVIEW mute
         if(message.content.startsWith(prefix + "mute")) {
             if(!message.author.id === "244874298714619904"){
                 if(!message.guild.member(message.author).hasPermission("ADMINISTRATOR")) return message.channel.send(fryourperm);
@@ -315,7 +318,7 @@ client.on(`message`, message =>{
             })
         }
 
-        //unmute
+        //REVIEW unmute
         if(message.content.startsWith(prefix + "unmute")) {
             if(!message.author.id === "244874298714619904"){
                 if(!message.guild.member(message.author).hasPermission("ADMINISTRATOR")) return message.channel.send("**Hey ...**Vous n'avez pas la permissions d'éxécuter cela !");
@@ -341,7 +344,7 @@ client.on(`message`, message =>{
             })
         }
 
-        //Commande d'information serveur :
+        //REVIEW sinfo
         if(message.content.startsWith(prefix + "sinfo")) {
             var info_embed = new Discord.RichEmbed()
             .setColor("18d67e")
@@ -360,7 +363,7 @@ client.on(`message`, message =>{
             log(`utilisation de la commande sinfo par ${message.author.username}`, message.guild.name, 1)
         }
 
-        //Commande d'information bot :
+        //REVIEW binfo
         if(message.content.startsWith(prefix + "binfo")){
             if(message.author.id === "244874298714619904"){
                 var binfos_embed = new Discord.RichEmbed()
@@ -394,7 +397,7 @@ client.on(`message`, message =>{
             }
         }
 
-        //salons
+        //REVIEW channels
         if(message.content.startsWith(prefix + "channel")){
             if(!message.author.id === "244874298714619904"){
                 if(!message.guild.member(message.author).hasPermission("ADMINISTRATOR")) return message.channel.send(fryourperm);
@@ -430,6 +433,8 @@ client.on(`message`, message =>{
         }
     }else{
 
+        //REVIEW jeuxgatechat
+        //FIXME catch
         if(message.channel.name === "jeuxgate-chat"){
             if(message.content.length >= 2048) return message.reply("⚠️ Vôtre message est trop long, sois, plus de 2048 caractères")
             const chembed = new Discord.RichEmbed()
@@ -456,7 +461,7 @@ client.on(`message`, message =>{
     }
 })
 
-//selflog
+//ANCHOR add/remove serveur
 client.on("guildCreate", guild => {
     if(guild.member(client.user).hasPermission("ADMINISTRATOR")){
         if(guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0){
