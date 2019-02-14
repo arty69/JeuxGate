@@ -21,7 +21,7 @@ function log(event, serveur, version) {
         .setTimestamp()
         .setFooter("JeuxGate")
         const log = client.channels.filter(c => c.name === "log" || c.name === "jg-log" || c.name === "logs" || c.name === "jg-logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS"));
-        log.map(z => z.send(embed).catch(err => return))
+        log.map(z => z.send(embed).catch(err => return);)
     }else if(version === 2){
         const embed = new Discord.RichEmbed()
         .setColor(`RANDOM`)
@@ -29,7 +29,7 @@ function log(event, serveur, version) {
         .setTimestamp()
         .setFooter("JeuxGate")
         const log = client.channels.filter(c => c.name === "log" || c.name === "jg-log" || c.name === "logs" || c.name === "jg-logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS"));
-        log.map(z => z.send(embed).catch(err => return))
+        log.map(z => z.send(embed).catch(err => return);)
     }
 }
 
