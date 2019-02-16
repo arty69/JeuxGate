@@ -433,7 +433,7 @@ client.on(`message`, message =>{
         }
 
         //REVIEW Guild with log and jeuxgatechat
-        if(message.content.startsWith(prefix + "channel")){
+        if(message.content.startsWith(prefix + "dedisalons")){
             if(!message.author.id === "244874298714619904"){
                 message.channel.send("Vous ne pouvez PAS executer cette commande")
             }
