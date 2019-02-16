@@ -1,11 +1,11 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-
 client.login(process.env.TOKEN);
+
 
 //ANCHOR Variable globales
 var prefix = "jg/";
-var vers = "1.2.4";
+var vers = "1.2.5";
 var fryourperm = "**Hey ...** Je suis désolé or, vous n'avez pas la permission d'éxécuter celà !"
 var frmyperm = "**Hey ...** Je suis désolé or, je n'ai pas la permission d'éxécuter celà !"
 
@@ -434,7 +434,6 @@ client.on(`message`, message =>{
     }else{
 
         //REVIEW jeuxgatechat
-        //FIXME catch
         if(message.channel.name === "jeuxgate-chat"){
             if(message.content.length >= 2048) return message.reply("⚠️ Vôtre message est trop long, sois, plus de 2048 caractères")
             const chembed = new Discord.RichEmbed()
@@ -445,7 +444,8 @@ client.on(`message`, message =>{
             .addField("Jeuxgate chat provided", message.guild.name)
             .setAuthor(message.author.tag, message.author.avatarURL)
             const c1 = client.channels.filter(c => c.name === "jeuxgate-chat" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text" && c.id !== message.channel.id);
-            c1.map(z => z.send(chembed))
+            c1.map(z => z.send(chembed).catch(O_o=>{}))
+            message.react('👌')
             return
         }
 
@@ -481,12 +481,12 @@ client.on("guildCreate", guild => {
         }
     }else if(guild.channels.filter(c => c.name === "log").size === 0 || guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0){
         const gd = guild.channels.filter(c => c.name === "general" || c.name === "général")
-        gd.filter(c => c.send("⚠️ Merci de bien vouloir me donner des droits administrateurs, ou créer les salons vous mêmes"))
+        gd.filter(c => c.send("⚠️ Merci de bien vouloir me donner des droits administrateurs, ou créer les salons vous mêmes").catch(O_o=>{}))
     }   
     log(`Un nouveau serveur a été ajouté, le voici : ` + guild.name, guild.name, 2)
     if(guild.region !== "eu-central"){
         const gd = guild.channels.filter(c => c.name === "general" || c.name === "général")
-        gd.filter(c => c.send("⚠️ I'm a french bot, and I don't support english or any language !"))
+        gd.filter(c => c.send("⚠️ I'm a french bot, and I don't support english or any language !").catch(O_o=>{}))
     }
 });
 client.on("guildDelete", guild => {
