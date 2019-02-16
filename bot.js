@@ -191,7 +191,6 @@ client.on(`message`, message =>{
             var avatar_embed = new Discord.RichEmbed()
             .setColor("18d67e")
             .setTitle("Voici la photo de profile de " + user.username)
-            .addBlankField()
             .setImage(user.avatarURL)
             .setURL(user.avatarURL)
             .setTimestamp()
