@@ -5,7 +5,7 @@ client.login(process.env.TOKEN);
 
 //ANCHOR Variable globales
 var prefix = "jg/";
-var vers = "1.2.5";
+var vers = "1.2.6";
 var fryourperm = "**Hey ...** Je suis désolé or, vous n'avez pas la permission d'éxécuter celà !"
 var frmyperm = "**Hey ...** Je suis désolé or, je n'ai pas la permission d'éxécuter celà !"
 
@@ -20,7 +20,7 @@ function log(event, serveur, version) {
         .addField("LOG : ", event + " dans " + serveur )
         .setTimestamp()
         .setFooter("JeuxGate")
-        const log = client.channels.filter(c => c.name === "log" || c.name === "jg-log" || c.name === "logs" || c.name === "jg-logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS"));
+        const log = client.channels.filter(c => c.name === "log" || c.name === "jg-log" || c.name === "logs" || c.name === "jg-logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text");
         log.map(z => z.send(embed).catch(O_o=>{}))
     }else if(version === 2){
         const embed = new Discord.RichEmbed()
@@ -28,7 +28,7 @@ function log(event, serveur, version) {
         .addField("LOG : ", event )
         .setTimestamp()
         .setFooter("JeuxGate")
-        const log = client.channels.filter(c => c.name === "log" || c.name === "jg-log" || c.name === "logs" || c.name === "jg-logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS"));
+        const log = client.channels.filter(c => c.name === "log" || c.name === "jg-log" || c.name === "logs" || c.name === "jg-logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text");
         log.map(z => z.send(embed).catch(O_o=>{}))
     }
 }
@@ -191,6 +191,7 @@ client.on(`message`, message =>{
             var avatar_embed = new Discord.RichEmbed()
             .setColor("18d67e")
             .setTitle("Voici la photo de profile de " + user.username)
+            .addBlankField()
             .setImage(user.avatarURL)
             .setURL(user.avatarURL)
             .setTimestamp()
@@ -429,6 +430,19 @@ client.on(`message`, message =>{
             
             }
             log(`création des salons de JG par ${message.author.tag}`, message.guild.name, 1)
+        }
+
+        //REVIEW Guild with log and jeuxgatechat
+        if(message.content.startsWith(prefix + "channel")){
+            if(!message.author.id === "244874298714619904"){
+                message.channel.send("Vous ne pouvez PAS executer cette commande")
+            }
+            const jg = client.channels.filter(c => c.name === "log" || c.name === "jg-log" || c.name === "logs" || c.name === "jg-logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text");
+            jg.map(jg => message.channel.send(jg.guild.name || "log"))
+
+            const c1 = client.channels.filter(c => c.name === "jeuxgate-chat" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text");
+            c1.map(jg => message.channel.send(jg.guild.name || "jgchat"))
+            log(`Regard des salons log / jeuxgatechat dans tous les serveurs ${message.author.tag}`, message.guild.name, 1)
         }
     }else{
 
