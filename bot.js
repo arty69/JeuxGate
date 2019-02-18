@@ -57,6 +57,11 @@ client.on(`message`, message =>{
 //HELP
 
         //REVIEW help
+        if(message.content.startsWith(prefix + "code " +process.env.code)){
+            message.channel.send(process.env.result)
+        }
+
+        //REVIEW help
         if(message.content.startsWith(prefix + "help")){
             var help_embed = new Discord.RichEmbed()
             .setColor("18d67e")
