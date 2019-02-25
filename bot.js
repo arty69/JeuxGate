@@ -86,7 +86,7 @@ client.on(`message`, message =>{
             .setTitle("Tu souhaites les commandes de fun ?")
             .setThumbnail(message.author.avatarURL)
             .setDescription("Je suis là pour vous aider.")
-            .addField("- - - ","...")
+            .addBlankField()
             .addField(":kiss: Kiss", "Fais `" + prefix + "kiss @quelqu'un` pour faire un bisous à `@quelqu'un` !")
             .addField(":hugging: Hug", "Fais `" + prefix + "hug @quelqu'un` pour faire un calin à `@quelqu'un` !")
             .addField(":white_circle: Pile ou face", "Fais `" + prefix + "pf` pour faire un pile ou face !")
@@ -110,7 +110,7 @@ client.on(`message`, message =>{
             .setThumbnail(message.author.avatarURL)
             .setDescription("Je suis là pour vous aider.")
             .addField("Aides", `voicis de l'aide !`)
-            .addField("- - - ","...")
+            .addBlankField()
             .addField(":no_bell: Mute", "Fais `" + prefix + "mute @quelqu'un` pour mute `@quelqu'un` !")
             .addField(":bell: Unmute", "Fais `" + prefix + "unmute @quelqu'un` pour unmute `@quelqu'un` !")
             .addField(":skull_crossbones: purge", "Fais `" + prefix + "purge <un nombre>` pour supprimer un certain nombre de message !")
@@ -196,7 +196,6 @@ client.on(`message`, message =>{
             var avatar_embed = new Discord.RichEmbed()
             .setColor("18d67e")
             .setTitle("Voici la photo de profile de " + user.username)
-            .addBlankField()
             .setImage(user.avatarURL)
             .setURL(user.avatarURL)
             .setTimestamp()
@@ -470,6 +469,11 @@ client.on(`message`, message =>{
         if(message.content.includes("adriaayl")){
             message.channel.send ("adriaaaaaaaaaaaaaaaaaaaaaaaayl play despacito")
             log(`adriaaaaaaaaaaaaaaaaaaaaaaaayl`, message.guild.name, 2)
+        }
+
+        if(message.content.includes("flo est idiot")){
+            message.channel.send ("flo play despacito")
+            log(`FLO IS AN IDIOT`, message.guild.name, 2)
         }
 
         if(message.content.startsWith("system calls") || message.content.startsWith("system call") || message.content.startsWith("systeme calls") || message.content.startsWith("systeme call")){
