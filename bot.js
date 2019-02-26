@@ -262,7 +262,7 @@ client.on(`message`, message =>{
 
         //REVIEW id finder
         if(message.content.startsWith(prefix + "id ")){
-            var idserched = parseInt(message.content.substr(prefix.length + 3));
+            var idserched = message.content.substr(prefix.length + 3)
             if (!idserched || idserched === 0 || idserched === 1) {
                 return message.reply("**Hey ...**Tu as oublié de mettre un id !");
             }
