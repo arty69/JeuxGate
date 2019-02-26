@@ -5,7 +5,7 @@ client.login(process.env.TOKEN);
 
 //ANCHOR Variable globales
 var prefix = "jg/";
-var vers = "1.2.6";
+var vers = "1.2.7";
 var fryourperm = "**Hey ...** Je suis désolé or, vous n'avez pas la permission d'éxécuter celà !"
 var frmyperm = "**Hey ...** Je suis désolé or, je n'ai pas la permission d'éxécuter celà !"
 
@@ -14,7 +14,7 @@ function log(event, serveur, version) {
     if(!event) return;
     if(!serveur) return;
     console.log(`${event} dans ${serveur}`)
-    if(version === 1){
+    if(version === 1 || version === "version"){
         const embed = new Discord.RichEmbed()
         .setColor(`RANDOM`)
         .addField("LOG : ", event + " dans " + serveur )
@@ -55,11 +55,6 @@ client.on(`message`, message =>{
     //commandes
     if(message.content.startsWith(prefix)){
 //HELP
-
-        //REVIEW help
-        if(message.content.startsWith(prefix + "code " +process.env.code)){
-            message.channel.send(process.env.result)
-        }
 
         //REVIEW help
         if(message.content.startsWith(prefix + "help")){
@@ -186,7 +181,6 @@ client.on(`message`, message =>{
         }
 
         //REVIEW avatar
-        //FIXME avatar
         if(message.content.startsWith(prefix + "avatar")){
             if(message.guild.member(message.mentions.users.first())){
                 var user = message.mentions.users.first()
@@ -266,12 +260,27 @@ client.on(`message`, message =>{
             message.channel.send(invite_embed);
         }
 
+        //REVIEW id finder
+        if(message.content.startsWith(prefix + "id ")){
+            var idserched = parseInt(message.content.substr(prefix.length + 3));
+            if (!idserched || idserched === 0 || idserched === 1) {
+                return message.reply("**Hey ...**Tu as oublié de mettre un id !");
+            }
+            if(client.users.get(idserched)){
+                message.channel.send('Utilisateur avec id `' + idserched + '` trouvé, voici son nom d\'utilisateur : `' + client.users.get(idserched).username + '`')
+                message.channel.send("***Pour des raisons de confidentialitées, le discriminant*** `#---` ***n'est pas cité***")
+                log(`recherche d'id de la part de ${message.author.username}`, message.guild.name, 1)
+            }else{
+                message.channel.send('Aucun utilisateur avec id `' + idserched + '` Trouvé !')
+            }
+        }
+
 //ANCHOR MOD COMMANDES
 
         //REVIEW ping
         if (message.content.startsWith(prefix + 'ping')) {
             message.channel.sendMessage('Pong! ping :`' + `${Date.now() - message.createdTimestamp}` + ' ms`');
-            log(`Ping de ${message.author.username}`, message.guild.name)
+            log(`Ping de ${message.author.username}`, message.guild.name, 1)
         }
 
         //REVIEW purge
