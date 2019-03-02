@@ -1,13 +1,13 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-client.login(process.env.TOKEN);
+client.login('NTE3Nzg0MzkzMjcyNjU1ODg5.DvwJcg.c4EXx3mntLn2B37EwRzdZPjl1lA');
 
 
 //ANCHOR Variable globales
 var prefix = "jg/";
 var vers = "1.2.7";
-var fryourperm = "**Hey ...** Je suis désolé or, vous n'avez pas la permission d'éxécuter celà !"
-var frmyperm = "**Hey ...** Je suis désolé or, je n'ai pas la permission d'éxécuter celà !"
+var fryourperm = "⚠️**Hey ...** Je suis désolé or, vous n'avez pas la permission d'éxécuter celà !"
+var frmyperm = "⚠️**Hey ...** Je suis désolé or, je n'ai pas la permission d'éxécuter celà !"
 
 //ANCHOR log function
 function log(event, serveur, version) {
@@ -261,14 +261,14 @@ client.on(`message`, message =>{
         }
 
         //REVIEW id finder
-        if(message.content.startsWith(prefix + "id ")){
+        if(message.content.startsWith(prefix + "id")){
             var idserched = message.content.substr(prefix.length + 3)
             if (!idserched || idserched === 0 || idserched === 1) {
                 return message.reply("**Hey ...**Tu as oublié de mettre un id !");
             }
             if(client.users.get(idserched)){
                 message.channel.send('Utilisateur avec id `' + idserched + '` trouvé, voici son nom d\'utilisateur : `' + client.users.get(idserched).username + '`')
-                message.channel.send("***Pour des raisons de confidentialitées, le discriminant*** `#---` ***n'est pas cité***")
+                message.channel.send("***Pour des raisons de confidentialitées, le discriminant*** `#----` ***n'est pas cité***")
                 log(`recherche d'id de la part de ${message.author.username}`, message.guild.name, 1)
             }else{
                 message.channel.send('Aucun utilisateur avec id `' + idserched + '` Trouvé !')
@@ -285,7 +285,7 @@ client.on(`message`, message =>{
 
         //REVIEW purge
         if(message.content.startsWith(prefix + "purge")) {
-            if(!message.author.id === "244874298714619904"){
+            if(!message.author.id === "244874298714619904" || !message.author.id === "471669236859928586"){
                 if(!message.guild.member(message.author).hasPermission("MANAGE_MESSAGES")) return message.channel.send(fryourperm);
             }
             if(!message.guild.member(client.user).hasPermission("MANAGE_MESSAGES")) return message.channel.send(frmyperm);
@@ -307,7 +307,7 @@ client.on(`message`, message =>{
 
         //REVIEW mute
         if(message.content.startsWith(prefix + "mute")) {
-            if(!message.author.id === "244874298714619904"){
+            if(!message.author.id === "244874298714619904" || !message.author.id === "471669236859928586"){
                 if(!message.guild.member(message.author).hasPermission("ADMINISTRATOR")) return message.channel.send(fryourperm);
             }
             if(!message.guild.member(client.user).hasPermission("ADMINISTRATOR")) return message.channel.send(frmyperm);
@@ -333,7 +333,7 @@ client.on(`message`, message =>{
 
         //REVIEW unmute
         if(message.content.startsWith(prefix + "unmute")) {
-            if(!message.author.id === "244874298714619904"){
+            if(!message.author.id === "244874298714619904" || !message.author.id === "471669236859928586"){
                 if(!message.guild.member(message.author).hasPermission("ADMINISTRATOR")) return message.channel.send("**Hey ...**Vous n'avez pas la permissions d'éxécuter cela !");
             }
             if(!message.guild.member(client.user).hasPermission("ADMINISTRATOR")) return message.channel.send("Je n'ai pas la permission !");
@@ -378,11 +378,11 @@ client.on(`message`, message =>{
 
         //REVIEW binfo
         if(message.content.startsWith(prefix + "binfo")){
-            if(message.author.id === "244874298714619904"){
+            if(message.author.id === "244874298714619904" || !message.author.id === "471669236859928586"){
                 var binfos_embed = new Discord.RichEmbed()
                 .setColor("18d67e")
                 .setTitle(`Infos sur le bot : ${client.user.tag}`)
-                .addField("Propriétaire du bot", `jeuxdictator#3800`)
+                .addField("Propriétaire du bot", `jéhèndé#3800 et Skalefou#8605`)
                 .addField("bot crée le ", `25/11/2018`)
                 .addField("nombre total de personnes ", client.users.size)
                 .addField("Nombre total de serveur", client.guilds.array().length)
@@ -397,7 +397,7 @@ client.on(`message`, message =>{
                 var binfo_embed = new Discord.RichEmbed()
                 .setColor("18d67e")
                 .setTitle(`Infos sur le bot : ${client.user.tag}`)
-                .addField("Propriétaire du bot", `jeuxdictator#3800`)
+                .addField("Propriétaire du bot", `jéhèndé#3800 et Skalefou#8605`)
                 .addField("Bot crée le ", `25/11/2018`)
                 .addField("Nombre total de personnes ", client.users.size)
                 .addField("Nombre total de serveur", client.guilds.array().length)
@@ -412,7 +412,7 @@ client.on(`message`, message =>{
 
         //REVIEW channels
         if(message.content.startsWith(prefix + "channel")){
-            if(!message.author.id === "244874298714619904"){
+            if(!message.author.id === "244874298714619904" || !message.author.id === "471669236859928586"){
                 if(!message.guild.member(message.author).hasPermission("ADMINISTRATOR")) return message.channel.send(fryourperm);
             }
             if(!message.guild.member(client.user).hasPermission("ADMINISTRATOR")) return message.channel.send(frmyperm);
@@ -447,7 +447,7 @@ client.on(`message`, message =>{
 
         //REVIEW Guild with log and jeuxgatechat
         if(message.content.startsWith(prefix + "dedisalons")){
-            if(!message.author.id === "244874298714619904"){
+            if(!message.author.id === "244874298714619904" || !message.author.id === "471669236859928586"){
                 message.channel.send("Vous ne pouvez PAS executer cette commande")
             }
             const jg = client.channels.filter(c => c.name === "log" || c.name === "jg-log" || c.name === "logs" || c.name === "jg-logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text");
@@ -462,27 +462,27 @@ client.on(`message`, message =>{
         //REVIEW jeuxgatechat
         if(message.channel.name === "jeuxgate-chat"){
             if(message.content.length >= 2048) return message.reply("⚠️ Vôtre message est trop long, sois, plus de 2048 caractères")
-            const chembed = new Discord.RichEmbed()
-            .setColor(`RANDOM`)
-            .setTimestamp()
-            .setFooter("JeuxGate")
-            .setDescription(message.content)
-            .addField("Jeuxgate chat provided", message.guild.name)
-            .setAuthor(message.author.tag, message.author.avatarURL)
-            const c1 = client.channels.filter(c => c.name === "jeuxgate-chat" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text" && c.id !== message.channel.id);
-            c1.map(z => z.send(chembed).catch(O_o=>{}))
-            message.react('👌')
+            if(message.attachments.size === 0){
+                const chembed = new Discord.RichEmbed()
+                .setColor(`RANDOM`)
+                .setTimestamp()
+                .setFooter("JeuxGate")
+                .setDescription(message.content)
+                .addField("Jeuxgate chat provided", message.guild.name)
+                .setAuthor(message.author.tag, message.author.avatarURL)
+                const c1 = client.channels.filter(c => c.name === "jeuxgate-chat" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text" && c.id !== message.channel.id);
+                c1.map(z => z.send(chembed).catch(O_o=>{}))
+                message.react('👌')
+            }else{
+                message.react('❌')
+                message.channel.send("⚠️ **Votre message ne doit pas contenir d'image ou de fichier, ou celui-ci ne sera pas envoyé**")
+            }
             return
         }
 
         if(message.content.includes("adriaayl")){
             message.channel.send ("adriaaaaaaaaaaaaaaaaaaaaaaaayl play despacito")
             log(`adriaaaaaaaaaaaaaaaaaaaaaaaayl`, message.guild.name, 2)
-        }
-
-        if(message.content.includes("flo est idiot")){
-            message.channel.send ("flo play despacito")
-            log(`FLO IS AN IDIOT`, message.guild.name, 2)
         }
 
         if(message.content.startsWith("system calls") || message.content.startsWith("system call") || message.content.startsWith("systeme calls") || message.content.startsWith("systeme call")){
