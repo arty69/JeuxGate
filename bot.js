@@ -108,9 +108,12 @@ client.on(`message`, message =>{
             .addBlankField()
             .addField(":no_bell: Mute", "Fais `" + prefix + "mute @quelqu'un` pour mute `@quelqu'un` !")
             .addField(":bell: Unmute", "Fais `" + prefix + "unmute @quelqu'un` pour unmute `@quelqu'un` !")
+            .addField(":timer: Ping", "Fais `" + prefix + "ping` pour savoir le ping du bot!")
+            .addField(":abcd: Trouveur d'id", "Fais `" + prefix + "id <id d'une personne>` pour potentiellement savoir le nom à qui l'id est !")
             .addField(":skull_crossbones: purge", "Fais `" + prefix + "purge <un nombre>` pour supprimer un certain nombre de message !")
             .addField("Bot infos", "Fais `" + prefix + "binfo` pour avoir des infos du bot !")
             .addField("Serveur infos", "Fais `" + prefix + "sinfo` pour avoir des infos du serveur !")
+            .addField("Salons", "Fais `" + prefix + "channels` permet de faire les salons dédié à jeuxgate en une une commande !")
             .setTimestamp()
             .setFooter("JeuxGate")
             message.channel.send(helpm_embed);
