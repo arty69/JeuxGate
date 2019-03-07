@@ -454,10 +454,10 @@ client.on(`message`, message =>{
                 message.channel.send("Vous ne pouvez PAS executer cette commande")
             }
             const jg = client.channels.filter(c => c.name === "log" || c.name === "jg-log" || c.name === "logs" || c.name === "jg-logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text");
-            jg.map(jg => message.channel.send(jg.guild.name " ||log"))
+            jg.map(jg => message.channel.send(jg.guild.name + " ||log"))
 
             const c1 = client.channels.filter(c => c.name === "jeuxgate-chat" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text");
-            c1.map(jg => message.channel.send(jg.guild.name " ||jgchat"))
+            c1.map(jg => message.channel.send(jg.guild.name + " ||jgchat"))
             log(`Regard des salons log / jeuxgatechat dans tous les serveurs ${message.author.tag}`, message.guild.name, 1)
         }
     }else{
