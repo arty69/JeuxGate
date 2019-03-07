@@ -222,7 +222,6 @@ client.on(`message`, message =>{
                     //autres
                     "Actuellement, je ne peux le prédire ...",
                     "Impossible à prédire ..."
-                    ":thinking: Hmmm, je ne peux le prédire ..."
                 ];
                 var ansball = ball[Math.floor(Math.random() * ball.length)];
                 var ball_embed = new Discord.RichEmbed()
