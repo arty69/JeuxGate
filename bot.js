@@ -86,7 +86,7 @@ client.on(`message`, message =>{
             .addField(":hugging: Hug", "Fais `" + prefix + "hug @quelqu'un` pour faire un câlin à `@quelqu'un` !")
             .addField(":white_circle: Pile ou face", "Fais `" + prefix + "pf` pour faire un pile ou face !")
             .addField(":frame_photo: Avatar", "Fais `" + prefix + "avatar @quelqu'un` pour voir la photo de profil de `@quelqu'un` !")
-            .addField(":8ball: Boule magique", "Fais `" + prefix + "8ball <votre question>` pour que la boule magique vous répondes")
+            .addField(":8ball: Boule magique", "Fais `" + prefix + "8ball <vôtre question>` pour que la boule magique vous réponde") // c à la troisième personne kono
             .addField(":envelope: Serveur", "Fais `" + prefix + "serveur` pour obtenir le serveur du bot !")
             .addField(":door: Invitation", "Fais `" + prefix + "invite` pour obtenir le lien pour inviter le bot dans votre serveur !")
             .setTimestamp()
@@ -160,7 +160,7 @@ client.on(`message`, message =>{
             var gif = hug[Math.floor(Math.random() * hug.length)];
             var hug_embed = new Discord.RichEmbed()
             .setColor('RANDOM')
-            .setTitle(`Tu viens de faire un câlin:`)
+            .setTitle(`Tu viens de faire un câlin :`)
             .setImage(gif)
             .setTimestamp()
             .setFooter("JeuxGate")
@@ -174,9 +174,9 @@ client.on(`message`, message =>{
         if(message.content.startsWith(prefix + "pf")) {
             pileface = Math.floor(Math.random() * 2 + 0)
             if(pileface === 0){
-                message.channel.send("**Pile** !")
+                message.channel.send("Vous venez d'obtenir : **Pile** !")
             }else{
-                message.channel.send("**Face** !")
+                message.channel.send("Vous venez d'obtenir : **Face** !")
             }
 
             
@@ -227,7 +227,7 @@ client.on(`message`, message =>{
                 var ansball = ball[Math.floor(Math.random() * ball.length)];
                 var ball_embed = new Discord.RichEmbed()
                 .setColor('4f0982')
-                .addField(`Voici la réponse à votre question :`, ansball)
+                .addField(`Voici la réponse à vôtre question :`, ansball)
                 .setTimestamp()
                 .setFooter("JeuxGate")
                 message.channel.send(ball_embed);
@@ -459,7 +459,7 @@ client.on(`message`, message =>{
 
             const c1 = client.channels.filter(c => c.name === "jeuxgate-chat" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text");
             c1.map(jg => message.channel.send(jg.guild.name + " ||jgchat"))
-            log(`Vérification des salons log / jeuxgatechat dans tous les serveurs ${message.author.tag}`, message.guild.name, 1)
+            log(`regard des salons log / jeuxgatechat dans tous les serveurs ${message.author.tag}`, message.guild.name, 1)
         }
     }else{
 
@@ -485,16 +485,6 @@ client.on(`message`, message =>{
         }
 
         if(message.content.includes("adriaayl")){
-            message.channel.send ("adriaaaaaaaaaaaaaaaaaaaaaaaayl play despacito")
-            log(`adriaaaaaaaaaaaaaaaaaaaaaaaayl`, message.guild.name, 2)
-        }
-
-        if(message.content.includes("Adriaayl")){
-            message.channel.send ("adriaaaaaaaaaaaaaaaaaaaaaaaayl play despacito")
-            log(`adriaaaaaaaaaaaaaaaaaaaaaaaayl`, message.guild.name, 2)
-        }
-
-        if(message.content.includes("AdriaAyl")){
             message.channel.send ("adriaaaaaaaaaaaaaaaaaaaaaaaayl play despacito")
             log(`adriaaaaaaaaaaaaaaaaaaaaaaaayl`, message.guild.name, 2)
         }
