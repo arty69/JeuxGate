@@ -15,21 +15,21 @@ function log(event, serveur, version) {
     if(!serveur) return;
     console.log(`${event} dans ${serveur}`)
     if(version === 1 || version === "version"){
-        const embed = new Discord.RichEmbed()
+        const log_embed = new Discord.RichEmbed()
         .setColor(`RANDOM`)
         .addField("LOG : ", event + " dans " + serveur )
         .setTimestamp()
         .setFooter("JeuxGate")
         const log = client.channels.filter(c => c.name === "log" || c.name === "jg-log" || c.name === "logs" || c.name === "jg-logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text");
-        log.map(z => z.send(embed).catch(O_o=>{}))
+        log.map(z => z.send(log_embed).catch(O_o=>{}))
     }else if(version === 2){
-        const embed = new Discord.RichEmbed()
+        const log_embed = new Discord.RichEmbed()
         .setColor(`RANDOM`)
         .addField("LOG : ", event )
         .setTimestamp()
         .setFooter("JeuxGate")
         const log = client.channels.filter(c => c.name === "log" || c.name === "jg-log" || c.name === "logs" || c.name === "jg-logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text");
-        log.map(z => z.send(embed).catch(O_o=>{}))
+        log.map(z => z.send(log_embed).catch(O_o=>{}))
     }
 }
 
@@ -454,10 +454,10 @@ client.on(`message`, message =>{
                 message.channel.send("Vous ne pouvez PAS executer cette commande")
             }
             const jg = client.channels.filter(c => c.name === "log" || c.name === "jg-log" || c.name === "logs" || c.name === "jg-logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text");
-            jg.map(jg => message.channel.send(jg.guild.name || "log"))
+            jg.map(jg => message.channel.send(jg.guild.name " ||log"))
 
             const c1 = client.channels.filter(c => c.name === "jeuxgate-chat" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text");
-            c1.map(jg => message.channel.send(jg.guild.name || "jgchat"))
+            c1.map(jg => message.channel.send(jg.guild.name " ||jgchat"))
             log(`Regard des salons log / jeuxgatechat dans tous les serveurs ${message.author.tag}`, message.guild.name, 1)
         }
     }else{
@@ -499,12 +499,20 @@ client.on(`message`, message =>{
 client.on("guildCreate", guild => {
     if(guild.member(client.user).hasPermission("ADMINISTRATOR")){
         if(guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0){
+            const jgembed = new Discord.RichEmbed()
+            .setColor(`RANDOM`)
+            .setTimestamp()
+            .setFooter("JeuxGate")
+            .setDescription("*Le message*")
+            .addField("Jeuxgate chat provided", "Nom du serveur")
+            .setAuthor("Nom de la personne", client.user.avatarURL)
             guild.createChannel('jeuxgate-chat', 'text', [{
                 id: guild.id,
                 deny: ['MANAGE_MESSAGES'],
                 allow: ['SEND_MESSAGES']
             }])
-            .catch(console.error);
+            .catch(console.error)
+            .then(channel => channel.send(jgembed)).catch(console.error);
         }
         if(guild.channels.filter(c => c.name === "log" || c.name === "logs").size === 0){
             guild.createChannel('log', 'text', [{
