@@ -55,6 +55,10 @@ Un Bot Discord simple créé par JeuxDictator. (préfixe : `jg/`)
  - Do `jg/8ball <question>` to ask the bot to answer to the `question`.
  - Faites `jg/8ball <question>` pour demander au bot qu'il réponde à la `question`.
 
+##### Invite
+ - Do `jg/invite` to get JeuxGate's invitation link.
+ - Faites `jg/invite` pour obtenir l'invitation de JeuxGate.
+
 ##### Serveur
  - Do `jg/serveur` to have the Discord guild of JeuxGate.
  - Faites `jg/serveur` pour avoir le serveur Discord de JeuxGate.
