@@ -7,8 +7,8 @@ client.login(process.env.TOKEN);
 var launched = 0;
 var prefix = "jg/";
 var vers = "1.2.7a";
-var fryourperm = "⚠️**Hey ...** Je suis désolé or, vous n'avez pas la permission d'éxécuter celà !"
-var frmyperm = "⚠️**Hey ...** Je suis désolé or, je n'ai pas la permission d'éxécuter celà !"
+var fryourperm = "⚠️**Hey ...** Je suis désolé or, vous n'avez pas la permission d'exécuter celà !"
+var frmyperm = "⚠️**Hey ...** Je suis désolé or, je n'ai pas la permission d'exécuter celà !"
 
 //ANCHOR log function
 function log(event, serveur, version) {
@@ -16,21 +16,21 @@ function log(event, serveur, version) {
     if(!serveur) return;
     console.log(`${event} dans ${serveur}`)
     if(version === 1 || version === "version"){
-        const embed = new Discord.RichEmbed()
+        const log_embed = new Discord.RichEmbed()
         .setColor(`RANDOM`)
         .addField("LOG : ", event + " dans " + serveur )
         .setTimestamp()
         .setFooter("JeuxGate")
         const log = client.channels.filter(c => c.name === "log" || c.name === "jg-log" || c.name === "logs" || c.name === "jg-logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text");
-        log.map(z => z.send(embed).catch(O_o=>{}))
+        log.map(z => z.send(log_embed).catch(O_o=>{}))
     }else if(version === 2){
-        const embed = new Discord.RichEmbed()
+        const log_embed = new Discord.RichEmbed()
         .setColor(`RANDOM`)
         .addField("LOG : ", event )
         .setTimestamp()
         .setFooter("JeuxGate")
         const log = client.channels.filter(c => c.name === "log" || c.name === "jg-log" || c.name === "logs" || c.name === "jg-logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text");
-        log.map(z => z.send(embed).catch(O_o=>{}))
+        log.map(z => z.send(log_embed).catch(O_o=>{}))
     }
 }
 
@@ -99,10 +99,10 @@ client.on(`message`, message =>{
             .setDescription("Je suis là pour vous aider.")
             .addBlankField()
             .addField(":kiss: Kiss", "Fais `" + prefix + "kiss @quelqu'un` pour faire un bisous à `@quelqu'un` !")
-            .addField(":hugging: Hug", "Fais `" + prefix + "hug @quelqu'un` pour faire un calin à `@quelqu'un` !")
+            .addField(":hugging: Hug", "Fais `" + prefix + "hug @quelqu'un` pour faire un câlin à `@quelqu'un` !")
             .addField(":white_circle: Pile ou face", "Fais `" + prefix + "pf` pour faire un pile ou face !")
-            .addField(":frame_photo: Avatar", "Fais `" + prefix + "avatar @quelqu'un` pour voir la photo de profile de `@quelqu'un` !")
-            .addField(":8ball: Boule magique", "Fais `" + prefix + "8ball <vôtre question>` pour que la boule magive vous répondes")
+            .addField(":frame_photo: Avatar", "Fais `" + prefix + "avatar @quelqu'un` pour voir la photo de profil de `@quelqu'un` !")
+            .addField(":8ball: Boule magique", "Fais `" + prefix + "8ball <vôtre question>` pour que la boule magique vous réponde") // c à la troisième personne kono
             .addField(":envelope: Serveur", "Fais `" + prefix + "serveur` pour obtenir le serveur du bot !")
             .addField(":door: Invitation", "Fais `" + prefix + "invite` pour obtenir le lien pour inviter le bot dans votre serveur !")
             .setTimestamp()
@@ -120,13 +120,16 @@ client.on(`message`, message =>{
             .setTitle("Tu souhaites les commandes de modération ?")
             .setThumbnail(message.author.avatarURL)
             .setDescription("Je suis là pour vous aider.")
-            .addField("Aides", `voicis de l'aide !`)
+            .addField("Aides", `voici de l'aide !`)
             .addBlankField()
             .addField(":no_bell: Mute", "Fais `" + prefix + "mute @quelqu'un` pour mute `@quelqu'un` !")
             .addField(":bell: Unmute", "Fais `" + prefix + "unmute @quelqu'un` pour unmute `@quelqu'un` !")
-            .addField(":skull_crossbones: purge", "Fais `" + prefix + "purge <un nombre>` pour supprimer un certain nombre de message !")
+            .addField(":timer: Ping", "Fais `" + prefix + "ping` pour savoir le ping du bot!")
+            .addField(":abcd: Trouveur d'id", "Fais `" + prefix + "id <id d'une personne>` pour potentiellement savoir le nom à qui l'id est !")
+            .addField(":skull_crossbones: purge", "Fais `" + prefix + "purge <un nombre>` pour supprimer <un nombre> de message(s) !")
             .addField("Bot infos", "Fais `" + prefix + "binfo` pour avoir des infos du bot !")
             .addField("Serveur infos", "Fais `" + prefix + "sinfo` pour avoir des infos du serveur !")
+            .addField("Salons", "Fais `" + prefix + "channels` permet de faire les salons dédié à jeuxgate en une une commande !")
             .setTimestamp()
             .setFooter("JeuxGate")
             message.channel.send(helpm_embed);
@@ -173,7 +176,7 @@ client.on(`message`, message =>{
             var gif = hug[Math.floor(Math.random() * hug.length)];
             var hug_embed = new Discord.RichEmbed()
             .setColor('RANDOM')
-            .setTitle(`Tu viens de faire un calin:`)
+            .setTitle(`Tu viens de faire un câlin :`)
             .setImage(gif)
             .setTimestamp()
             .setFooter("JeuxGate")
@@ -187,9 +190,9 @@ client.on(`message`, message =>{
         if(message.content.startsWith(prefix + "pf")) {
             pileface = Math.floor(Math.random() * 2 + 0)
             if(pileface === 0){
-                message.channel.send("Tu viens d'obtenir un : **Pile** !")
+                message.channel.send("Vous venez d'obtenir : **Pile** !")
             }else{
-                message.channel.send("tu viens d'obtenir un : **Face** !")
+                message.channel.send("Vous venez d'obtenir : **Face** !")
             }
 
             
@@ -205,7 +208,7 @@ client.on(`message`, message =>{
             }
             var avatar_embed = new Discord.RichEmbed()
             .setColor("18d67e")
-            .setTitle("Voici la photo de profile de " + user.username)
+            .setTitle("Voici la photo de profil de " + user.username)
             .setImage(user.avatarURL)
             .setURL(user.avatarURL)
             .setTimestamp()
@@ -233,13 +236,13 @@ client.on(`message`, message =>{
                     "Je dirais que non",
 
                     //autres
-                    "Actuellement, je ne peux prédire ...",
+                    "Actuellement, je ne peux le prédire ...",
                     "Impossible à prédire ..."
                 ];
                 var ansball = ball[Math.floor(Math.random() * ball.length)];
                 var ball_embed = new Discord.RichEmbed()
                 .setColor('4f0982')
-                .addField(`Voic la éponse à vôtre question :`, ansball)
+                .addField(`Voici la réponse à vôtre question :`, ansball)
                 .setTimestamp()
                 .setFooter("JeuxGate")
                 message.channel.send(ball_embed);
@@ -247,7 +250,7 @@ client.on(`message`, message =>{
                 
                 log(`utilisation de la commande 8ball par ${message.author.username}`, message.guild.name, 1)
             }else{
-                message.channel.send("Si vous voulez que la boule magique vous répondes, vous devez déjà poser la question !")
+                message.channel.send("Si vous voulez que la boule magique vous réponde, vous devez déjà poser la question !")
             }
         }
 
@@ -308,7 +311,7 @@ client.on(`message`, message =>{
 
             var suppression = message.content.substr(prefix.length + 6);
             if (suppression < 2 || suppression > 101) {
-                return message.reply("**Hey ...**La valeur que vous avez entré est invalide, merci de choisir une valeur comprise entre 2 et 100");
+                return message.reply("**Hey ...**La valeur que vous avez entrée est invalide, merci de choisir une valeur comprise entre 2 et 100");
             }
 
             message.channel.bulkDelete(suppression, true).then(ok => {
@@ -336,7 +339,7 @@ client.on(`message`, message =>{
                 return message.reply("Je n'ai pas trouvé l'utilisateur ou il n'existe pas !");
             }
             if(message.content.substr(prefix.length + 4) === " <@515891064721244162>"){
-                return message.reply("Je ne peux me mute !");
+                return message.reply("Je ne peux pas me mute !");
             }
 
             message.channel.overwritePermissions(mute, { SEND_MESSAGES: false}).then(member => {
@@ -362,7 +365,7 @@ client.on(`message`, message =>{
                 return message.reply("Je n'ai pas trouvé l'utilisateur ou il l'existe pas !");
             }
             if(message.content.substr(prefix.length + 6) === " <@515891064721244162>"){
-                return message.reply("Je ne peux me unmute !")
+                return message.reply("Je ne peux pas me unmute !")
             }
     
             message.channel.overwritePermissions(mute, { SEND_MESSAGES: true}).then(member => {
@@ -380,7 +383,7 @@ client.on(`message`, message =>{
             .setTitle(`Infos sur le serveur : ${message.guild.name}`)
             .addField("Propriétaire du serveur", message.guild.owner.user.tag)
             .addField("Serveur crée le ", message.guild.createdAt)
-            .addField("Tu as rejoins le ", message.member.joinedAt)
+            .addField("Tu as rejoin le ", message.member.joinedAt)
             .addField("Nombre total de personnes", message.guild.members.size)
             .addField("Nombre de membres", message.guild.members.size - message.guild.members.filter(member => member.user.bot).size)
             .addField("Nombre de bots", message.guild.members.filter(member => member.user.bot).size)
@@ -398,12 +401,12 @@ client.on(`message`, message =>{
                 var binfos_embed = new Discord.RichEmbed()
                 .setColor("18d67e")
                 .setTitle(`Infos sur le bot : ${client.user.tag}`)
-                .addField("Propriétaire du bot", `jéhèndé#3800`)
-                .addField("bot crée le ", `25/11/2018`)
-                .addField("nombre total de personnes ", client.users.size)
+                .addField("Propriétaire du bot", `jéhèndé#3800 et Skalefou#8605`)
+                .addField("Bot crée le ", `25/11/2018`)
+                .addField("Nombre total de personnes ", client.users.size)
                 .addField("Nombre total de serveur", client.guilds.array().length)
-                .addField("nom des serveurs", client.guilds.map(r =>`${r.name} | ${r.id} / ${r.memberCount} membres / ${r.region} `))
-                .addField("log Version", `Version : `+ vers +` Complète, et réservées !`)
+                .addField("Nom des serveurs", client.guilds.map(r =>`${r.name} | ${r.id} / ${r.memberCount} membres / ${r.region} `))
+                .addField("Log Version", `Version : `+ vers +` Complète, et réservées !`)
                 .setTimestamp()
                 .setFooter("JeuxGate")
                 message.channel.send(binfos_embed)
@@ -413,11 +416,11 @@ client.on(`message`, message =>{
                 var binfo_embed = new Discord.RichEmbed()
                 .setColor("18d67e")
                 .setTitle(`Infos sur le bot : ${client.user.tag}`)
-                .addField("Propriétaire du bot", `jéhèndé#3800`)
+                .addField("Propriétaire du bot", `jéhèndé#3800 et Skalefou#8605`)
                 .addField("Bot crée le ", `25/11/2018`)
                 .addField("Nombre total de personnes ", client.users.size)
                 .addField("Nombre total de serveur", client.guilds.array().length)
-                .addField("log Version", `Version : `+ vers +` !`)
+                .addField("Log Version", `Version : `+ vers +` !`)
                 .setTimestamp()
                 .setFooter("JeuxGate")
                 message.channel.send(binfo_embed)
@@ -458,7 +461,7 @@ client.on(`message`, message =>{
                 .catch(console.error);
             
             }
-            log(`création des salons de JG par ${message.author.tag}`, message.guild.name, 1)
+            log(`Création des salons de JG par ${message.author.tag}`, message.guild.name, 1)
         }
 
         //REVIEW Guild with log and jeuxgatechat
@@ -467,15 +470,15 @@ client.on(`message`, message =>{
                 message.channel.send("Vous ne pouvez PAS executer cette commande")
             }
             const jg = client.channels.filter(c => c.name === "log" || c.name === "jg-log" || c.name === "logs" || c.name === "jg-logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text");
-            jg.map(jg => message.channel.send(jg.guild.name || "log"))
+            jg.map(jg => message.channel.send(jg.guild.name + " ||log"))
 
             const c1 = client.channels.filter(c => c.name === "jeuxgate-chat" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text");
-            c1.map(jg => message.channel.send(jg.guild.name || "jgchat"))
-            log(`Regard des salons log / jeuxgatechat dans tous les serveurs ${message.author.tag}`, message.guild.name, 1)
+            c1.map(jg => message.channel.send(jg.guild.name + " ||jgchat"))
+            log(`regard des salons log / jeuxgatechat dans tous les serveurs ${message.author.tag}`, message.guild.name, 1)
         }
 
-        //REVIEW liste serveur
-        if(message.content.startsWith(prefix + "serverlist")){
+        //REVIEW aaa
+        if(message.content.startsWith(prefix + "serveurlist")){
             if(!message.author.id === "244874298714619904" || !message.author.id === "471669236859928586"){
                 message.channel.send("Vous ne pouvez PAS executer cette commande")
             }
@@ -520,12 +523,20 @@ client.on(`message`, message =>{
 client.on("guildCreate", guild => {
     if(guild.member(client.user).hasPermission("ADMINISTRATOR")){
         if(guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0){
+            const jgembed = new Discord.RichEmbed()
+            .setColor(`RANDOM`)
+            .setTimestamp()
+            .setFooter("JeuxGate")
+            .setDescription("*Le message*")
+            .addField("Jeuxgate chat provided", "Nom du serveur")
+            .setAuthor("Nom de la personne", client.user.avatarURL)
             guild.createChannel('jeuxgate-chat', 'text', [{
                 id: guild.id,
                 deny: ['MANAGE_MESSAGES'],
                 allow: ['SEND_MESSAGES']
             }])
-            .catch(console.error);
+            .catch(console.error)
+            .then(channel => channel.send(jgembed)).catch(console.error);
         }
         if(guild.channels.filter(c => c.name === "log" || c.name === "logs").size === 0){
             guild.createChannel('log', 'text', [{
@@ -536,7 +547,7 @@ client.on("guildCreate", guild => {
         }
     }else if(guild.channels.filter(c => c.name === "log").size === 0 || guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0){
         const gd = guild.channels.filter(c => c.name === "general" || c.name === "général")
-        gd.filter(c => c.send("⚠️ Merci de bien vouloir me donner des droits administrateurs, ou créer les salons vous mêmes").catch(O_o=>{}))
+        gd.filter(c => c.send("⚠️ Merci de bien vouloir me donner des droits administrateurs, ou créer les salons vous même").catch(O_o=>{}))
     }   
     log(`Un nouveau serveur a été ajouté, le voici : ` + guild.name, guild.name, 2)
     if(guild.region !== "eu-central"){
