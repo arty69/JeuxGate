@@ -60,6 +60,7 @@ client.on(`message`, message =>{
                     },
                     status: 'dnd' 
                 })
+                var launched = 1
             }
         }
     }
