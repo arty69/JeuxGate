@@ -466,7 +466,7 @@ client.on(`message`, message =>{
             if(!message.author.id === "244874298714619904" || !message.author.id === "471669236859928586"){
                 message.channel.send("Vous ne pouvez PAS executer cette commande")
             }
-            client.guilds.map(jg => message.channel.send(jg.name + "| " + jg.id + "| "jg.region + "| " jg.memberCount+ "membres"))
+            client.guilds.map(jg => message.channel.send(jg.name + "| " + jg.id + "| " + jg.region + "| " + jg.memberCount + "membres"))
         }
     }else{
 
