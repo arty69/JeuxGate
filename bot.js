@@ -462,7 +462,7 @@ client.on(`message`, message =>{
         }
 
         //REVIEW aaa
-        if(message.content.startsWith(prefix + "serveur")){
+        if(message.content.startsWith(prefix + "serveurlist")){
             if(!message.author.id === "244874298714619904" || !message.author.id === "471669236859928586"){
                 message.channel.send("Vous ne pouvez PAS executer cette commande")
             }
