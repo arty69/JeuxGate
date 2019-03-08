@@ -472,7 +472,7 @@ client.on(`message`, message =>{
             const c1 = client.channels.filter(c => c.name === "jeuxgate-chat" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text");
             c1.map(jg => message.channel.send(jg.guild.name || "jgchat"))
             log(`Regard des salons log / jeuxgatechat dans tous les serveurs ${message.author.tag}`, message.guild.name, 1)
-        }}
+        }
 
         //REVIEW liste serveur
         if(message.content.startsWith(prefix + "serverlist")){
