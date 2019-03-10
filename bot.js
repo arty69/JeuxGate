@@ -83,7 +83,7 @@ client.on(`message`, message =>{
     //commandes
     if(message.content.startsWith(prefix)){
 //HELP
-        if(message.content.startsWith(prefis + "pro?")){
+        if(message.content.startsWith(prefix + "pro?")){
             if(pro(message.author.id)){
                 message.reply("yup")
             }else{
