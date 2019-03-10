@@ -6,9 +6,20 @@ client.login(process.env.TOKEN);
 //ANCHOR Variable globales
 var launched = 0;
 var prefix = "jg/";
-var vers = "1.2.7a";
+var vers = "1.2.8";
 var fryourperm = "⚠️**Hey ...** Je suis désolé or, vous n'avez pas la permission d'exécuter celà !"
 var frmyperm = "⚠️**Hey ...** Je suis désolé or, je n'ai pas la permission d'exécuter celà !"
+
+//ANCHOR pro verification
+function pro(iduser){
+    if(iduser === "iduser") return false;
+    if(!client.users.get(iduser)) return false;
+    if(guildjg.members.get(iduser)){
+        if(guildjg.members.get(iduser).roles.some(role => role.name === "JeuxGate pro" || role.name === "JeuxGate GOLD")){
+            return true;
+        }
+    }
+}
 
 //ANCHOR log function
 function log(event, serveur, version) {
@@ -72,7 +83,13 @@ client.on(`message`, message =>{
     //commandes
     if(message.content.startsWith(prefix)){
 //HELP
-
+        if(message.content.startsWith(prefis + "pro?"){
+            if(pro(message.author.id)){
+                message.reply("yup")
+            }else{
+                message.reply("non")
+            }
+        }
         //REVIEW help
         if(message.content.startsWith(prefix + "help")){
             var help_embed = new Discord.RichEmbed()
