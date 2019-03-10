@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
+const guildjg = client.guilds.get("517372982268657684");
 client.login(process.env.TOKEN);
 
 
