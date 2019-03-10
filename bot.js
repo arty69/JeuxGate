@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const guildjg = client.guilds.get("517372982268657684");
 client.login(process.env.TOKEN);
 
 
@@ -15,9 +14,11 @@ var frmyperm = "⚠️**Hey ...** Je suis désolé or, je n'ai pas la permission
 function pro(iduser){
     if(iduser === "iduser") return false;
     if(!client.users.get(iduser)) return false;
-    if(guildjg.members.get(iduser)){
-        if(guildjg.members.get(iduser).roles.some(role => role.name === "JeuxGate pro" || role.name === "JeuxGate GOLD")){
+    if(client.guilds.get("517372982268657684").members.get(iduser)){
+        if(client.guilds.get("517372982268657684").members.get(iduser).roles.some(role => role.name === "JeuxGate pro" || role.name === "JeuxGate GOLD")){
             return true;
+        }else{
+            return false;
         }
     }
 }
@@ -317,7 +318,7 @@ client.on(`message`, message =>{
 
         //REVIEW ping
         if (message.content.startsWith(prefix + 'ping')) {
-            message.channel.sendMessage('Pong! ping :`' + `${Date.now() - message.createdTimestamp}` + ' ms`');
+            message.channel.send('Pong! ping :`' + `${Date.now() - message.createdTimestamp}` + ' ms`');
             log(`Ping de ${message.author.username}`, message.guild.name, 1)
         }
 
