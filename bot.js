@@ -2,10 +2,9 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 client.login(process.env.TOKEN);
 
-
 //ANCHOR Variable globales
 var launched = 0;
-var prefix = "jg/";
+var prefix = "jt/";
 var vers = "1.2.8";
 var fryourperm = "⚠️**Hey ...** Je suis désolé or, vous n'avez pas la permission d'exécuter celà !"
 var frmyperm = "⚠️**Hey ...** Je suis désolé or, je n'ai pas la permission d'exécuter celà !"
@@ -20,6 +19,21 @@ function pro(iduser){
         }else{
             return false;
         }
+    }else{
+        return false
+    }
+}
+function gold(iduser){
+    if(iduser === "iduser") return false;
+    if(!client.users.get(iduser)) return false;
+    if(client.guilds.get("517372982268657684").members.get(iduser)){
+        if(client.guilds.get("517372982268657684").members.get(iduser).roles.some(role => role.name === "JeuxGate GOLD")){
+            return true;
+        }else{
+            return false;
+        }
+    }else{
+        return false
     }
 }
 
@@ -50,33 +64,17 @@ function log(event, serveur, version) {
 //ANCHOR state
 client.on('ready', ()=>{
     console.log(`connecté : ${client.user.tag}!`)
-    const launch = client.channels.filter(c => c.id === "553647966884200455")
-    launch.map(c => c.send(vers))
     client.user.setPresence({
         game: { 
             name: `les gens taper ${prefix}help | version : ${vers}`,
             type: 'WATCHING' 
         },
         status: 'dnd' 
-    })
+    })  
 })
 
 // ANCHOR commandes
 client.on(`message`, message =>{
-    if(message.author.id === client.id){
-        if(message.channel.id === "553647966884200455"){
-            if(!launched === 0){
-                client.user.setPresence({
-                    game: { 
-                        name: `Il y a actuellement deux instances de JeuxGate qui fonctionnent, attendez vous à deux réponses`,
-                        type: 'STREAMING' 
-                    },
-                    status: 'dnd' 
-                })
-                var launched = 1
-            }
-        }
-    }
     //anti kikoo
     if(message.author.bot) return;
     if(message.system) return;
@@ -510,13 +508,18 @@ client.on(`message`, message =>{
         if(message.channel.name === "jeuxgate-chat"){
             if(message.content.length >= 2048) return message.reply("⚠️ Vôtre message est trop long, sois, plus de 2048 caractères")
             if(message.attachments.size === 0){
+                if(gold(message.author.id)){
+                    var usernamejg = `:dvd: ${message.author.tag}  *membre gold*`
+                }else if(pro(message.author.id)){
+                    var usernamejg = `:cd: ${message.author.tag}  *membre pro*`
+                }
                 const chembed = new Discord.RichEmbed()
                 .setColor(`RANDOM`)
                 .setTimestamp()
                 .setFooter("JeuxGate")
                 .setDescription(message.content)
                 .addField("Jeuxgate chat provided", message.guild.name)
-                .setAuthor(message.author.tag, message.author.avatarURL)
+                .setAuthor(usernamejg, message.author.avatarURL)
                 const c1 = client.channels.filter(c => c.name === "jeuxgate-chat" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text" && c.id !== message.channel.id);
                 c1.map(z => z.send(chembed).catch(O_o=>{}))
                 message.react('👌')
@@ -526,14 +529,15 @@ client.on(`message`, message =>{
             }
             return
         }
+        if(pro(message.author.id)){
+            if(message.content.includes("adriaayl")){
+                message.channel.send ("adriaaaaaaaaaaaaaaaaaaaaaaaayl play despacito")
+                log(`adriaaaaaaaaaaaaaaaaaaaaaaaayl`, message.guild.name, 2)
+            }
 
-        if(message.content.includes("adriaayl")){
-            message.channel.send ("adriaaaaaaaaaaaaaaaaaaaaaaaayl play despacito")
-            log(`adriaaaaaaaaaaaaaaaaaaaaaaaayl`, message.guild.name, 2)
-        }
-
-        if(message.content.startsWith("system calls") || message.content.startsWith("system call") || message.content.startsWith("systeme calls") || message.content.startsWith("systeme call")){
-            message.channel.send("To access commands, execute `" + prefix + "` and to access the help just do `" + prefix + "help`  !")
+            if(message.content.startsWith("system calls") || message.content.startsWith("system call") || message.content.startsWith("systeme calls") || message.content.startsWith("systeme call")){
+                message.channel.send("To access commands, execute `" + prefix + "` and to access the help just do `" + prefix + "help`  !")
+            }
         }
 
     }
