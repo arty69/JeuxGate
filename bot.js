@@ -4,7 +4,7 @@ client.login(process.env.TOKEN);
 
 //ANCHOR Variable globales
 var launched = 0;
-var prefix = "jt/";
+var prefix = "jg/";
 var vers = "1.2.8";
 var fryourperm = "⚠️**Hey ...** Je suis désolé or, vous n'avez pas la permission d'exécuter celà !"
 var frmyperm = "⚠️**Hey ...** Je suis désolé or, je n'ai pas la permission d'exécuter celà !"
