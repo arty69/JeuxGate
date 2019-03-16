@@ -2,12 +2,57 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 client.login(process.env.TOKEN);
 
+
 //ANCHOR Variable globales
-var launched = 0;
 var prefix = "jg/";
-var vers = "1.2.8";
-var fryourperm = "⚠️**Hey ...** Je suis désolé or, vous n'avez pas la permission d'exécuter celà !"
-var frmyperm = "⚠️**Hey ...** Je suis désolé or, je n'ai pas la permission d'exécuter celà !"
+var vers = "1.2.9a (Pourquoi vous avez des pseudos insultant sérieux xD)";
+var fryourperm = "⚠️**Hey ...** Je suis désolé or, vous n'avez pas la permission d'exécuter celà !";
+var frmyperm = "⚠️**Hey ...** Je suis désolé or, je n'ai pas la permission d'exécuter celà !";
+
+//ANCHOR swaping letters
+function swap(text){
+    if(text === "text") return text
+    var textreplaced = text.replace(/A|à|4|â|@|ã|ä/gi, "a")
+    var textreplaced = textreplaced.replace(/B|8/gi, "b")
+    var textreplaced = textreplaced.replace(/C|\(|<|\{|\[|ç/gi, "c")
+    var textreplaced = textreplaced.replace(/E|€|3|è|é|ê|ë|£/gi, "e")
+    var textreplaced = textreplaced.replace(/F/gi, "f")
+    var textreplaced = textreplaced.replace(/G|6/gi, "g")
+    var textreplaced = textreplaced.replace(/H/gi, "h")
+    var textreplaced = textreplaced.replace(/I|1|!|\||}/gi, "i")
+    var textreplaced = textreplaced.replace(/J|]/gi, "j")
+    var textreplaced = textreplaced.replace(/K/gi, "k")
+    var textreplaced = textreplaced.replace(/L|7/gi, "l")
+    var textreplaced = textreplaced.replace(/M/gi, "m")
+    var textreplaced = textreplaced.replace(/N/gi, "n")
+    var textreplaced = textreplaced.replace(/O|0|°|¤|#/gi, "o")
+    var textreplaced = textreplaced.replace(/P|%/gi, "p")
+    var textreplaced = textreplaced.replace(/Q|9/gi, "q")
+    var textreplaced = textreplaced.replace(/R/gi, "r")
+    var textreplaced = textreplaced.replace(/S|2|\$|&|§|\?/gi, "s")
+    var textreplaced = textreplaced.replace(/T/gi, "t")
+    var textreplaced = textreplaced.replace(/U|µ|ù|û/gi, "u")
+    var textreplaced = textreplaced.replace(/V|\^/gi, "v")
+    var textreplaced = textreplaced.replace(/W/gi, "w")
+    var textreplaced = textreplaced.replace(/X/gi, "x")
+    var textreplaced = textreplaced.replace(/Y/gi, "y")
+    var textreplaced = textreplaced.replace(/Z/gi, "z")
+    return textreplaced
+}
+//ANCHOR detect
+function dwords(text){
+    if(text === "text") return text
+    var textreplaced = swap(text)
+    if(textreplaced.includes("pute")) return true
+    return false
+}
+
+//ANCHOR I hate those f*cking badwords
+function nobadwords(text){
+    if(text === "text") return text
+    var textreplaced = swap(text).replace(/pute/gi, "**°°°°**")
+    return textreplaced
+}
 
 //ANCHOR pro verification
 function pro(iduser){
@@ -41,11 +86,16 @@ function gold(iduser){
 function log(event, serveur, version) {
     if(!event) return;
     if(!serveur) return;
+    if(dwords(event)){
+        eventok = nobadwords(event)
+    }else{
+        eventok = event
+    }
     console.log(`${event} dans ${serveur}`)
     if(version === 1 || version === "version"){
         const log_embed = new Discord.RichEmbed()
         .setColor(`RANDOM`)
-        .addField("LOG : ", event + " dans " + serveur )
+        .addField("LOG : ", eventok + " dans " + serveur )
         .setTimestamp()
         .setFooter("JeuxGate")
         const log = client.channels.filter(c => c.name === "log" || c.name === "jg-log" || c.name === "logs" || c.name === "jg-logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text");
@@ -53,7 +103,7 @@ function log(event, serveur, version) {
     }else if(version === 2){
         const log_embed = new Discord.RichEmbed()
         .setColor(`RANDOM`)
-        .addField("LOG : ", event )
+        .addField("LOG : ", eventok )
         .setTimestamp()
         .setFooter("JeuxGate")
         const log = client.channels.filter(c => c.name === "log" || c.name === "jg-log" || c.name === "logs" || c.name === "jg-logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text");
@@ -83,6 +133,12 @@ client.on(`message`, message =>{
     //commandes
     if(message.content.startsWith(prefix)){
 //HELP
+        if(message.content.startsWith(prefix + "badword")){
+            message.reply(nobadwords(message.content.substr(prefix.length + 7)))
+        }
+        if(message.content.startsWith(prefix + "badwords?")){
+            message.reply(dwords(message.content.substr(prefix.length + 9)))
+        }
         if(message.content.startsWith(prefix + "pro?")){
             if(pro(message.author.id)){
                 message.reply("yup")
@@ -239,7 +295,7 @@ client.on(`message`, message =>{
 
         //REVIEW 8ball
         if(message.content.startsWith(prefix + "8ball")) {
-            if(message.content.substr(prefix.length + + 5)){
+            if(message.content.substr(prefix.length + 5)){
                 var ball = [
                     //oui
                     "Plutôt, oui",
