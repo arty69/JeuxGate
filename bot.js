@@ -479,7 +479,6 @@ client.on(`message`, message =>{
                 .addField("Bot crée le ", `25/11/2018`)
                 .addField("Nombre total de personnes ", client.users.size)
                 .addField("Nombre total de serveur", client.guilds.array().length)
-                .addField("Nom des serveurs", client.guilds.map(r =>`${r.name} | ${r.id} / ${r.memberCount} membres / ${r.region} `))
                 .addField("Log Version", `Version : `+ vers +` Complète, et réservées !`)
                 .setTimestamp()
                 .setFooter("JeuxGate")
