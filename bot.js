@@ -5,7 +5,7 @@ client.login(process.env.TOKEN);
 
 //ANCHOR Variable globales
 var prefix = "jg/";
-var vers = "1.2.9a (Pourquoi vous avez des pseudos insultant sérieux xD)";
+var vers = "1.2.9b (pas bête les éléments du tableau périodique";
 var fryourperm = "⚠️**Hey ...** Je suis désolé or, vous n'avez pas la permission d'exécuter celà !";
 var frmyperm = "⚠️**Hey ...** Je suis désolé or, je n'ai pas la permission d'exécuter celà !";
 
@@ -37,6 +37,8 @@ function swap(text){
     var textreplaced = textreplaced.replace(/X/gi, "x")
     var textreplaced = textreplaced.replace(/Y/gi, "y")
     var textreplaced = textreplaced.replace(/Z/gi, "z")
+    var textreplaced = textreplaced.replace(/plutonium|pluttonium/gi, "pu")
+    var textreplaced = textreplaced.replace(/tellure|telure|tellur|telur/gi, "te")
     return textreplaced
 }
 //ANCHOR detect
@@ -44,13 +46,14 @@ function dwords(text){
     if(text === "text") return text
     var textreplaced = swap(text)
     if(textreplaced.includes("pute")) return true
+    if(textreplaced.includes("pu et te")) return true
     return false
 }
 
 //ANCHOR I hate those f*cking badwords
 function nobadwords(text){
     if(text === "text") return text
-    var textreplaced = swap(text).replace(/pute/gi, "**°°°°**")
+    var textreplaced = swap(text).replace(/pute|pu et te/gi, "**°°°°**")
     return textreplaced
 }
 
