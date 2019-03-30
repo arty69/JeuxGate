@@ -5,7 +5,7 @@ client.login(process.env.TOKEN);
 
 //ANCHOR Variable globales
 var prefix = "jg/";
-var vers = "1.2.9b (pas bête les éléments du tableau périodique";
+var vers = "1.2.9c;
 var fryourperm = "⚠️**Hey ...** Je suis désolé or, vous n'avez pas la permission d'exécuter celà !";
 var frmyperm = "⚠️**Hey ...** Je suis désolé or, je n'ai pas la permission d'exécuter celà !";
 
@@ -380,23 +380,27 @@ client.on(`message`, message =>{
         }
 
         //REVIEW purge
-        if(message.content.startsWith(prefix + "purge")) {
-            if(!message.author.id === "244874298714619904" || !message.author.id === "471669236859928586"){
+        if(message.content.startsWith(blackguilds[message.guild.id].servprefix + "purge")) {
+            if(!message.author.id === "244874298714619904"){
                 if(!message.guild.member(message.author).hasPermission("MANAGE_MESSAGES")) return message.channel.send(fryourperm);
             }
             if(!message.guild.member(client.user).hasPermission("MANAGE_MESSAGES")) return message.channel.send(frmyperm);
 
             var suppression = message.content.substr(prefix.length + 6);
-            if (suppression < 2 || suppression > 101) {
-                return message.reply("**Hey ...**La valeur que vous avez entrée est invalide, merci de choisir une valeur comprise entre 2 et 100");
+            if (suppression < 2 || suppression > 10001) {
+                return message.reply("**Hey ...**La valeur que vous avez entré est invalide, merci de choisir une valeur comprise entre 2 et 10000");
             }
-
+            var supressed = suppression
+            while(suppression > 100){
+                message.channel.bulkDelete(100, true).catch(err => message.channel.send(err))
+                var suppression = suppression -100
+            }
             message.channel.bulkDelete(suppression, true).then(ok => {
-                message.reply("**Suppression de " + "" + suppression + "" + " messages**")
+                message.reply("**Suppression de " + "" + suppressed + "" + " messages**")
                 .then(message => setTimeout(function(){message.delete()}, 10000))
-                .catch(err => console.log(err));
+                .catch(err => message.channel.send(err));
             
-            })
+            }).catch(err => message.channel.send(err));
             
             log(`utilisation de la commande de purge par ${message.author.username}`, message.guild.name, 1)
         }
