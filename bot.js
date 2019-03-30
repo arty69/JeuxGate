@@ -380,7 +380,7 @@ client.on(`message`, message =>{
         }
 
         //REVIEW purge
-        if(message.content.startsWith(blackguilds[message.guild.id].servprefix + "purge")) {
+        if(message.content.startsWith(prefix + "purge")) {
             if(!message.author.id === "244874298714619904"){
                 if(!message.guild.member(message.author).hasPermission("MANAGE_MESSAGES")) return message.channel.send(fryourperm);
             }
