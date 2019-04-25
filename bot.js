@@ -5,38 +5,39 @@ client.login(process.env.TOKEN);
 
 //ANCHOR Variable globales
 var prefix = "jg/";
-var vers = "1.2.9c";
+var vers = "1.2.9d";
 var fryourperm = "⚠️**Hey ...** Je suis désolé or, vous n'avez pas la permission d'exécuter celà !";
 var frmyperm = "⚠️**Hey ...** Je suis désolé or, je n'ai pas la permission d'exécuter celà !";
 
 //ANCHOR swaping letters
 function swap(text){
     if(text === "text") return text
-    var textreplaced = text.replace(/A|à|4|â|@|ã|ä/gi, "a")
-    var textreplaced = textreplaced.replace(/B|8/gi, "b")
-    var textreplaced = textreplaced.replace(/C|\(|<|\{|\[|ç/gi, "c")
-    var textreplaced = textreplaced.replace(/E|€|3|è|é|ê|ë|£/gi, "e")
-    var textreplaced = textreplaced.replace(/F/gi, "f")
-    var textreplaced = textreplaced.replace(/G|6/gi, "g")
-    var textreplaced = textreplaced.replace(/H/gi, "h")
-    var textreplaced = textreplaced.replace(/I|1|!|\||}/gi, "i")
-    var textreplaced = textreplaced.replace(/J|]/gi, "j")
-    var textreplaced = textreplaced.replace(/K/gi, "k")
-    var textreplaced = textreplaced.replace(/L|7/gi, "l")
-    var textreplaced = textreplaced.replace(/M/gi, "m")
-    var textreplaced = textreplaced.replace(/N/gi, "n")
+    var textreplaced = text.replace(/A|à|4|â|@|ã|ä|Д/gi, "a")
+    var textreplaced = textreplaced.replace(/B|8|ᱠ/gi, "b")
+    var textreplaced = textreplaced.replace(/८|C|\(|<|\{|\[|ç/gi, "c")
+    var textreplaced = textreplaced.replace(/δ|D/gi, "d")
+    var textreplaced = textreplaced.replace(/Σ|E|€|3|è|é|ê|ë|£/gi, "e")
+    var textreplaced = textreplaced.replace(/∱|F/gi, "f")
+    var textreplaced = textreplaced.replace(/૬|G|6/gi, "g")
+    var textreplaced = textreplaced.replace(/ђ|H/gi, "h")
+    var textreplaced = textreplaced.replace(/ɨ|I|1|!|\||}/gi, "i")
+    var textreplaced = textreplaced.replace(/ſ|J|]/gi, "j")
+    var textreplaced = textreplaced.replace(/ʞ|K/gi, "k")
+    var textreplaced = textreplaced.replace(/⎳|L|7/gi, "l")
+    var textreplaced = textreplaced.replace(/Π|M/gi, "m")
+    var textreplaced = textreplaced.replace(/ה|N/gi, "n")
     var textreplaced = textreplaced.replace(/O|0|°|¤|#/gi, "o")
-    var textreplaced = textreplaced.replace(/P|%/gi, "p")
-    var textreplaced = textreplaced.replace(/Q|9/gi, "q")
-    var textreplaced = textreplaced.replace(/R/gi, "r")
-    var textreplaced = textreplaced.replace(/S|2|\$|&|§|\?/gi, "s")
-    var textreplaced = textreplaced.replace(/T/gi, "t")
-    var textreplaced = textreplaced.replace(/U|µ|ù|û/gi, "u")
-    var textreplaced = textreplaced.replace(/V|\^/gi, "v")
-    var textreplaced = textreplaced.replace(/W/gi, "w")
-    var textreplaced = textreplaced.replace(/X/gi, "x")
-    var textreplaced = textreplaced.replace(/Y/gi, "y")
-    var textreplaced = textreplaced.replace(/Z/gi, "z")
+    var textreplaced = textreplaced.replace(/ᚹ|P|%/gi, "p")
+    var textreplaced = textreplaced.replace(/Զ|Q|9/gi, "q")
+    var textreplaced = textreplaced.replace(/ř|R/gi, "r")
+    var textreplaced = textreplaced.replace(/ร|S|2|\$|&|§|\?/gi, "s")
+    var textreplaced = textreplaced.replace(/ƚ|T/gi, "t")
+    var textreplaced = textreplaced.replace(/մ|U|µ|ù|û/gi, "u")
+    var textreplaced = textreplaced.replace(/ɤ|V|\^/gi, "v")
+    var textreplaced = textreplaced.replace(/ᗯ|W/gi, "w")
+    var textreplaced = textreplaced.replace(/Ӿ|X/gi, "x")
+    var textreplaced = textreplaced.replace(/¥|Y/gi, "y")
+    var textreplaced = textreplaced.replace(/ʓ|Z/gi, "z")
     var textreplaced = textreplaced.replace(/plutonium|pluttonium/gi, "pu")
     var textreplaced = textreplaced.replace(/tellure|telure|tellur|telur/gi, "te")
     return textreplaced
