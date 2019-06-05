@@ -126,7 +126,29 @@ client.on('ready', ()=>{
             type: 'WATCHING' 
         },
         status: 'dnd' 
-    })  
+    }) 
+	
+const gmuteon = new Discord.RichEmbed()
+    .setTitle("Modération")
+    .setDescription("Panneau de contrôle")
+    .addField(":emoji_vert: Mute Global", "Cette option permet de rendre tout le monde muet, partout")
+    .setTimestamp()
+    .setFooter(client.user.tag + " - Jéhèndé#3800  | :emoji_rouge: programme inactif - :emoji_bleu: chargement du programme - :emoji_vert programme en cours")
+
+const gmuteoff = new Discord.RichEmbed()
+    .setTitle("Modération")
+    .setDescription("Panneau de contrôle")
+    .addField(":emoji_rouge: Mute Global", "Cette option permet de rendre tout le monde muet, partout")
+    .setTimestamp()
+    .setFooter(client.user.tag + " - Jéhèndé#3800  | :emoji_rouge: programme inactif - :emoji_bleu: chargement du programme - :emoji_vert programme en cours")
+
+const gmuteomaybe = new Discord.RichEmbed()
+    .setTitle("Modération")
+    .setDescription("Panneau de contrôle")
+    .addField(":emoji_bleu: Mute Global", "Cette option permet de rendre tout le monde muet, partout")
+    .setTimestamp()
+    .setFooter(client.user.tag + " - Jéhèndé#3800  | :emoji_rouge: programme inactif - :emoji_bleu: chargement du programme - :emoji_vert programme en cours")
+
 })
 
 const events = {
