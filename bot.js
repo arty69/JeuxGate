@@ -921,7 +921,7 @@ client.on(`guildCreate`, guild => {
 })
 
 client.on(`messageReactionAdd`, (reaction, user) => {
-    if(reaction.message.id === ""){
+    if(reaction.message.id === "585745033613934604"){
         if(client.guilds.get("474693373287071745").members.get(user.id).roles.some(rolex => rolex.name === "membre staff")){
 const gmuteon = new Discord.RichEmbed()
     .setTitle("Modération")
