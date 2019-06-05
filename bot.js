@@ -974,6 +974,7 @@ client.on(`messageReactionAdd`, (reaction, user) => {
         }
 
         console.log("wtf was dat")
+        reaction.message.edit(gmuteoff)
         reaction.remove(user)
     }
 });
