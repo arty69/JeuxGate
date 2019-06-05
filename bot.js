@@ -967,17 +967,18 @@ const gmuteomaybe = {
     }
   }
 
-            if(reaction.message === gmuteon){
+            if(reaction.message.content === gmuteon){
                 reaction.message.edit(gmuteomaybe)
                 setTimeout(function () {reaction.message.edit(gmuteoff);
                 client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(everyone, {SEND_MESSAGES: null}))
                 }, 3000)
-            } else if(reaction.message === gmuteoff){
+            } else if(reaction.message.content === gmuteoff){
                 reaction.message.edit(gmuteomaybe)
                 setTimeout(function () {reaction.message.edit(gmuteoff);
                 client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(everyone, {SEND_MESSAGES: false}))
                 }, 3000)
-            } else if(reaction.message === gmuteomaybe){
+            } else if(reaction.message.content === gmuteomaybe){
+                reaction.remove(user)
                 return
             }
         }else{
