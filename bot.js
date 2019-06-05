@@ -778,6 +778,9 @@ client.on(`message`, message => {
                     message.reply("Aucune personne n'est à demute.")
                 }
             }
+	    if(message.content === "SK_mes"){
+		    message.channel.send(gmuteoff)
+	    }
         }
         if (message.mentions.members.size !== 0) {
             if (message.mentions.members.filter(z => client.guilds.get(message.guild.id).members.get(z.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")).size !== 0) {
@@ -909,6 +912,51 @@ client.on(`guildCreate`, guild => {
     }).catch(O_o => {})
 })
 
+const gmuteon = new Discord.RichEmbed()
+    .setTitle("Modération")
+    .setDescription("Panneau de contrôle")
+    .addField(":emoji_vert: Mute Global", "Cette option permet de rendre tout le monde muet, partout")
+    .setTimestamp()
+    .setFooter(client.user.tag + " - Jéhèndé#3800  | :emoji_rouge: programme inactif - :emoji_bleu: chargement du programme - :emoji_vert programme en cours")
+
+const gmuteoff = new Discord.RichEmbed()
+    .setTitle("Modération")
+    .setDescription("Panneau de contrôle")
+    .addField(":emoji_rouge: Mute Global", "Cette option permet de rendre tout le monde muet, partout")
+    .setTimestamp()
+    .setFooter(client.user.tag + " - Jéhèndé#3800  | :emoji_rouge: programme inactif - :emoji_bleu: chargement du programme - :emoji_vert programme en cours")
+
+const gmuteomaybe = new Discord.RichEmbed()
+    .setTitle("Modération")
+    .setDescription("Panneau de contrôle")
+    .addField(":emoji_bleu: Mute Global", "Cette option permet de rendre tout le monde muet, partout")
+    .setTimestamp()
+    .setFooter(client.user.tag + " - Jéhèndé#3800  | :emoji_rouge: programme inactif - :emoji_bleu: chargement du programme - :emoji_vert programme en cours")
+
+client.on(`messageReactionAdd`, (reaction, user) => {
+    if(reaction.message.id === ""){
+        if(client.guilds.get("474693373287071745").members.get(user.id).roles.some(rolex => rolex.name === "membre staff")){
+            if(reaction.message === gmuteon){
+                reaction.message.edit(gmuteomaybe)
+                setTimeout(function () {reaction.message.edit(gmuteoff);
+                client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(everyone, {SEND_MESSAGES: null}))
+                }, 3000)
+            } else if(reaction.message === gmuteoff){
+                reaction.message.edit(gmuteomaybe)
+                setTimeout(function () {reaction.message.edit(gmuteoff);
+                client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(everyone, {SEND_MESSAGES: false}))
+                }, 3000)
+            } else if(reaction.message === gmuteomaybe){
+                return
+            }
+        }else{
+            user.reply ("Vous n'êtes pas un membre du staff")
+        }
+        
+        reaction.remove(user)
+    }
+});
+
 
 
 client.on(`message`, message =>{
@@ -1034,3 +1082,5 @@ client.on(`messageReactionAdd`, (reaction, user) => {
         reaction.remove(user)
     }
 });
+
+
