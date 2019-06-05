@@ -704,13 +704,6 @@ client.on(`message`, message => {
             }
         }
     } else {
-const gmuteoff = new Discord.RichEmbed()
-    .setTitle("Modération")
-    .setDescription("Panneau de contrôle")
-    .addField("<:emoji_rouge:561463105083670528> Mute Global", "Cette option permet de rendre tout le monde muet, partout")
-    .setTimestamp()
-    .addField(client.user.tag + " - Jéhèndé#3800", "<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours")
-
         if (client.guilds.get(message.guild.id).members.get(message.author.id).nickname) {
             var user = client.guilds.get(message.guild.id).members.get(message.author.id).nickname
         } else {
@@ -923,26 +916,56 @@ client.on(`guildCreate`, guild => {
 client.on(`messageReactionAdd`, (reaction, user) => {
     if(reaction.message.id === "585745033613934604"){
         if(client.guilds.get("474693373287071745").members.get(user.id).roles.some(rolex => rolex.name === "Membre Staff")){
-const gmuteon = new Discord.RichEmbed()
-    .setTitle("Modération")
-    .setDescription("Panneau de contrôle")
-    .addField("<:emoji_vert:561463156434796545>  Mute Global", "Cette option permet de rendre tout le monde muet, partout")
-    .setTimestamp()
-    .addField(client.user.tag + " - Jéhèndé#3800", "<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours")
+const gmuteon = {
+    "embed": {
+      "title": "Modération",
+      "description": "Panneau de contrôle",
+      "fields": [
+        {
+          "name": "<:emoji_vert:561463156434796545> Mute Global",
+          "value": "Cette option permet de rendre tout le monde muet, partout"
+        },
+        {
+          "name": "JeuxGate - Jéhèndé#3800",
+          "value": "<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours"
+        }
+      ]
+    }
+  }
 
-const gmuteoff = new Discord.RichEmbed()
-    .setTitle("Modération")
-    .setDescription("Panneau de contrôle")
-    .addField("<:emoji_rouge:561463105083670528> Mute Global", "Cette option permet de rendre tout le monde muet, partout")
-    .setTimestamp()
-    .addField(client.user.tag + " - Jéhèndé#3800", "<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours")
+const gmuteoff = {
+    "embed": {
+      "title": "Modération",
+      "description": "Panneau de contrôle",
+      "fields": [
+        {
+          "name": "<:emoji_bleu:561463041028390922> Mute Global",
+          "value": "Cette option permet de rendre tout le monde muet, partout"
+        },
+        {
+          "name": "JeuxGate - Jéhèndé#3800",
+          "value": "<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours"
+        }
+      ]
+    }
+  }
 
-const gmuteomaybe = new Discord.RichEmbed()
-    .setTitle("Modération")
-    .setDescription("Panneau de contrôle")
-    .addField("<:emoji_bleu:561463041028390922> Mute Global", "Cette option permet de rendre tout le monde muet, partout")
-    .setTimestamp()
-    .addField(client.user.tag + " - Jéhèndé#3800", "<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours")
+const gmuteomaybe = {
+    "embed": {
+      "title": "Modération",
+      "description": "Panneau de contrôle",
+      "fields": [
+        {
+          "name": "<:emoji_rouge:561463105083670528> Mute Global",
+          "value": "Cette option permet de rendre tout le monde muet, partout"
+        },
+        {
+          "name": "JeuxGate - Jéhèndé#3800",
+          "value": "<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours"
+        }
+      ]
+    }
+  }
 
             if(reaction.message === gmuteon){
                 reaction.message.edit(gmuteomaybe)
