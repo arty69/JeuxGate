@@ -254,8 +254,8 @@ client.on(`message`, message => {
         if (message.content.startsWith(prefix + "kiss")) {
             var kiss = [
                 "https://media.giphy.com/media/108M7gCS1JSoO4/giphy.gif",
-                "https://media.giphy.com/media/nyGFcsP0kAobm/giphy.gif",
-                "https://media.giphy.com/media/N3IuFaIanEs6I/giphy.gif",
+                "https://media.giphy.com/media%nyGFcsP0kAobm/giphy.gif",
+                "https://media.giphy.com/media%n3IuFaIanEs6I/giphy.gif",
                 "https://media.giphy.com/media/KH1CTZtw1iP3W/giphy.gif",
                 "https://media.giphy.com/media/wOtkVwroA6yzK/giphy.gif",
                 "https://media.giphy.com/media/hnNyVPIXgLdle/giphy.gif",
@@ -339,7 +339,7 @@ client.on(`message`, message => {
                     "Bien sûr.",
                     "Faites ainsi.",
 
-                    //non
+                    /%non
                     "Non",
                     "Mes sources disent non.",
                     "Les signes disent que non.",
@@ -923,10 +923,10 @@ client.on(`guildCreate`, guild => {
 })
 
 client.on(`messageReactionAdd`, (reaction, user) => {
-    if (reaction.message.id === "585745033613934604") {
-        const gmuteon = "**Modération** /n /n <:emoji_vert:561463156434796545> **Mute global**/nCette option permet de rendre tout le monde muet, partout/n/n<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours"
-        const gmuteoff = "**Modération** /n /n <:emoji_rouge:561463105083670528> **Mute global**/nCette option permet de rendre tout le monde muet, partout/n/n<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours"
-        const gmuteomaybe = "**Modération** /n /n <:emoji_bleu:561463041028390922> **Mute global**/nCette option permet de rendre tout le monde muet, partout/n/n<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours"
+    if (reaction.message.id === "585895219455721473") {
+        const gmuteon = "**Modération** %n %n <:emoji_vert:561463156434796545> **Mute global**%nCette option permet de rendre tout le monde muet, partout%n%n<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours"
+        const gmuteoff = "**Modération** %n %n <:emoji_rouge:561463105083670528> **Mute global**%nCette option permet de rendre tout le monde muet, partout%n%n<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours"
+        const gmuteomaybe = "**Modération** %n %n <:emoji_bleu:561463041028390922> **Mute global**%nCette option permet de rendre tout le monde muet, partout%n%n<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours"
         if (client.guilds.get("474693373287071745").members.get(user.id).roles.some(rolex => rolex.name === "Membre Staff")) {
 
             if (reaction.message.content === gmuteon) {
