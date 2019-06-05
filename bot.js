@@ -129,6 +129,32 @@ client.on('ready', ()=>{
     })  
 })
 
+const events = {
+	MESSAGE_REACTION_ADD: 'messageReactionAdd',
+	MESSAGE_REACTION_REMOVE: 'messageReactionRemove',
+};
+
+client.on('raw', async event => {
+	if (!events.hasOwnProperty(event.t)) return;
+
+	const { d: data } = event;
+	const user = client.users.get(data.user_id);
+	const channel = client.channels.get(data.channel_id) || await user.createDM();
+
+	if (channel.messages.has(data.message_id)) return;
+
+	const message = await channel.fetchMessage(data.message_id);
+	const emojiKey = (data.emoji.id) ? `${data.emoji.name}:${data.emoji.id}` : data.emoji.name;
+	let reaction = message.reactions.get(emojiKey);
+
+	if (!reaction) {
+		const emoji = new Discord.Emoji(client.guilds.get(data.guild_id), data.emoji);
+		reaction = new Discord.MessageReaction(message, emoji, 1, data.user_id === client.user.id);
+	}
+
+	client.emit(events[event.t], reaction, user);
+});
+
 // ANCHOR commandes
 client.on(`message`, message =>{
     //anti kikoo
@@ -882,3 +908,129 @@ client.on(`guildCreate`, guild => {
         guild.members.filter(u => client.guilds.get("474693373287071745").members.get(u.id)).filter(u => client.guilds.get("474693373287071745").members.get(u.id).roles.some(z => z.name === "Membre SK_")).map(i => i.addRole(r).catch(O_o => {}))
     }).catch(O_o => {})
 })
+
+
+
+client.on(`message`, message =>{
+    if(message.author.id === client.user.id) return 
+    if(message.channel.id === "428569427718438933"){
+        if(message.content === "ok" || message.content === "Ok"|| message.content === "OK") {
+
+            message.delete()
+
+            let user = message.guild.member(message.author);
+            user.addRole(message.guild.roles.find(m => m.id === "484350151058784257")).catch(err => {
+                message.channel.send(err).then(message => setTimeout(function(){message.delete()}, 5000))
+            });
+            user.addRole(message.guild.roles.find(m => m.id === "507213640697380886")).catch(err => {
+                message.channel.send(err).then(message => setTimeout(function(){message.delete()}, 5000))
+            });
+            user.addRole(message.guild.roles.find(m => m.id === "507213819366473738")).catch(err => {
+                message.channel.send(err).then(message => setTimeout(function(){message.delete()}, 5000))
+            });
+            user.addRole(message.guild.roles.find(m => m.id === "503142506867982346")).catch(err => {
+                message.channel.send(err).then(message => setTimeout(function(){message.delete()}, 5000))
+            });
+            user.removeRole('515590184373452801').catch(err => {
+                message.channel.send(err).then(message => setTimeout(function(){message.delete()}, 5000))
+            });
+            message.reply(`**Bravo, tu as accepté le règlement**`).then(message => setTimeout(function(){message.delete()}, 2000));
+            
+        }else{
+            message.delete()
+            message.reply("Veuillez envoyé `ok` dans le salon, et non autre chose").then(message => setTimeout(function(){message.delete()}, 3000))
+        }
+    }
+
+});
+
+client.on(`messageReactionAdd`, (reaction, user) => {
+    if(reaction.message.id === "503157906116575273"){
+        if(reaction.emoji.name === "0⃣"){
+            if(client.guilds.get(reaction.message.guild.id).members.get(user.id).roles.some(z => z.id === "503157947052982283")){
+                client.guilds.get(reaction.message.guild.id).members.get(user.id).removeRole(reaction.message.guild.roles.find(m => m.id === "503157947052982283"))
+                reaction.message.channel.send("<@" + user.id + ">, rôle retiré").then(z => setTimeout(function(){z.delete().catch(O_o => {})}, 5000))
+            }else{
+                client.guilds.get(reaction.message.guild.id).members.get(user.id).addRole(reaction.message.guild.roles.find(m => m.id === "503157947052982283"))
+                reaction.message.channel.send("<@" + user.id + ">, rôle ajouté").then(z => setTimeout(function(){z.delete().catch(O_o => {})}, 5000))
+            }
+        }
+        if(reaction.emoji.name === "1⃣"){
+            if(client.guilds.get(reaction.message.guild.id).members.get(user.id).roles.some(z => z.id === "503164870254919680")){
+                client.guilds.get(reaction.message.guild.id).members.get(user.id).removeRole(reaction.message.guild.roles.find(m => m.id === "503164870254919680"))
+                reaction.message.channel.send("<@" + user.id + ">, rôle retiré").then(z => setTimeout(function(){z.delete().catch(O_o => {})}, 5000))
+            }else{
+                client.guilds.get(reaction.message.guild.id).members.get(user.id).addRole(reaction.message.guild.roles.find(m => m.id === "503164870254919680"))
+                reaction.message.channel.send("<@" + user.id + ">, rôle ajouté").then(z => setTimeout(function(){z.delete().catch(O_o => {})}, 5000))
+            }
+        } 
+        if(reaction.emoji.name === "2⃣"){
+            if(client.guilds.get(reaction.message.guild.id).members.get(user.id).roles.some(z => z.id === "503175463296827423")){
+                client.guilds.get(reaction.message.guild.id).members.get(user.id).removeRole(reaction.message.guild.roles.find(m => m.id === "503175463296827423"))
+                reaction.message.channel.send("<@" + user.id + ">, rôle retiré").then(z => setTimeout(function(){z.delete().catch(O_o => {})}, 5000))
+            }else{
+                client.guilds.get(reaction.message.guild.id).members.get(user.id).addRole(reaction.message.guild.roles.find(m => m.id === "503175463296827423"))
+                reaction.message.channel.send("<@" + user.id + ">, rôle ajouté").then(z => setTimeout(function(){z.delete().catch(O_o => {})}, 5000))
+            }
+        }
+        if(reaction.emoji.name === "3⃣"){
+            if(client.guilds.get(reaction.message.guild.id).members.get(user.id).roles.some(z => z.id === "503169151020564490")){
+                client.guilds.get(reaction.message.guild.id).members.get(user.id).removeRole(reaction.message.guild.roles.find(m => m.id === "503169151020564490"))
+                reaction.message.channel.send("<@" + user.id + ">, rôle retiré").then(z => setTimeout(function(){z.delete().catch(O_o => {})}, 5000))
+            }else{
+                client.guilds.get(reaction.message.guild.id).members.get(user.id).addRole(reaction.message.guild.roles.find(m => m.id === "503169151020564490"))
+                reaction.message.channel.send("<@" + user.id + ">, rôle ajouté").then(z => setTimeout(function(){z.delete().catch(O_o => {})}, 5000))
+            }
+        } 
+        reaction.remove(user)
+    }else if(reaction.message.id === "507220691783909376"){
+        if(reaction.emoji.name === "0⃣"){
+            if(client.guilds.get(reaction.message.guild.id).members.get(user.id).roles.some(z => z.id === "507211890917638154")){
+                client.guilds.get(reaction.message.guild.id).members.get(user.id).removeRole(reaction.message.guild.roles.find(m => m.id === "507211890917638154"))
+                reaction.message.channel.send("<@" + user.id + ">, rôle retiré").then(z => setTimeout(function(){z.delete().catch(O_o => {})}, 5000))
+            }else{
+                client.guilds.get(reaction.message.guild.id).members.get(user.id).addRole(reaction.message.guild.roles.find(m => m.id === "507211890917638154"))
+                reaction.message.channel.send("<@" + user.id + ">, rôle ajouté").then(z => setTimeout(function(){z.delete().catch(O_o => {})}, 5000))
+            }
+        }
+        if(reaction.emoji.name === "1⃣"){
+            if(client.guilds.get(reaction.message.guild.id).members.get(user.id).roles.some(z => z.id === "507242461652058114")){
+                client.guilds.get(reaction.message.guild.id).members.get(user.id).removeRole(reaction.message.guild.roles.find(m => m.id === "507242461652058114"))
+                reaction.message.channel.send("<@" + user.id + ">, rôle retiré").then(z => setTimeout(function(){z.delete().catch(O_o => {})}, 5000))
+            }else{
+                client.guilds.get(reaction.message.guild.id).members.get(user.id).addRole(reaction.message.guild.roles.find(m => m.id === "507242461652058114"))
+                reaction.message.channel.send("<@" + user.id + ">, rôle ajouté").then(z => setTimeout(function(){z.delete().catch(O_o => {})}, 5000))
+            }
+        } 
+        if(reaction.emoji.name === "2⃣"){
+            if(client.guilds.get(reaction.message.guild.id).members.get(user.id).roles.some(z => z.id === "507239960399839232")){
+                client.guilds.get(reaction.message.guild.id).members.get(user.id).removeRole(reaction.message.guild.roles.find(m => m.id === "507239960399839232"))
+                reaction.message.channel.send("<@" + user.id + ">, rôle retiré").then(z => setTimeout(function(){z.delete().catch(O_o => {})}, 5000))
+            }else{
+                client.guilds.get(reaction.message.guild.id).members.get(user.id).addRole(reaction.message.guild.roles.find(m => m.id === "507239960399839232"))
+                reaction.message.channel.send("<@" + user.id + ">, rôle ajouté").then(z => setTimeout(function(){z.delete().catch(O_o => {})}, 5000))
+            }
+        }
+        if(reaction.emoji.name === "3⃣"){
+            if(client.guilds.get(reaction.message.guild.id).members.get(user.id).roles.some(z => z.id === "507246940895969294")){
+                client.guilds.get(reaction.message.guild.id).members.get(user.id).removeRole(reaction.message.guild.roles.find(m => m.id === "507246940895969294"))
+                reaction.message.channel.send("<@" + user.id + ">, rôle retiré").then(z => setTimeout(function(){z.delete().catch(O_o => {})}, 5000))
+            }else{
+                client.guilds.get(reaction.message.guild.id).members.get(user.id).addRole(reaction.message.guild.roles.find(m => m.id === "507246940895969294"))
+                reaction.message.channel.send("<@" + user.id + ">, rôle ajouté").then(z => setTimeout(function(){z.delete().catch(O_o => {})}, 5000))
+            }
+        } 
+        reaction.remove(user)
+    }else if(reaction.message.id === "503265807854469134"){
+        if(reaction.emoji.name === "0⃣"){
+            if(client.guilds.get(reaction.message.guild.id).members.get(user.id).roles.some(z => z.id === "503263996036513803")){
+                client.guilds.get(reaction.message.guild.id).members.get(user.id).removeRole(reaction.message.guild.roles.find(m => m.id === "503263996036513803"))
+                reaction.message.channel.send("<@" + user.id + ">, rôle retiré").then(z => setTimeout(function(){z.delete().catch(O_o => {})}, 5000))
+            }else{
+                client.guilds.get(reaction.message.guild.id).members.get(user.id).addRole(reaction.message.guild.roles.find(m => m.id === "503263996036513803"))
+                reaction.message.channel.send("<@" + user.id + ">, rôle ajouté").then(z => setTimeout(function(){z.delete().catch(O_o => {})}, 5000))
+            }
+        }
+        reaction.remove(user)
+    }
+});
