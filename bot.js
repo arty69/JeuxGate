@@ -934,27 +934,6 @@ client.on(`guildCreate`, guild => {
     }).catch(O_o => {})
 })
 
-const gmuteon = new Discord.RichEmbed()
-    .setTitle("Modération")
-    .setDescription("Panneau de contrôle")
-    .addField(":emoji_vert: Mute Global", "Cette option permet de rendre tout le monde muet, partout")
-    .setTimestamp()
-    .setFooter(client.user.tag + " - Jéhèndé#3800  | :emoji_rouge: programme inactif - :emoji_bleu: chargement du programme - :emoji_vert programme en cours")
-
-const gmuteoff = new Discord.RichEmbed()
-    .setTitle("Modération")
-    .setDescription("Panneau de contrôle")
-    .addField(":emoji_rouge: Mute Global", "Cette option permet de rendre tout le monde muet, partout")
-    .setTimestamp()
-    .setFooter(client.user.tag + " - Jéhèndé#3800  | :emoji_rouge: programme inactif - :emoji_bleu: chargement du programme - :emoji_vert programme en cours")
-
-const gmuteomaybe = new Discord.RichEmbed()
-    .setTitle("Modération")
-    .setDescription("Panneau de contrôle")
-    .addField(":emoji_bleu: Mute Global", "Cette option permet de rendre tout le monde muet, partout")
-    .setTimestamp()
-    .setFooter(client.user.tag + " - Jéhèndé#3800  | :emoji_rouge: programme inactif - :emoji_bleu: chargement du programme - :emoji_vert programme en cours")
-
 client.on(`messageReactionAdd`, (reaction, user) => {
     if(reaction.message.id === ""){
         if(client.guilds.get("474693373287071745").members.get(user.id).roles.some(rolex => rolex.name === "membre staff")){
