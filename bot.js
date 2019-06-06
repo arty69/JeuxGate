@@ -938,6 +938,7 @@ client.on(`messageReactionAdd`, (reaction, user) => {
                         SEND_MESSAGES: null
                     }))
                 }, 30000)
+				return
             } else if (reaction.message.content === gmuteoff) {
                 reaction.message.edit(gmuteomaybe)
                 console.log("receive that off")
@@ -947,6 +948,7 @@ client.on(`messageReactionAdd`, (reaction, user) => {
                         SEND_MESSAGES: false
                     }))
                 }, 30000)
+				return
             } else if (reaction.message.content === gmuteomaybe) {
                 console.log("receive that sooner")
                 reaction.remove(user)
