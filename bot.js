@@ -932,6 +932,7 @@ client.on(`messageReactionAdd`, (reaction, user) => {
             if (reaction.message.content === gmuteon) {
                 reaction.message.edit(gmuteomaybe)
                 console.log("receive that")
+				reaction.remove(user)
                 setTimeout(function () {
                     reaction.message.edit(gmuteoff);
                     client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(reaction.message.channel.guild.defaultRole, {
@@ -942,8 +943,9 @@ client.on(`messageReactionAdd`, (reaction, user) => {
             } else if (reaction.message.content === gmuteoff) {
                 reaction.message.edit(gmuteomaybe)
                 console.log("receive that off")
+				reaction.remove(user)
                 setTimeout(function () {
-                    reaction.message.edit(gmuteoff);
+                    reaction.message.edit(gmuteon);
                     client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(reaction.message.channel.guild.defaultRole, {
                         SEND_MESSAGES: false
                     }))
