@@ -339,7 +339,7 @@ client.on(`message`, message => {
                     "Bien sûr.",
                     "Faites ainsi.",
 
-                    /%non
+                    //non
                     "Non",
                     "Mes sources disent non.",
                     "Les signes disent que non.",
