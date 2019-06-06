@@ -934,19 +934,19 @@ client.on(`messageReactionAdd`, (reaction, user) => {
                 console.log("receive that")
                 setTimeout(function () {
                     reaction.message.edit(gmuteoff);
-                    client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(everyone, {
+                    client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(reaction.guild.defaultRole, {
                         SEND_MESSAGES: null
                     }))
-                }, 3000)
+                }, 30000)
             } else if (reaction.message.content === gmuteoff) {
                 reaction.message.edit(gmuteomaybe)
                 console.log("receive that off")
                 setTimeout(function () {
                     reaction.message.edit(gmuteoff);
-                    client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(everyone, {
+                    client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(reaction.guild.defaultRole, {
                         SEND_MESSAGES: false
                     }))
-                }, 3000)
+                }, 30000)
             } else if (reaction.message.content === gmuteomaybe) {
                 console.log("receive that sooner")
                 reaction.remove(user)
