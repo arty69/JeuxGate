@@ -934,7 +934,7 @@ client.on(`messageReactionAdd`, (reaction, user) => {
                 console.log("receive that")
                 setTimeout(function () {
                     reaction.message.edit(gmuteoff);
-                    client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(reaction.guild.defaultRole, {
+                    client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(reaction.message.channel.guild.defaultRole, {
                         SEND_MESSAGES: null
                     }))
                 }, 30000)
@@ -944,7 +944,7 @@ client.on(`messageReactionAdd`, (reaction, user) => {
                 console.log("receive that off")
                 setTimeout(function () {
                     reaction.message.edit(gmuteoff);
-                    client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(reaction.guild.defaultRole, {
+                    client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(reaction.message.channel.guild.defaultRole, {
                         SEND_MESSAGES: false
                     }))
                 }, 30000)
