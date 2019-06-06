@@ -924,9 +924,9 @@ client.on(`guildCreate`, guild => {
 
 client.on(`messageReactionAdd`, (reaction, user) => {
     if (reaction.message.id === "585895219455721473") {
-        const gmuteon = "**Modération** \r\n <:emoji_vert:561463156434796545> **Mute global**%nCette option permet de rendre tout le monde muet, partout\r\n\r\n<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours"
-        const gmuteoff = "**Modération** \r\n <:emoji_rouge:561463105083670528> **Mute global**%nCette option permet de rendre tout le monde muet, partout\r\n\r\n<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours"
-        const gmuteomaybe = "**Modération** \r\n <:emoji_bleu:561463041028390922> **Mute global**%nCette option permet de rendre tout le monde muet, partout\r\n\r\n<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours"
+        const gmuteon = "**Modération** \r\n <:emoji_vert:561463156434796545> **Mute global**\r\nCette option permet de rendre tout le monde muet, partout\r\n\r\n<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours"
+        const gmuteoff = "**Modération** \r\n <:emoji_rouge:561463105083670528> **Mute global**\r\nCette option permet de rendre tout le monde muet, partout\r\n\r\n<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours"
+        const gmuteomaybe = "**Modération** \r\n <:emoji_bleu:561463041028390922> **Mute global**\r\nCette option permet de rendre tout le monde muet, partout\r\n\r\n<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours"
         if (client.guilds.get("474693373287071745").members.get(user.id).roles.some(rolex => rolex.name === "Membre Staff")) {
 
             if (reaction.message.content === gmuteon) {
