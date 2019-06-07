@@ -951,7 +951,7 @@ client.on(`messageReactionAdd`, (reaction, user) => {
 						client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(reaction.message.channel.guild.defaultRole, {
 							SEND_MESSAGES: false
 						}))
-					}, 30000)
+					}, 7000)
 					return
 				} else if (reaction.message.content.includes("<:emoji_bleu:561463041028390922> **Mute global (🔇)**")) {
 					console.log("receive that sooner")
