@@ -914,18 +914,18 @@ client.on("channelUpdate", function (oldChannel, newChannel) {
 */
 client.on("messageReactionAdd", (reaction, user) => {
     if (reaction.message.id === "585895219455721473") {
-        const gmuteon = "**Modération** \r\n <:emoji_vert:561463156434796545> **Mute global (🔇)**\r\nCette option permet de rendre tout le monde muet, partout\r\n\r\n<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours"
-        const gmuteoff = "**Modération** \r\n\r\n <:emoji_rouge:561463105083670528> **Mute global (🔇)**\r\nCette option permet de rendre tout le monde muet, partout\r\n\r\n<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours"
-        const gmuteomaybe = "**Modération** \r\n <:emoji_bleu:561463041028390922> **Mute global (🔇)**\r\nCette option permet de rendre tout le monde muet, partout\r\n\r\n<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours"
+        const gmuteon = "**Modération** \r\n <:emoji_vert:561463156434796545>**Mute global (🔇)**\r\nCette option permet de rendre tout le monde muet, partout\r\n\r\n<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours"
+        const gmuteoff = "**Modération** \r\n\r\n <:emoji_rouge:561463105083670528>**Mute global (🔇)**\r\nCette option permet de rendre tout le monde muet, partout\r\n\r\n<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours"
+        const gmuteomaybe = "**Modération** \r\n <:emoji_bleu:561463041028390922>**Mute global (🔇)**\r\nCette option permet de rendre tout le monde muet, partout\r\n\r\n<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours"
         if (client.guilds.get("474693373287071745").members.get(user.id).roles.some(rolex => rolex.name === "Membre Staff")) {
 			if(reaction.emoji.name === "🔇"){
 
 				if (reaction.message.content.includes("<:emoji_vert:561463156434796545> **Mute global (🔇)**")) {
-					reaction.message.edit(reaction.message.content.replace(/<:emoji_vert:561463156434796545> **Mute global/gi, "<:emoji_bleu:561463041028390922> **Mute global"))
+					reaction.message.edit(reaction.message.content.replace(/<:emoji_vert:561463156434796545>**Mute global/gi, "<:emoji_bleu:561463041028390922>**Mute global"))
 					console.log("receive that")
 					reaction.remove(user)
 					setTimeout(function () {
-						reaction.message.edit(reaction.message.content.replace(/<:emoji_bleu:561463041028390922> **Mute global|<:emoji_vert:561463156434796545> **Mute global/gi, "<:emoji_rouge:561463105083670528> **Mute global"));
+						reaction.message.edit(reaction.message.content.replace(/<:emoji_bleu:561463041028390922>**Mute global|<:emoji_vert:561463156434796545>**Mute global/gi, "<:emoji_rouge:561463105083670528>**Mute global"));
 						client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(reaction.message.channel.guild.defaultRole, {
 							SEND_MESSAGES: null
 						}));
@@ -933,11 +933,11 @@ client.on("messageReactionAdd", (reaction, user) => {
 					}, 7000)
 					return
 				} else if (reaction.message.content.includes("<:emoji_rouge:561463105083670528> **Mute global (🔇)**")) {
-					reaction.message.edit(reaction.message.content.replace(/<:emoji_rouge:561463105083670528> **Mute global/gi, "<:emoji_bleu:561463041028390922> **Mute global"))
+					reaction.message.edit(reaction.message.content.replace(/<:emoji_rouge:561463105083670528>**Mute global/gi, "<:emoji_bleu:561463041028390922>**Mute global"))
 					console.log("receive that off")
 					reaction.remove(user)
 					setTimeout(function () {
-						reaction.message.edit(reaction.message.content.replace(/<:emoji_bleu:561463041028390922> **Mute global|<:emoji_rouge:561463105083670528> **Mute global/gi, "<:emoji_vert:561463156434796545> **Mute global"));
+						reaction.message.edit(reaction.message.content.replace(/<:emoji_bleu:561463041028390922>**Mute global|<:emoji_rouge:561463105083670528>**Mute global/gi, "<:emoji_vert:561463156434796545>**Mute global"));
 						client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(reaction.message.channel.guild.defaultRole, {
 							SEND_MESSAGES: false
 						}))
