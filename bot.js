@@ -939,15 +939,16 @@ client.on(`messageReactionAdd`, (reaction, user) => {
 						reaction.message.edit(reaction.message.content.replace(/<:emoji_bleu:561463041028390922>|<:emoji_vert:561463156434796545>/gi, "<:emoji_rouge:561463105083670528>"));
 						client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(reaction.message.channel.guild.defaultRole, {
 							SEND_MESSAGES: null
-						}))
+						}));
+						reaction.message.edit(gmuteoff)
 					}, 7000)
 					return
 				} else if (reaction.message.content.includes("<:emoji_rouge:561463105083670528> **Mute global (🔇)**")) {
-					reaction.message.edit(reaction.message.content.replace(/<:emoji_rouge:561463105083670528>/gi, "<:emoji_bleu:561463041028390922>"))
+					reaction.message.edit(reaction.message.content.replace(/<:emoji_rouge:561463105083670528> **Mute global (🔇)**/gi, "<:emoji_bleu:561463041028390922>"))
 					console.log("receive that off")
 					reaction.remove(user)
 					setTimeout(function () {
-						reaction.message.edit(reaction.message.content.replace(/<:emoji_bleu:561463041028390922>|<:emoji_rouge:561463105083670528>/gi, "<:emoji_vert:561463156434796545>"));
+						reaction.message.edit(reaction.message.content.replace(/<:emoji_bleu:561463041028390922> **Mute global (🔇)**|<:emoji_rouge:561463105083670528> **Mute global (🔇)**/gi, "<:emoji_vert:561463156434796545>"));
 						client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(reaction.message.channel.guild.defaultRole, {
 							SEND_MESSAGES: false
 						}))
