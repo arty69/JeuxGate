@@ -684,6 +684,7 @@ client.on("guildDelete", guild => {
     log(`Un nouveau serveur a été retiré, le voici : ` + guild.name, guild.name, 2)
 });
 
+//SK_bot
 
 client.on(`message`, message => {
     if (message.author.id === client.user.id) return
@@ -913,7 +914,7 @@ client.on(`channelUpdate`, function (oldChannel, newChannel) {
         client.guilds.get("563771921812946964").channels.filter(z => z.type === "text" && z.name === oldChannel.name).map(e => e.setName(`${newChannel.name}`).then(v => v.send(renameembed))) // envoier le message en embed
     }
 });
-client.on(`guildCreate`, guild => {
+/*client.on(`guildCreate`, guild => {
     guild.createRole({
         name: 'Membre SK_',
         color: 'DARK_GREEN',
@@ -921,43 +922,48 @@ client.on(`guildCreate`, guild => {
         guild.members.filter(u => client.guilds.get("474693373287071745").members.get(u.id)).filter(u => client.guilds.get("474693373287071745").members.get(u.id).roles.some(z => z.name === "Membre SK_")).map(i => i.addRole(r).catch(O_o => {}))
     }).catch(O_o => {})
 })
-
+*/
 client.on(`messageReactionAdd`, (reaction, user) => {
     if (reaction.message.id === "585895219455721473") {
-        const gmuteon = "**Modération** \r\n <:emoji_vert:561463156434796545> **Mute global**\r\nCette option permet de rendre tout le monde muet, partout\r\n\r\n<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours"
-        const gmuteoff = "**Modération** \r\n <:emoji_rouge:561463105083670528> **Mute global**\r\nCette option permet de rendre tout le monde muet, partout\r\n\r\n<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours"
-        const gmuteomaybe = "**Modération** \r\n <:emoji_bleu:561463041028390922> **Mute global**\r\nCette option permet de rendre tout le monde muet, partout\r\n\r\n<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours"
+        const gmuteon = "**Modération** \r\n <:emoji_vert:561463156434796545> **Mute global (🔇)**\r\nCette option permet de rendre tout le monde muet, partout\r\n\r\n<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours"
+        const gmuteoff = "**Modération** \r\n\r\n <:emoji_rouge:561463105083670528> **Mute global (🔇)**\r\nCette option permet de rendre tout le monde muet, partout\r\n\r\n<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours"
+        const gmuteomaybe = "**Modération** \r\n <:emoji_bleu:561463041028390922> **Mute global (🔇)**\r\nCette option permet de rendre tout le monde muet, partout\r\n\r\n<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours"
         if (client.guilds.get("474693373287071745").members.get(user.id).roles.some(rolex => rolex.name === "Membre Staff")) {
+			if(reaction.emoji.name === "🔇"){
 
-            if (reaction.message.content === gmuteon) {
-                reaction.message.edit(gmuteomaybe)
-                console.log("receive that")
-				reaction.remove(user)
-                setTimeout(function () {
-                    reaction.message.edit(gmuteoff);
-                    client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(reaction.message.channel.guild.defaultRole, {
-                        SEND_MESSAGES: null
-                    }))
-                }, 30000)
-				return
-            } else if (reaction.message.content === gmuteoff) {
-                reaction.message.edit(gmuteomaybe)
-                console.log("receive that off")
-				reaction.remove(user)
-                setTimeout(function () {
-                    reaction.message.edit(gmuteon);
-                    client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(reaction.message.channel.guild.defaultRole, {
-                        SEND_MESSAGES: false
-                    }))
-                }, 30000)
-				return
-            } else if (reaction.message.content === gmuteomaybe) {
-                console.log("receive that sooner")
-                reaction.remove(user)
-                return
-            }
+				if (reaction.message.content.includes("<:emoji_rouge:561463105083670528> **Mute global (🔇)**")) {
+					reaction.message.edit(gmuteomaybe)
+					console.log("receive that")
+					reaction.remove(user)
+					setTimeout(function () {
+						reaction.message.edit(gmuteoff);
+						client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(reaction.message.channel.guild.defaultRole, {
+							SEND_MESSAGES: null
+						}))
+					}, 30000)
+					return
+				} else if (reaction.message.content.includes("<:emoji_rouge:561463105083670528> **Mute global (🔇)**")) {
+					reaction.message.edit(gmuteomaybe)
+					console.log("receive that off")
+					reaction.remove(user)
+					setTimeout(function () {
+						reaction.message.edit(gmuteon);
+						client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(reaction.message.channel.guild.defaultRole, {
+							SEND_MESSAGES: false
+						}))
+					}, 30000)
+					return
+				} else if (reaction.message.content.includes("<:emoji_bleu:561463041028390922> **Mute global (🔇)**")) {
+					console.log("receive that sooner")
+					reaction.remove(user)
+					return
+				}
+				
+			} else {
+				console.log('unknown')
+			}
         } else {
-            user.reply("Vous n'êtes pas un membre du staff")
+            reaction.message.channel.send("Vous n'êtes pas un membre du staff")
         }
 
         console.log("wtf was dat")
@@ -966,6 +972,8 @@ client.on(`messageReactionAdd`, (reaction, user) => {
     }
 });
 
+
+//shruggy
 
 
 client.on(`message`, message => {
