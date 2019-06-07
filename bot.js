@@ -1,7 +1,10 @@
 const Discord = require('discord.js');
 const fs = require('fs');
 const client = new Discord.Client();
-client.login(process.env.TOKEN);
+const events = {
+    MESSAGE_REACTION_ADD: 'messageReactionAdd',
+    MESSAGE_REACTION_REMOVE: 'messageReactionRemove',
+};
 
 
 //ANCHOR Variable globales
@@ -44,7 +47,6 @@ function swap(text) {
     var textreplaced = textreplaced.replace(/tellure|telure|tellur|telur/gi, "te")
     return textreplaced
 }
-//ANCHOR detect
 function dwords(text) {
     if (text === "text") return text
     var textreplaced = swap(text)
@@ -52,15 +54,11 @@ function dwords(text) {
     if (textreplaced.includes("pu et te")) return true
     return false
 }
-
-//ANCHOR I hate those f*cking badwords
 function nobadwords(text) {
     if (text === "text") return text
     var textreplaced = swap(text).replace(/pute|pu et te/gi, "**°°°°**")
     return textreplaced
 }
-
-//ANCHOR pro verification
 function pro(iduser) {
     if (iduser === "iduser") return false;
     if (!client.users.get(iduser)) return false;
@@ -74,7 +72,6 @@ function pro(iduser) {
         return false
     }
 }
-
 function gold(iduser) {
     if (iduser === "iduser") return false;
     if (!client.users.get(iduser)) return false;
@@ -88,9 +85,8 @@ function gold(iduser) {
         return false
     }
 }
-
-//ANCHOR log function
 function log(event, serveur, version) {
+
     if (!event) return;
     if (!serveur) return;
     if (dwords(event)) {
@@ -118,8 +114,12 @@ function log(event, serveur, version) {
     }
 }
 
-//ANCHOR state
-client.on('ready', () => {
+
+//JeuxGate
+
+
+client.login(process.env.TOKEN)
+client.on("ready", () => {
     console.log(`connecté : ${client.user.tag}!`)
     client.user.setPresence({
         game: {
@@ -130,13 +130,7 @@ client.on('ready', () => {
     })
 
 })
-
-const events = {
-    MESSAGE_REACTION_ADD: 'messageReactionAdd',
-    MESSAGE_REACTION_REMOVE: 'messageReactionRemove',
-};
-
-client.on('raw', async event => {
+client.on("raw", async event => {
     if (!events.hasOwnProperty(event.t)) return;
 
     const {
@@ -158,9 +152,7 @@ client.on('raw', async event => {
 
     client.emit(events[event.t], reaction, user);
 });
-
-// ANCHOR commandes
-client.on(`message`, message => {
+client.on("message", message => {
     //anti kikoo
     if (message.author.bot) return;
     if (message.system) return;
@@ -643,8 +635,6 @@ client.on(`message`, message => {
 
     }
 })
-
-//ANCHOR add/remove serveur
 client.on("guildCreate", guild => {
     if (guild.member(client.user).hasPermission("ADMINISTRATOR")) {
         if (guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0) {
@@ -684,9 +674,11 @@ client.on("guildDelete", guild => {
     log(`Un nouveau serveur a été retiré, le voici : ` + guild.name, guild.name, 2)
 });
 
+
 //SK_bot
 
-client.on(`message`, message => {
+
+client.on("message", message => {
     if (message.author.id === client.user.id) return
     if (message.author.bot) return
     //anti botsception
@@ -745,7 +737,7 @@ client.on(`message`, message => {
                 if (client.guilds.get(message.guild.id).members.get(message.author.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")) {
                     client.guilds.get(message.guild.id).members.get(message.author.id).removeRole('566278745766232065').then(z => {
                         message.channel.send("le rôle \"ne pas mentionner\" vous a été retiré !")
-                        var usernot = user.replace(/ \| 🔇/gi, " ")
+                        var usernot = user.replace(/ \| \🔇/gi, " ")
                         client.guilds.get(message.guild.id).members.get(message.author.id).setNickname(usernot)
                     }).catch(O_o => {
                         message.channel.send("Une erreure est survenue, veuillez réessayé")
@@ -789,9 +781,6 @@ client.on(`message`, message => {
                     message.reply("Aucune personne n'est à demute.")
                 }
             }
-            if (message.content === "SK_mes") {
-                message.channel.send(gmuteoff)
-            }
         }
         if (message.mentions.members.size !== 0) {
             if (message.mentions.members.filter(z => client.guilds.get(message.guild.id).members.get(z.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")).size !== 0) {
@@ -834,7 +823,7 @@ client.on(`message`, message => {
         }
     }
 });
-client.on(`guildMemberAdd`, member => {
+client.on("guildMemberAdd", member => {
     if (member.guild.id !== "474693373287071745") {
         if (member.guild.roles.filter(r => r.name === "Membre SK_").size !== 0) {
             if (client.guilds.get("474693373287071745").members.get(member.id).size !== 0) {
@@ -845,7 +834,7 @@ client.on(`guildMemberAdd`, member => {
         }
     }
 })
-client.on(`channelCreate`, channel => {
+client.on("channelCreate", channel => {
     if (channel.guild.id !== "474693373287071745") return
     if (client.guilds.get("563771921812946964").channels.filter(z => z.type === "text" && z.name === channel.name).size === 0) {
         client.guilds.get("563771921812946964").createChannel(channel.name, 'text', [{ //créer le salon
@@ -867,7 +856,7 @@ client.on(`channelCreate`, channel => {
         client.guilds.get("563771921812946964").channels.filter(z => z.type === "text" && z.name === channel.name).map(e => e.send(createembed)) // envoier le message en embed
     }
 });
-client.on(`channelDelete`, channel => {
+client.on("channelDelete", channel => {
     if (channel.guild.id !== "474693373287071745") return
     if (client.guilds.get("563771921812946964").channels.filter(z => z.type === "text" && z.name === channel.name).size === 0) {
         client.guilds.get("563771921812946964").createChannel(channel.name, 'text', [{ //créer le salon
@@ -889,7 +878,7 @@ client.on(`channelDelete`, channel => {
         client.guilds.get("563771921812946964").channels.filter(z => z.type === "text" && z.name === channel.name).map(e => e.send(deleteembed)) // envoier le message en embed
     }
 });
-client.on(`channelUpdate`, function (oldChannel, newChannel) {
+client.on("channelUpdate", function (oldChannel, newChannel) {
     if (oldChannel.guild.id !== "474693373287071745") return
     if (oldChannel.name === newChannel.name) return
     if (oldChannel.deleted) return
@@ -914,7 +903,7 @@ client.on(`channelUpdate`, function (oldChannel, newChannel) {
         client.guilds.get("563771921812946964").channels.filter(z => z.type === "text" && z.name === oldChannel.name).map(e => e.setName(`${newChannel.name}`).then(v => v.send(renameembed))) // envoier le message en embed
     }
 });
-/*client.on(`guildCreate`, guild => {
+/*client.on("guildCreate", guild => {
     guild.createRole({
         name: 'Membre SK_',
         color: 'DARK_GREEN',
@@ -923,7 +912,7 @@ client.on(`channelUpdate`, function (oldChannel, newChannel) {
     }).catch(O_o => {})
 })
 */
-client.on(`messageReactionAdd`, (reaction, user) => {
+client.on("messageReactionAdd", (reaction, user) => {
     if (reaction.message.id === "585895219455721473") {
         const gmuteon = "**Modération** \r\n <:emoji_vert:561463156434796545> **Mute global (🔇)**\r\nCette option permet de rendre tout le monde muet, partout\r\n\r\n<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours"
         const gmuteoff = "**Modération** \r\n\r\n <:emoji_rouge:561463105083670528> **Mute global (🔇)**\r\nCette option permet de rendre tout le monde muet, partout\r\n\r\n<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours"
@@ -932,11 +921,11 @@ client.on(`messageReactionAdd`, (reaction, user) => {
 			if(reaction.emoji.name === "🔇"){
 
 				if (reaction.message.content.includes("<:emoji_vert:561463156434796545> **Mute global (🔇)**")) {
-					reaction.message.edit(reaction.message.content.replace(/<:emoji_vert:561463156434796545>/gi, "<:emoji_bleu:561463041028390922>"))
+					reaction.message.edit(reaction.message.content.replace(/<:emoji_vert:561463156434796545> **Mute global/gi, "<:emoji_bleu:561463041028390922> **Mute global"))
 					console.log("receive that")
 					reaction.remove(user)
 					setTimeout(function () {
-						reaction.message.edit(reaction.message.content.replace(/<:emoji_bleu:561463041028390922>|<:emoji_vert:561463156434796545>/gi, "<:emoji_rouge:561463105083670528>"));
+						reaction.message.edit(reaction.message.content.replace(/<:emoji_bleu:561463041028390922> **Mute global|<:emoji_vert:561463156434796545> **Mute global/gi, "<:emoji_rouge:561463105083670528> **Mute global"));
 						client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(reaction.message.channel.guild.defaultRole, {
 							SEND_MESSAGES: null
 						}));
@@ -944,11 +933,11 @@ client.on(`messageReactionAdd`, (reaction, user) => {
 					}, 7000)
 					return
 				} else if (reaction.message.content.includes("<:emoji_rouge:561463105083670528> **Mute global (🔇)**")) {
-					reaction.message.edit(reaction.message.content.replace(/<:emoji_rouge:561463105083670528> **Mute global (🔇)**/gi, "<:emoji_bleu:561463041028390922>"))
+					reaction.message.edit(reaction.message.content.replace(/<:emoji_rouge:561463105083670528> **Mute global/gi, "<:emoji_bleu:561463041028390922> **Mute global"))
 					console.log("receive that off")
 					reaction.remove(user)
 					setTimeout(function () {
-						reaction.message.edit(reaction.message.content.replace(/<:emoji_bleu:561463041028390922> **Mute global (🔇)**|<:emoji_rouge:561463105083670528> **Mute global (🔇)**/gi, "<:emoji_vert:561463156434796545>"));
+						reaction.message.edit(reaction.message.content.replace(/<:emoji_bleu:561463041028390922> **Mute global|<:emoji_rouge:561463105083670528> **Mute global/gi, "<:emoji_vert:561463156434796545> **Mute global"));
 						client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(reaction.message.channel.guild.defaultRole, {
 							SEND_MESSAGES: false
 						}))
@@ -964,7 +953,7 @@ client.on(`messageReactionAdd`, (reaction, user) => {
 				console.log('unknown')
 			}
         } else {
-            reaction.message.channel.send("Vous n'êtes pas un membre du staff")
+            reaction.message.channel.send(fryourperm)
         }
 
         console.log("wtf was dat")
@@ -977,7 +966,7 @@ client.on(`messageReactionAdd`, (reaction, user) => {
 //shruggy
 
 
-client.on(`message`, message => {
+client.on("message", message => {
     if (message.author.id === client.user.id) return
     if (message.channel.id === "428569427718438933") {
         if (message.content === "ok" || message.content === "Ok" || message.content === "OK") {
@@ -1023,8 +1012,7 @@ client.on(`message`, message => {
     }
 
 });
-
-client.on(`messageReactionAdd`, (reaction, user) => {
+client.on("messageReactionAdd", (reaction, user) => {
     if (reaction.message.id === "503157906116575273") {
         if (reaction.emoji.name === "0⃣") {
             if (client.guilds.get(reaction.message.guild.id).members.get(user.id).roles.some(z => z.id === "503157947052982283")) {
