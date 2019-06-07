@@ -937,7 +937,7 @@ client.on("messageReactionAdd", (reaction, user) => {
 					console.log("receive that off")
 					reaction.remove(user)
 					setTimeout(function () {
-						reaction.message.edit(reaction.message.content.replace(/<:emoji_bleu:561463041028390922>**Mute|<:emoji_rouge:561463105083670528>\*\*Mute/gi, "<:emoji_vert:561463156434796545>**Mute"));
+						reaction.message.edit(reaction.message.content.replace(/<:emoji_bleu:561463041028390922>**Mute|<:emoji_rouge:561463105083670528>\*\*Mute/gi, "<:emoji_vert:561463156434796545>\*\*Mute"));
 						client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(reaction.message.channel.guild.defaultRole, {
 							SEND_MESSAGES: false
 						}))
