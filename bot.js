@@ -920,7 +920,7 @@ client.on("messageReactionAdd", (reaction, user) => {
         if (client.guilds.get("474693373287071745").members.get(user.id).roles.some(rolex => rolex.name === "Membre Staff")) {
 			if(reaction.emoji.name === "🔇"){
 
-				if (reaction.message.content.includes("<:emoji_vert:561463156434796545> **Mute global (🔇)**")) {
+				if (reaction.message.content.includes("<:emoji_vert:561463156434796545>**Mute global (🔇)**")) {
 					reaction.message.edit(reaction.message.content.replace(/<:emoji_vert:561463156434796545>\*\*Mute/gi, "<:emoji_bleu:561463041028390922>**Mute"))
 					console.log("receive that")
 					reaction.remove(user)
@@ -932,7 +932,7 @@ client.on("messageReactionAdd", (reaction, user) => {
 						reaction.message.edit(gmuteoff)
 					}, 7000)
 					return
-				} else if (reaction.message.content.includes("<:emoji_rouge:561463105083670528> **Mute global (🔇)**")) {
+				} else if (reaction.message.content.includes("<:emoji_rouge:561463105083670528>**Mute global (🔇)**")) {
 					reaction.message.edit(reaction.message.content.replace(/<:emoji_rouge:561463105083670528>\*\*Mute/gi, "<:emoji_bleu:561463041028390922>**Mute"))
 					console.log("receive that off")
 					reaction.remove(user)
