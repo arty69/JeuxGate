@@ -130,7 +130,7 @@ client.on("ready", () => {
 			},
 			status: 'dnd'
 		}).then(z => {
-			setTimeout({
+			setTimeout( function(){
 				client.user.setPresence({
 				game: {
 						name: `${client.guilds.array().length} serveurs | ${client.users.size} utilisateurs`,
@@ -138,7 +138,7 @@ client.on("ready", () => {
 					},
 					status: 'dnd'
 				}).then(z => {
-					setTimeout({
+					setTimeout( function(){
 						client.user.setPresence({
 						game: {
 								name: `JeuxGate par jéhèndé#3800`,
