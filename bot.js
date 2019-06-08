@@ -10,9 +10,10 @@ const events = {
 //ANCHOR Variable globales
 var prefix = "jg/";
 var muted = JSON.parse(fs.readFileSync('muted.json', 'utf-8'));
-var vers = "1.3";
+var vers = "1.3.1";
 var fryourperm = "⚠️**Hey ...** Je suis désolé or, vous n'avez pas la permission d'exécuter celà !";
 var frmyperm = "⚠️**Hey ...** Je suis désolé or, je n'ai pas la permission d'exécuter celà !";
+
 
 //ANCHOR swaping letters
 function swap(text) {
@@ -121,6 +122,36 @@ function log(event, serveur, version) {
 client.login(process.env.TOKEN)
 client.on("ready", () => {
     console.log(`connecté : ${client.user.tag}!`)
+	while(true){
+		client.user.setPresence({
+        game: {
+				name: `les gens taper ${prefix}help | version : ${vers}`,
+				type: 'WATCHING'
+			},
+			status: 'dnd'
+		}).then(z => {
+			setTimeout({
+				client.user.setPresence({
+				game: {
+						name: `${client.guilds.array().length} serveurs | ${client.users.size} utilisateurs`,
+						type: 'WATCHING'
+					},
+					status: 'dnd'
+				}).then(z => {
+					setTimeout({
+						client.user.setPresence({
+						game: {
+								name: `JeuxGate par jéhèndé#3800`,
+								type: 'WATCHING'
+							},
+							status: 'dnd'
+						})
+						setTimeout({}, 10000)
+						}, 10000)
+			}}, 10000)
+		}
+	}
+	
     client.user.setPresence({
         game: {
             name: `les gens taper ${prefix}help | version : ${vers}`,
@@ -925,7 +956,6 @@ client.on("messageReactionAdd", (reaction, user) => {
 					console.log("receive that")
 					reaction.remove(user)
 					setTimeout(function () {
-						reaction.message.edit(reaction.message.content.replace(/<:emoji_bleu:561463041028390922>\*\*Mute/gi, "<:emoji_rouge:561463105083670528>**Mute"));
 						client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(reaction.message.channel.guild.defaultRole, {
 							SEND_MESSAGES: null
 						}));
@@ -943,7 +973,7 @@ client.on("messageReactionAdd", (reaction, user) => {
 						}))
 					}, 7000)
 					return
-				} else if (reaction.message.content.includes("<:emoji_bleu:561463041028390922> **Mute global (🔇)**")) {
+				} else if (reaction.message.content.includes("<:emoji_bleu:561463041028390922>**Mute global (🔇)**")) {
 					console.log("receive that sooner")
 					reaction.remove(user)
 					return
