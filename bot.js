@@ -148,8 +148,9 @@ client.on("ready", () => {
 						})
 						setTimeout({}, 10000)
 						}, 10000)
-			}}, 10000)
-		}
+				)}
+			}, 10000)
+		)}
 	}
 	
     client.user.setPresence({
