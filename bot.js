@@ -148,18 +148,11 @@ client.on("ready", () => {
 						})
 						setTimeout({}, 10000)
 						}, 10000)
-				)}
+				})
 			}, 10000)
-		)}
+		})
 	}
 	
-    client.user.setPresence({
-        game: {
-            name: `les gens taper ${prefix}help | version : ${vers}`,
-            type: 'WATCHING'
-        },
-        status: 'dnd'
-    })
 
 })
 client.on("raw", async event => {
