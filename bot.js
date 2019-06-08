@@ -6,7 +6,7 @@ const events = {
     MESSAGE_REACTION_REMOVE: 'messageReactionRemove',
 };
 
-
+console.log(process.env.TOKEN)
 //ANCHOR Variable globales
 var prefix = "jg/";
 var muted = JSON.parse(fs.readFileSync('muted.json', 'utf-8'));
@@ -114,36 +114,6 @@ function log(event, serveur, version) {
         log.map(z => z.send(log_embed).catch(O_o => {}))
     }
 }
-function stat1(){
-    client.user.setPresence({
-        game: { 
-            name: `les gens taper ${prefix}help | version : ${vers}`,
-            type: 'WATCHING' 
-        },
-        status: 'dnd' 
-    })
-    setTimeout(stat2(), 10000)
-}
-function stat2(){
-    client.user.setPresence({
-        game: { 
-            name: `${client.guilds.array().length} serveurs | ${client.users.size} utilisateurs`,
-            type: 'WATCHING' 
-        },
-        status: 'dnd' 
-    })
-    setTimeout(stat3(), 10000)
-}
-function stat3(){
-    client.user.setPresence({
-        game: { 
-            name: `être fait par jéhèndé#3800`,
-            type: 'PLAYING' 
-        },
-        status: 'dnd' 
-    })
-    setTimeout(stat1(), 10000)
-}
 
 //JeuxGate
 
@@ -151,8 +121,29 @@ function stat3(){
 client.login(process.env.TOKEN)
 client.on("ready", () => {
     console.log(`connecté : ${client.user.tag}!`)
-    stat1()
-})
+    
+    setInterval(function() {
+
+        var statut = [
+          `les gens taper ${prefix}help | version : ${vers}`, 
+          `${client.guilds.array().length} serveurs | ${client.users.size} utilisateurs`,
+          `être fait par jéhèndé#3800`];
+        var view = [
+            `WATCHING`, 
+            `WATCHING`,
+            `PLAYING`];
+
+        var random = Math.floor(Math.random()*(statut.length));
+
+        client.user.setPresence({ 
+                game: { 
+                name: statut[random],
+                type: view[random]
+                },
+                status: 'dnd'
+        });
+    }, 30000); 
+});
 client.on("raw", async event => {
     if (!events.hasOwnProperty(event.t)) return;
 
@@ -657,7 +648,7 @@ client.on("message", message => {
         }
 
     }
-})
+});
 client.on("guildCreate", guild => {
     if (guild.member(client.user).hasPermission("ADMINISTRATOR")) {
         if (guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0) {
@@ -856,7 +847,7 @@ client.on("guildMemberAdd", member => {
             }
         }
     }
-})
+});
 client.on("channelCreate", channel => {
     if (channel.guild.id !== "474693373287071745") return
     if (client.guilds.get("563771921812946964").channels.filter(z => z.type === "text" && z.name === channel.name).size === 0) {
@@ -933,7 +924,7 @@ client.on("channelUpdate", function (oldChannel, newChannel) {
     }).then(r => {
         guild.members.filter(u => client.guilds.get("474693373287071745").members.get(u.id)).filter(u => client.guilds.get("474693373287071745").members.get(u.id).roles.some(z => z.name === "Membre SK_")).map(i => i.addRole(r).catch(O_o => {}))
     }).catch(O_o => {})
-})
+});
 */
 client.on("messageReactionAdd", (reaction, user) => {
     if (reaction.message.id === "585895219455721473") {
