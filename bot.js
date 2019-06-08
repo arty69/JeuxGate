@@ -114,7 +114,36 @@ function log(event, serveur, version) {
         log.map(z => z.send(log_embed).catch(O_o => {}))
     }
 }
-
+function stat1(){
+    client.user.setPresence({
+        game: { 
+            name: `les gens taper ${prefix}help | version : ${vers}`,
+            type: 'WATCHING' 
+        },
+        status: 'dnd' 
+    })
+    setTimeout(stat2(), 10000)
+}
+function stat2(){
+    client.user.setPresence({
+        game: { 
+            name: `${client.guilds.array().length} serveurs | ${client.users.size} utilisateurs`,
+            type: 'WATCHING' 
+        },
+        status: 'dnd' 
+    })
+    setTimeout(stat3(), 10000)
+}
+function stat3(){
+    client.user.setPresence({
+        game: { 
+            name: `être fait par jéhèndé#3800`,
+            type: 'PLAYING' 
+        },
+        status: 'dnd' 
+    })
+    setTimeout(stat1(), 10000)
+}
 
 //JeuxGate
 
@@ -122,38 +151,7 @@ function log(event, serveur, version) {
 client.login(process.env.TOKEN)
 client.on("ready", () => {
     console.log(`connecté : ${client.user.tag}!`)
-	while(true){
-		client.user.setPresence({
-        game: {
-				name: `les gens taper ${prefix}help | version : ${vers}`,
-				type: 'WATCHING'
-			},
-			status: 'dnd'
-		}).then(z => {
-			setTimeout( function(){
-				client.user.setPresence({
-				game: {
-						name: `${client.guilds.array().length} serveurs | ${client.users.size} utilisateurs`,
-						type: 'WATCHING'
-					},
-					status: 'dnd'
-				}).then(z => {
-					setTimeout( function(){
-						client.user.setPresence({
-						game: {
-								name: `JeuxGate par jéhèndé#3800`,
-								type: 'WATCHING'
-							},
-							status: 'dnd'
-						})
-						setTimeout({}, 10000)
-						}, 10000)
-				})
-			}, 10000)
-		})
-	}
-	
-
+    stat1()
 })
 client.on("raw", async event => {
     if (!events.hasOwnProperty(event.t)) return;
