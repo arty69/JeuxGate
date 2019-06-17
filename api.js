@@ -27,6 +27,6 @@ client.on("ready", () => {
             res.write("404");
             res.end();
         }
-    }).listen(5000); 
+    }).listen(process.env.PORT || 80); 
 
 });
