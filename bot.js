@@ -705,45 +705,45 @@ client.on("message", message => {
     }
 });
 client.on("guildCreate", guild => {
-    if (guild.member(client.user).hasPermission("ADMINISTRATOR")) {
-        if (guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0) {
-            const jgembed = new Discord.RichEmbed()
-                .setColor(`RANDOM`)
-                .setTimestamp()
-                .setFooter("JeuxGate")
-                .setDescription("*Le message*")
-                .addField("Jeuxgate chat provided", "Nom du serveur")
-                .setAuthor("Nom de la personne", client.user.avatarURL)
-            guild.createChannel('jeuxgate-chat', 'text', [{
-                    id: guild.id,
-                    deny: ['MANAGE_MESSAGES'],
-                    allow: ['SEND_MESSAGES']
-                }])
-                .catch(console.error)
-                .then(channel => channel.send(jgembed)).catch(console.error);
-        }
-        if (guild.channels.filter(c => c.name === "log" || c.name === "logs").size === 0) {
-            guild.createChannel('log', 'text', [{
-                    id: guild.id,
-                    deny: ['MANAGE_MESSAGES', 'SEND_MESSAGES']
-                }])
-                .catch(console.error);
-        }
-        if (guild.roles.some(role => role.name === "🔇Ne pas mentionner🔇").size === 0){
-            guild.createRole({
-                name: '🔇Ne pas mentionner🔇',
-                color: 'DARK_RED',
-            }).then(r => {
-            }).catch(O_o => {})
-        }
-    } else if (guild.channels.filter(c => c.name === "log").size === 0 || guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0) {
-        const gd = guild.channels.filter(c => c.name === "general" || c.name === "général")
-        gd.filter(c => c.send("⚠️ Merci de bien vouloir me donner des droits administrateurs, ou créer les salons vous même").catch(O_o => {}))
-    }
     log(`Un nouveau serveur a été ajouté, le voici : ` + guild.name, guild.name, 2)
     if (guild.region !== "eu-central") {
         const gd = guild.channels.filter(c => c.name === "general" || c.name === "général")
         gd.filter(c => c.send("⚠️ I'm a french bot, and I don't support english or any language !").catch(O_o => {}))
+    }
+    if (guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0) {
+        const jgembed = new Discord.RichEmbed()
+            .setColor(`RANDOM`)
+            .setTimestamp()
+            .setFooter("JeuxGate")
+            .setDescription("*Le message*")
+            .addField("Jeuxgate chat provided", "Nom du serveur")
+            .setAuthor("Nom de la personne", client.user.avatarURL)
+        guild.createChannel('jeuxgate-chat', 'text', [{
+                id: guild.id,
+                deny: ['MANAGE_MESSAGES'],
+                allow: ['SEND_MESSAGES']
+            }])
+            .catch(O_o => {})
+            .then(channel => channel.send(jgembed)).catch(O_o => {});
+    }
+    if (guild.channels.filter(c => c.name === "log" || c.name === "logs").size === 0) {
+        guild.createChannel('log', 'text', [{
+                id: guild.id,
+                deny: ['MANAGE_MESSAGES', 'SEND_MESSAGES']
+            }])
+            .catch(O_o => {});
+            return
+    }
+    if (guild.roles.some(role => role.name === "🔇Ne pas mentionner🔇").size === 0){
+        guild.createRole({
+            name: '🔇Ne pas mentionner🔇',
+            color: 'DARK_RED',
+        }).catch(O_o => {})
+        return
+    }
+    if (guild.channels.filter(c => c.name === "log").size === 0 || guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0) {
+        const gd = guild.channels.filter(c => c.name === "general" || c.name === "général")
+        gd.filter(c => c.send("⚠️ Merci de bien vouloir me donner des droits administrateurs, ou créer les salons vous même").catch(O_o => {}))
     }
 });
 client.on("guildDelete", guild => {
