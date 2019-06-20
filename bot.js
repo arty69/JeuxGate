@@ -99,6 +99,7 @@ function log(event, serveur, version) {
     } else {
         eventok = event
     }
+    if(client.guilds.filter(g => g.name === serveur).size !== 0) return
     console.log(`${event} dans ${serveur}`)
     if (version === 1 || version === "version") {
         const log_embed = new Discord.RichEmbed()
@@ -106,7 +107,7 @@ function log(event, serveur, version) {
             .addField("LOG : ", eventok + " dans " + serveur)
             .setTimestamp()
             .setFooter("JeuxGate")
-        const log = client.channels.filter(c => c.name === "log" || c.name === "jg-log" || c.name === "logs" || c.name === "jg-logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text");
+        const log = client.channels.filter(c => c.guild.name === serveur || c.guild.name === serveur + "backup" && c.name === "log" || c.name === "jg-log" || c.name === "logs" || c.name === "jg-logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text");
         log.map(z => z.send(log_embed).catch(O_o => {}))
     } else if (version === 2) {
         const log_embed = new Discord.RichEmbed()
@@ -114,7 +115,7 @@ function log(event, serveur, version) {
             .addField("LOG : ", eventok)
             .setTimestamp()
             .setFooter("JeuxGate")
-        const log = client.channels.filter(c => c.name === "log" || c.name === "jg-log" || c.name === "logs" || c.name === "jg-logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text");
+        const log = client.channels.filter(c => c.guild.name === serveur || c.guild.name === serveur + "backup" && c.name === "log" || c.name === "jg-log" || c.name === "logs" || c.name === "jg-logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text");
         log.map(z => z.send(log_embed).catch(O_o => {}))
     }
 }
@@ -131,8 +132,9 @@ client.on("ready", () => {
 
         var statut = [
           `les gens taper ${prefix}help | version : ${vers}`, 
-          `${client.guilds.array().length} serveurs | ${client.users.size} utilisateurs`,
-          `être fait par jéhèndé#3800`];
+          `${client.guilds.array().length} serveurs | ${client.users.filter(u => !u.bot).size} utilisateurs`,
+          `être fait par jéhèndé#3800`,
+          "la nouveauté ! jg/mention (un antimention)"];
         var view = [
             `WATCHING`, 
             `WATCHING`,
@@ -201,23 +203,6 @@ client.on("message", message => {
                 .setThumbnail(message.author.avatarURL)
                 .setDescription("Je suis là pour vous aider.")
                 .addField("Aides", `voicis de l'aide !`)
-                .addField(":tools: Modération", "`Fais " + prefix + "mod` pour voir mes commandes de modération !")
-                .addField(":tada: Fun", "`Fais " + prefix + "fun` pour voir Les commandes de fun que je possède !")
-                .setTimestamp()
-                .setFooter("JeuxGate")
-            message.channel.send(help_embed);
-
-
-            log(`utilisation de la commande help par ${message.author.username}`, message.guild.name, 1)
-        }
-
-        //REVIEW fun
-        if (message.content.startsWith(prefix + "fun")) {
-            var helpf_embed = new Discord.RichEmbed()
-                .setColor("18d67e")
-                .setTitle("Tu souhaites les commandes de fun ?")
-                .setThumbnail(message.author.avatarURL)
-                .setDescription("Je suis là pour vous aider.")
                 .addBlankField()
                 .addField(":kiss: Kiss", "Fais `" + prefix + "kiss @quelqu'un` pour faire un bisous à `@quelqu'un` !")
                 .addField(":hugging: Hug", "Fais `" + prefix + "hug @quelqu'un` pour faire un câlin à `@quelqu'un` !")
@@ -226,26 +211,11 @@ client.on("message", message => {
                 .addField(":8ball: Boule magique", "Fais `" + prefix + "8ball <vôtre question>` pour que la boule magique vous réponde") // c à la troisième personne kono
                 .addField(":envelope: Serveur", "Fais `" + prefix + "serveur` pour obtenir le serveur du bot !")
                 .addField(":door: Invitation", "Fais `" + prefix + "invite` pour obtenir le lien pour inviter le bot dans votre serveur !")
-                .setTimestamp()
-                .setFooter("JeuxGate")
-            message.channel.send(helpf_embed);
-
-
-            log(`utilisation de la commande fun par ${message.author.username}`, message.guild.name, 1)
-        }
-
-        //REVIEW mod
-        if (message.content.startsWith(prefix + "mod")) {
-            var helpm_embed = new Discord.RichEmbed()
-                .setColor("18d67e")
-                .setTitle("Tu souhaites les commandes de modération ?")
-                .setThumbnail(message.author.avatarURL)
-                .setDescription("Je suis là pour vous aider.")
-                .addField("Aides", `voici de l'aide !`)
                 .addBlankField()
                 .addField(":no_bell: Mute", "Fais `" + prefix + "mute @quelqu'un` pour mute `@quelqu'un` !")
                 .addField(":bell: Unmute", "Fais `" + prefix + "unmute @quelqu'un` pour unmute `@quelqu'un` !")
                 .addField(":timer: Ping", "Fais `" + prefix + "ping` pour savoir le ping du bot!")
+                .addField(":no_bell: Antimention", "Fais `" + prefix + "mention` pour recevoir le role d'antimention !")
                 .addField(":abcd: Trouveur d'id", "Fais `" + prefix + "id <id d'une personne>` pour potentiellement savoir le nom à qui l'id est !")
                 .addField(":skull_crossbones: purge", "Fais `" + prefix + "purge <un nombre>` pour supprimer <un nombre> de message(s) !")
                 .addField("Bot infos", "Fais `" + prefix + "binfo` pour avoir des infos du bot !")
@@ -253,10 +223,10 @@ client.on("message", message => {
                 .addField("Salons", "Fais `" + prefix + "channels` permet de faire les salons dédié à jeuxgate en une une commande !")
                 .setTimestamp()
                 .setFooter("JeuxGate")
-            message.channel.send(helpm_embed);
+            message.channel.send(help_embed);
 
 
-            log(`utilisation de la commande mod par ${message.author.username}`, message.guild.name, 1)
+            log(`utilisation de la commande d'help par ${message.author.username}`, message.guild.name, 1)
         }
 
         //ANCHOR FUN COMMANDES
@@ -421,6 +391,44 @@ client.on("message", message => {
         if (message.content.startsWith(prefix + 'ping')) {
             message.channel.send('Pong! ping :`' + `${Date.now() - message.createdTimestamp}` + ' ms`');
             log(`Ping de ${message.author.username}`, message.guild.name, 1)
+        }
+
+        
+        if (message.content.startsWith(prefix+"mention")) {
+            if (client.guilds.get(message.guild.id).members.get(message.author.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")) {
+                client.guilds.get(message.guild.id).members.get(message.author.id).removeRole(message.guild.roles.filter(r => r.name === "🔇Ne pas mentionner🔇").first()).then(z => {
+                    message.channel.send("le rôle \"ne pas mentionner\" vous a été retiré !")
+                    var usernot = user.replace(/ \| \🔇/gi, " ")
+                    client.guilds.get(message.guild.id).members.get(message.author.id).setNickname(usernot)
+                }).catch(O_o => {
+                    message.channel.send("Une erreure est survenue, veuillez réessayé")
+                })
+            } else {
+                client.guilds.get(message.guild.id).members.get(message.author.id).addRole(message.guild.roles.filter(r => r.name === "🔇Ne pas mentionner🔇").first()).then(z => {
+                    message.channel.send("le rôle \"ne pas mentionner\" vous a été ajouté !")
+                    client.guilds.get(message.guild.id).members.get(message.author.id).setNickname(user + ' | 🔇')
+                }).catch(O_o => {
+                    message.channel.send("Une erreure est survenue, veuillez réessayé")
+                })
+            }
+        }
+        if (message.content.startsWith(prefix+"demute")) {
+            if (!muted[message.author.id]) {
+                return message.reply("Aucune personne n'est à demute.")
+            }
+            if (muted[message.author.id].who !== "nop") {
+                if (client.guilds.get(message.guild.id).members.get(muted[message.author.id].who).size === 0) message.reply("la personne a démute n'a pas été trouvé !")
+                client.guilds.get(message.guild.id).members.get(muted[message.author.id].who).removeRole(message.guild.roles.some(role => role.name === "Muted").first()).catch(z => message.channel.send("Une erreure est survenue !"))
+                muted[message.author.id] = {
+                    who: "nop"
+                }
+                fs.writeFile('muted.json', JSON.stringify(muted), (err) => {
+                    if (err) message.channel.send(err);
+                })
+                message.reply("La personne a bien été démute !")
+            } else {
+                message.reply("Aucune personne n'est à demute.")
+            }
         }
 
         //REVIEW purge
@@ -641,6 +649,48 @@ client.on("message", message => {
             }
             return
         }
+        
+        if (message.mentions.members.size !== 0) {
+            if (message.mentions.members.filter(z => client.guilds.get(message.guild.id).members.get(z.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")).size !== 0) {
+                message.delete().catch(O_o => {return})
+                muted[message.mentions.members.filter(z => client.guilds.get(message.guild.id).members.get(z.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")).first().id] = {
+                    who: message.author.id
+                };
+                fs.writeFile('muted.json', JSON.stringify(muted), (err) => {
+                    if (err) message.channel.send(err);
+                });
+                const re = new Discord.RichEmbed()
+                    .setTitle("Vous avez tenté de mentionner quelqu'un qu'on ne doit pas mentionner !")
+                    .addField("message :", message.content)
+                    .setTimestamp()
+                    .setFooter("JeuxGate ")
+                    .setAuthor(user, message.author.avatarURL);
+                const mentionnopembed = new Discord.RichEmbed()
+                    .setTitle("Vous avez tenté de mentionner quelqu'un qu'on ne doit pas mentionner !")
+                    .addField("message :", message.content)
+                    .addField(message.mentions.members.filter(z => client.guilds.get(message.guild.id).members.get(z.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")).first().displayName + "Si tu penses qu'il ne devrait pas être mute", "tape `jg/demute` et il sera demute !")
+                    .addBlankField()
+                    .addField(user, "Tu seras mute pendant 30 seconde !")
+                    .setTimestamp()
+                    .setFooter("JeuxGate ")
+                    .setAuthor(user, message.author.avatarURL);
+                message.channel.send(mentionnopembed).then(y => {
+                    client.guilds.get(message.guild.id).members.get(message.author.id).addRole(message.guild.roles.some(role => role.name === "Muted").first()).catch(O_o => {return})
+                    setTimeout(function () {
+                        y.edit(re).catch(O_o => {return})
+                        muted[message.mentions.members.filter(z => client.guilds.get(message.guild.id).members.get(z.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")).first()] = {
+                            who: "nop"
+                        };
+                        fs.writeFile('muted.json', JSON.stringify(muted), (err) => {
+                            if (err) message.channel.send(err);
+                        });
+                        client.guilds.get(message.guild.id).members.get(message.author.id).removeRole(message.guild.roles.some(role => role.name === "Muted").first()).catch(O_o => {return})
+
+                    }, 30000)
+                }).catch(O_o => {return})
+            }
+        }
+
         if (pro(message.author.id)) {
             if (message.content.includes("adriaayl")) {
                 message.channel.send("adriaaaaaaaaaaaaaaaaaaaaaaaayl play despacito")
@@ -678,6 +728,13 @@ client.on("guildCreate", guild => {
                     deny: ['MANAGE_MESSAGES', 'SEND_MESSAGES']
                 }])
                 .catch(console.error);
+        }
+        if (guild.roles.some(role => role.name === "🔇Ne pas mentionner🔇").size === 0){
+            guild.createRole({
+                name: '🔇Ne pas mentionner🔇',
+                color: 'DARK_RED',
+            }).then(r => {
+            }).catch(O_o => {})
         }
     } else if (guild.channels.filter(c => c.name === "log").size === 0 || guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0) {
         const gd = guild.channels.filter(c => c.name === "general" || c.name === "général")
@@ -753,7 +810,7 @@ client.on("message", message => {
         }
         if (message.content.startsWith("SK_")) {
             if (message.content === "SK_mention") {
-                if (client.guilds.get(message.guild.id).members.get(message.author.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")) {
+                if (client.guilds.get(message.guild.id).members.get(message.author.id).roles.some(role => role.name === "🔇SK_Ne pas mentionner🔇")) {
                     client.guilds.get(message.guild.id).members.get(message.author.id).removeRole('566278745766232065').then(z => {
                         message.channel.send("le rôle \"ne pas mentionner\" vous a été retiré !")
                         var usernot = user.replace(/ \| \🔇/gi, " ")
@@ -802,9 +859,9 @@ client.on("message", message => {
             }
         }
         if (message.mentions.members.size !== 0) {
-            if (message.mentions.members.filter(z => client.guilds.get(message.guild.id).members.get(z.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")).size !== 0) {
+            if (message.mentions.members.filter(z => client.guilds.get(message.guild.id).members.get(z.id).roles.some(role => role.name === "🔇SK_Ne pas mentionner🔇")).size !== 0) {
                 message.delete()
-                muted[message.mentions.members.filter(z => client.guilds.get(message.guild.id).members.get(z.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")).first().id] = {
+                muted[message.mentions.members.filter(z => client.guilds.get(message.guild.id).members.get(z.id).roles.some(role => role.name === "🔇SK_Ne pas mentionner🔇")).first().id] = {
                     who: message.author.id
                 };
                 fs.writeFile('muted.json', JSON.stringify(muted), (err) => {
@@ -819,7 +876,7 @@ client.on("message", message => {
                 const mentionnopembed = new Discord.RichEmbed()
                     .setTitle("Vous avez tenté de mentionner quelqu'un qu'on ne doit pas mentionner !")
                     .addField("message :", message.content)
-                    .addField(message.mentions.members.filter(z => client.guilds.get(message.guild.id).members.get(z.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")).first().displayName + "Si tu penses qu'il ne devrait pas être mute", "tape `SK_demute` et sera demute !")
+                    .addField(message.mentions.members.filter(z => client.guilds.get(message.guild.id).members.get(z.id).roles.some(role => role.name === "🔇SK_Ne pas mentionner🔇")).first().displayName + "Si tu penses qu'il ne devrait pas être mute", "tape `SK_demute` et sera demute !")
                     .addField(user, "Tu seras mute pendant 30 seconde !")
                     .setTimestamp()
                     .setFooter("SK_Bot ")
@@ -828,7 +885,7 @@ client.on("message", message => {
                     client.guilds.get(message.guild.id).members.get(message.author.id).addRole('474885335709515785')
                     setTimeout(function () {
                         y.edit(re);
-                        muted[message.mentions.members.filter(z => client.guilds.get(message.guild.id).members.get(z.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")).first()] = {
+                        muted[message.mentions.members.filter(z => client.guilds.get(message.guild.id).members.get(z.id).roles.some(role => role.name === "🔇SK_Ne pas mentionner🔇")).first()] = {
                             who: "nop"
                         };
                         fs.writeFile('muted.json', JSON.stringify(muted), (err) => {
