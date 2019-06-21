@@ -14,7 +14,7 @@ console.log(process.env.TOKEN)
 
 var prefix = "jg/";
 var muted = JSON.parse(fs.readFileSync('muted.json', 'utf-8'));
-var vers = "1.3.3";
+var vers = fs.readFileSync('vers', 'utf-8');
 var fryourperm = "⚠️**Hey ...** Je suis désolé or, vous n'avez pas la permission d'exécuter celà !";
 var frmyperm = "⚠️**Hey ...** Je suis désolé or, je n'ai pas la permission d'exécuter celà !";
 
@@ -52,6 +52,7 @@ function swap(text) {
     var textreplaced = textreplaced.replace(/tellure|telure|tellur|telur/gi, "te")
     return textreplaced
 }
+
 function dwords(text) {
     if (text === "text") return text
     var textreplaced = swap(text)
@@ -59,11 +60,13 @@ function dwords(text) {
     if (textreplaced.includes("pu et te")) return true
     return false
 }
+
 function nobadwords(text) {
     if (text === "text") return text
     var textreplaced = swap(text).replace(/pute|pu et te/gi, "**°°°°**")
     return textreplaced
 }
+
 function pro(iduser) {
     if (iduser === "iduser") return false;
     if (!client.users.get(iduser)) return false;
@@ -77,6 +80,7 @@ function pro(iduser) {
         return false
     }
 }
+
 function gold(iduser) {
     if (iduser === "iduser") return false;
     if (!client.users.get(iduser)) return false;
@@ -90,6 +94,7 @@ function gold(iduser) {
         return false
     }
 }
+
 function log(event, serveur, version) {
 
     if (!event) return;
@@ -99,7 +104,7 @@ function log(event, serveur, version) {
     } else {
         eventok = event
     }
-    if(client.guilds.filter(g => g.name === serveur).size !== 0) return
+    if (client.guilds.filter(g => g.name === serveur).size !== 0) return
     console.log(`${event} dans ${serveur}`)
     if (version === 1 || version === "version") {
         const log_embed = new Discord.RichEmbed()
@@ -107,7 +112,7 @@ function log(event, serveur, version) {
             .addField("LOG : ", eventok + " dans " + serveur)
             .setTimestamp()
             .setFooter("JeuxGate")
-        const log = client.channels.filter(c => c.guild.name === serveur || c.guild.name === serveur + "backup" && c.name === "log" || c.name === "jg-log" || c.name === "logs" || c.name === "jg-logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text");
+        const log = client.channels.filter(c => c.guild.name === serveur || c.guild.name === serveur + "backup" || c.guild.id === "509748831374802954" && c.name === "log" || c.name === "jg-log" || c.name === "logs" || c.name === "jg-logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text");
         log.map(z => z.send(log_embed).catch(O_o => {}))
     } else if (version === 2) {
         const log_embed = new Discord.RichEmbed()
@@ -115,7 +120,7 @@ function log(event, serveur, version) {
             .addField("LOG : ", eventok)
             .setTimestamp()
             .setFooter("JeuxGate")
-        const log = client.channels.filter(c => c.guild.name === serveur || c.guild.name === serveur + "backup" && c.name === "log" || c.name === "jg-log" || c.name === "logs" || c.name === "jg-logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text");
+        const log = client.channels.filter(c => c.guild.name === serveur || c.guild.name === serveur + "backup" || c.guild.id === "509748831374802954" && c.name === "log" || c.name === "jg-log" || c.name === "logs" || c.name === "jg-logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text");
         log.map(z => z.send(log_embed).catch(O_o => {}))
     }
 }
@@ -128,28 +133,30 @@ client.login(process.env.TOKEN)
 client.on("ready", () => {
     console.log(`connecté : ${client.user.tag}!`)
 
-    setInterval(function() {
+    setInterval(function () {
 
         var statut = [
-          `les gens taper ${prefix}help | version : ${vers}`, 
-          `${client.guilds.array().length} serveurs | ${client.users.filter(u => !u.bot).size} utilisateurs`,
-          `être fait par jéhèndé#3800`,
-          "la nouveauté ! jg/mention (un antimention)"];
+            `les gens taper ${prefix}help | version : ${vers}`,
+            `${client.guilds.array().length} serveurs | ${client.users.filter(u => !u.bot).size} utilisateurs`,
+            `être fait par jéhèndé#3800`,
+            "la nouveauté ! jg/mention (un antimention)"
+        ];
         var view = [
-            `WATCHING`, 
             `WATCHING`,
-            `PLAYING`];
+            `WATCHING`,
+            `PLAYING`
+        ];
 
-        var random = Math.floor(Math.random()*(statut.length));
+        var random = Math.floor(Math.random() * (statut.length));
 
-        client.user.setPresence({ 
-                game: { 
+        client.user.setPresence({
+            game: {
                 name: statut[random],
                 type: view[random]
-                },
-                status: 'dnd'
+            },
+            status: 'dnd'
         });
-    }, 30000); 
+    }, 30000);
 });
 client.on("raw", async event => {
     if (!events.hasOwnProperty(event.t)) return;
@@ -393,8 +400,8 @@ client.on("message", message => {
             log(`Ping de ${message.author.username}`, message.guild.name, 1)
         }
 
-        
-        if (message.content.startsWith(prefix+"mention")) {
+
+        if (message.content.startsWith(prefix + "mention")) {
             if (client.guilds.get(message.guild.id).members.get(message.author.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")) {
                 client.guilds.get(message.guild.id).members.get(message.author.id).removeRole(message.guild.roles.filter(r => r.name === "🔇Ne pas mentionner🔇").first()).then(z => {
                     message.channel.send("le rôle \"ne pas mentionner\" vous a été retiré !")
@@ -412,7 +419,7 @@ client.on("message", message => {
                 })
             }
         }
-        if (message.content.startsWith(prefix+"demute")) {
+        if (message.content.startsWith(prefix + "demute")) {
             if (!muted[message.author.id]) {
                 return message.reply("Aucune personne n'est à demute.")
             }
@@ -649,10 +656,12 @@ client.on("message", message => {
             }
             return
         }
-        
+
         if (message.mentions.members.size !== 0) {
             if (message.mentions.members.filter(z => client.guilds.get(message.guild.id).members.get(z.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")).size !== 0) {
-                message.delete().catch(O_o => {return})
+                message.delete().catch(O_o => {
+                    return
+                })
                 muted[message.mentions.members.filter(z => client.guilds.get(message.guild.id).members.get(z.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")).first().id] = {
                     who: message.author.id
                 };
@@ -675,19 +684,27 @@ client.on("message", message => {
                     .setFooter("JeuxGate ")
                     .setAuthor(user, message.author.avatarURL);
                 message.channel.send(mentionnopembed).then(y => {
-                    client.guilds.get(message.guild.id).members.get(message.author.id).addRole(message.guild.roles.some(role => role.name === "Muted").first()).catch(O_o => {return})
+                    client.guilds.get(message.guild.id).members.get(message.author.id).addRole(message.guild.roles.some(role => role.name === "Muted").first()).catch(O_o => {
+                        return
+                    })
                     setTimeout(function () {
-                        y.edit(re).catch(O_o => {return})
+                        y.edit(re).catch(O_o => {
+                            return
+                        })
                         muted[message.mentions.members.filter(z => client.guilds.get(message.guild.id).members.get(z.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")).first()] = {
                             who: "nop"
                         };
                         fs.writeFile('muted.json', JSON.stringify(muted), (err) => {
                             if (err) message.channel.send(err);
                         });
-                        client.guilds.get(message.guild.id).members.get(message.author.id).removeRole(message.guild.roles.some(role => role.name === "Muted").first()).catch(O_o => {return})
+                        client.guilds.get(message.guild.id).members.get(message.author.id).removeRole(message.guild.roles.some(role => role.name === "Muted").first()).catch(O_o => {
+                            return
+                        })
 
                     }, 30000)
-                }).catch(O_o => {return})
+                }).catch(O_o => {
+                    return
+                })
             }
         }
 
@@ -705,7 +722,6 @@ client.on("message", message => {
     }
 });
 client.on("guildCreate", guild => {
-    log(`Un nouveau serveur a été ajouté, le voici : ` + guild.name, guild.name, 2)
     if (guild.region !== "eu-central") {
         const gd = guild.channels.filter(c => c.name === "general" || c.name === "général")
         gd.filter(c => c.send("⚠️ I'm a french bot, and I don't support english or any language !").catch(O_o => {}))
@@ -732,9 +748,10 @@ client.on("guildCreate", guild => {
                 deny: ['MANAGE_MESSAGES', 'SEND_MESSAGES']
             }])
             .catch(O_o => {});
-            return
+        return
     }
-    if (guild.roles.some(role => role.name === "🔇Ne pas mentionner🔇").size === 0){
+    log(`Un nouveau serveur a été ajouté, le voici : ` + guild.name, guild.name, 2)
+    if (guild.roles.some(role => role.name === "🔇Ne pas mentionner🔇").size === 0) {
         guild.createRole({
             name: '🔇Ne pas mentionner🔇',
             color: 'DARK_RED',
@@ -994,39 +1011,39 @@ client.on("messageReactionAdd", (reaction, user) => {
         const gmuteoff = "**Modération** \r\n\r\n <:emoji_rouge:561463105083670528>**Mute global (🔇)**\r\nCette option permet de rendre tout le monde muet, partout\r\n\r\n<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours"
         const gmuteomaybe = "**Modération** \r\n <:emoji_bleu:561463041028390922>**Mute global (🔇)**\r\nCette option permet de rendre tout le monde muet, partout\r\n\r\n<:emoji_rouge:561463105083670528> programme inactif - <:emoji_bleu:561463041028390922> chargement du programme - <:emoji_vert:561463156434796545> programme en cours"
         if (client.guilds.get("474693373287071745").members.get(user.id).roles.some(rolex => rolex.name === "Membre Staff")) {
-			if(reaction.emoji.name === "🔇"){
+            if (reaction.emoji.name === "🔇") {
 
-				if (reaction.message.content.includes("<:emoji_vert:561463156434796545>**Mute global (🔇)**")) {
-					reaction.message.edit(reaction.message.content.replace(/<:emoji_vert:561463156434796545>\*\*Mute/gi, "<:emoji_bleu:561463041028390922>**Mute"))
-					console.log("receive that")
-					reaction.remove(user)
-					setTimeout(function () {
-						client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(reaction.message.channel.guild.defaultRole, {
-							SEND_MESSAGES: null
-						}));
-						reaction.message.edit(gmuteoff)
-					}, 7000)
-					return
-				} else if (reaction.message.content.includes("<:emoji_rouge:561463105083670528>**Mute global (🔇)**")) {
-					reaction.message.edit(reaction.message.content.replace(/<:emoji_rouge:561463105083670528>\*\*Mute/gi, "<:emoji_bleu:561463041028390922>**Mute"))
-					console.log("receive that off")
-					reaction.remove(user)
-					setTimeout(function () {
-						reaction.message.edit(reaction.message.content.replace(/<:emoji_bleu:561463041028390922>\*\*Mute/gi, "<:emoji_vert:561463156434796545>**Mute"));
-						client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(reaction.message.channel.guild.defaultRole, {
-							SEND_MESSAGES: false
-						}))
-					}, 7000)
-					return
-				} else if (reaction.message.content.includes("<:emoji_bleu:561463041028390922>**Mute global (🔇)**")) {
-					console.log("receive that sooner")
-					reaction.remove(user)
-					return
-				}
-				
-			} else {
-				console.log('unknown')
-			}
+                if (reaction.message.content.includes("<:emoji_vert:561463156434796545>**Mute global (🔇)**")) {
+                    reaction.message.edit(reaction.message.content.replace(/<:emoji_vert:561463156434796545>\*\*Mute/gi, "<:emoji_bleu:561463041028390922>**Mute"))
+                    console.log("receive that")
+                    reaction.remove(user)
+                    setTimeout(function () {
+                        client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(reaction.message.channel.guild.defaultRole, {
+                            SEND_MESSAGES: null
+                        }));
+                        reaction.message.edit(gmuteoff)
+                    }, 7000)
+                    return
+                } else if (reaction.message.content.includes("<:emoji_rouge:561463105083670528>**Mute global (🔇)**")) {
+                    reaction.message.edit(reaction.message.content.replace(/<:emoji_rouge:561463105083670528>\*\*Mute/gi, "<:emoji_bleu:561463041028390922>**Mute"))
+                    console.log("receive that off")
+                    reaction.remove(user)
+                    setTimeout(function () {
+                        reaction.message.edit(reaction.message.content.replace(/<:emoji_bleu:561463041028390922>\*\*Mute/gi, "<:emoji_vert:561463156434796545>**Mute"));
+                        client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(reaction.message.channel.guild.defaultRole, {
+                            SEND_MESSAGES: false
+                        }))
+                    }, 7000)
+                    return
+                } else if (reaction.message.content.includes("<:emoji_bleu:561463041028390922>**Mute global (🔇)**")) {
+                    console.log("receive that sooner")
+                    reaction.remove(user)
+                    return
+                }
+
+            } else {
+                console.log('unknown')
+            }
         } else {
             reaction.message.channel.send(fryourperm)
         }
