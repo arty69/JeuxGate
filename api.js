@@ -8,7 +8,7 @@ var list = fs.readFileSync('list.json', 'utf-8');
 
 var vers = "1.3.3";
 
-client.login("NTE1ODkxMDY0NzIxMjQ0MTYy.XQutfA.s5iH4Uq3z4HAs6Eq6I-QghvuKXA")
+client.login(process.envtoken)
 client.on("ready", () => {
     console.log(`connecté : ${client.user.tag}!`)
     
