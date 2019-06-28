@@ -1,0 +1,90 @@
+body{
+	background-color: #303030;
+	font-family: Verdana,sans-serif;
+	color: black;
+	margin: 0px;
+	font-size: 0px;
+}
+@keyframes co {
+	0% {background-color: #2eb82e;}
+	50% {background-color: #f1f1f1;}
+	100% {background-color: #2eb82e;}
+}
+.co{
+	animation-name: co;
+	animation-duration: 4s;
+	animation-iteration-count: infinite;
+	font-size : 16px;
+}
+.error{
+    background-color: azure;
+    border-radius: 3px;
+    color: black;
+    line-height: 20px;
+    font-size: 16px;
+    padding: 4px 20px;
+    font-family: Consolas;
+}
+center{
+	font-size: 15px;
+}
+.responsive-headline{
+	line-height: 0;
+	list-style-type: none;
+	overflow: hidden;
+	padding: 0;
+	color: #019aa5;
+	height: 50px;
+	background-color: black;
+	background-repeat: no-repeat;
+	background-position: center; 
+	background-image: url("https://i.ytimg.com/vi/y9_tLf8A2hw/maxresdefault.jpg");
+}
+.responsive-headline h1{
+	font-size: 20px;
+	line-height: 1.5;
+}
+.menu{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #f1f1f1;
+}
+.li-menu{
+	float: left;
+}
+.menu-link{
+	display: block;
+	color: #000;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+.active {
+	background-color: #4CAF50;
+}
+.menu-link:hover {
+	background-color: #555;
+	color: white;
+}
+.jeuxgate {
+	border-radius: 50%;
+	border-width: 5px;
+	border-style: solid;
+}
+.jeuxgatetxt {
+	color: white;
+	font-size: 40px;
+	line-height: 40px;
+}
+.byzanbottxt {
+	color: #e65c00;
+	font-size: 30px;
+	line-height: 30px;
+}
+.shruggytxt {
+	color: #99ccff;
+	font-size: 30px;
+	line-height: 30px;
+}
