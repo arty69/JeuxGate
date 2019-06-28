@@ -98,7 +98,7 @@ client.on("ready", () => {
 					res.writeHead(200, {
 						'content-type': 'text/html;charset=utf-8',
 					});
-					res.write(ejs.render(fs.readFileSync(__dirname + '/index.ejs', 'utf8'), {guildsname: guildsinlink}));
+					res.write(ejs.render(fs.readFileSync(__dirname + '/index.ejs', 'utf8'), {nbusers: client.users.filter(u => !u.bot).size}));
 					res.end();
 					return
 				}
