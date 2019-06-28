@@ -22,7 +22,7 @@ client.on("ready", () => {
 				const data = new FormData();
 
 				data.append('client_id', '515891064721244162');
-				data.append('client_secret', 'EBMFPn8NjzRURsx00NElm2QgzpJ2HyDc');
+				data.append('client_secret', process.env.client_secret);
 				data.append('grant_type', 'authorization_code');
 				data.append('redirect_uri', 'http://' + process.env.site);
 				data.append('scope', 'identify');
