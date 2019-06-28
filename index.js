@@ -24,7 +24,7 @@ client.on("ready", () => {
 				data.append('client_id', '515891064721244162');
 				data.append('client_secret', process.env.client_secret);
 				data.append('grant_type', 'authorization_code');
-				data.append('redirect_uri', 'http://' + process.env.site);
+				data.append('redirect_uri', 'https://' + process.env.site);
 				data.append('scope', 'identify');
 				data.append('code', accessCode);
 
