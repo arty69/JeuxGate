@@ -48,7 +48,10 @@ client.on("ready", () => {
 							res.writeHead(200, {
 								'content-type': 'text/html;charset=utf-8',
 							});
-							res.write(fs.readFileSync('./index.html'));
+							res.write(ejs.render(fs.readFileSync('./error.ejs'), {
+								filename: 'error.ejs',
+								Erreur: 'Impossible de vous identifier, merci de bien vouloir ré-essayer !'
+							}));
 							res.end();
 							return
 						}
