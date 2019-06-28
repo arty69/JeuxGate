@@ -48,7 +48,7 @@ client.on("ready", () => {
 							res.writeHead(200, {
 								'content-type': 'text/html;charset=utf-8',
 							});
-							res.write(ejs.render(fs.readFileSync('./error.ejs'), {
+							res.write(ejs.render(fs.readFileSync(__dirname + '/error.ejs', 'utf8'), {
 								filename: 'error.ejs',
 								Erreur: 'Impossible de vous identifier, merci de bien vouloir ré-essayer !'
 							}));
@@ -66,7 +66,7 @@ client.on("ready", () => {
 							res.writeHead(200, {
 								'content-type': 'text/html;charset=utf-8',
 							});
-							res.write(ejs.render(fs.readFileSync('./error.ejs'), {
+							res.write(ejs.render(fs.readFileSync(__dirname + '/error.ejs', 'utf8'), {
 								filename: 'error.ejs',
 								Erreur: 'Deux (ou plus) utilisateurs avec le même id trouvé !'
 							}));
