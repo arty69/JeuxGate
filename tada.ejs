@@ -1,4 +1,4 @@
-<html class="no-js" lang="fr">
+<html lang="fr">
 <head>
 	<meta charset="utf-8">
 	<meta property="theme-color" content="#019aa5">
@@ -10,6 +10,24 @@
 	<title>JeuxGate</title>
 	<link href="https://jeuxdictator.github.io/Jeuxgate-web/logo.png" rel="shortcut icon" type="image/png">
 	<link href="https://jeuxdictator.github.io/Jeuxgate-web/index.css" rel="stylesheet">
+	<script>
+			function extend(serv) {
+				document.getElementById('list').style.display = "none";
+				document.getElementById(serv).style.display = "block";
+				document.getElementById("listmenu").className = "menu-link";
+				document.getElementById("acceuilmenu").className = "menu-link";
+			} 
+			function retract() {
+				document.getElementById('list').style.display = "block";
+				<%
+				for(var i = 1 ; i <= Object.keys(JSON.parse(guildsname)).length ; i++) {
+				%>
+				document.getElementById("<%=i-1%>").style.display = "none";
+				<% } %>
+				document.getElementById("listmenu").className += " active";
+				document.getElementById("acceuilmenu").className = "menu-link";
+			} 
+	</script>
 </head>
 <div class="responsive-headline">
 	<center>
@@ -19,11 +37,37 @@
 <body>
     <center>
 		<ul class="menu">
-			<li class="li-menu"><a class="menu-link active">Accueil</a></li>
+			<li class="li-menu"><a class="menu-link" id="acceuilmenu" href="./">Accueil / se déconnecter</a></li>
+			<li class="li-menu"><a class="menu-link active" id="listmenu" href="javascript:void(0);" onclick="retract()">Liste des serveurs</a></li>
+			<%if(jgown){%><li class="li-menu over9000" style="height: 46px;float: right;" id="own"><a class="menu-link co">Owner power</a></li><%}%>
 		</ul>
 		<h1>Connecté avec succès !</h1>
 		<br></br>
-		<p id="guild"><%=guildsname%></p>
+		<table id="list">
+			<%
+				for(var i = 1 ; i <= Object.keys(JSON.parse(guildsname)).length ; i++) {
+				%>
+
+				<td style="width: 168px" >
+					<div style="vertical-align: 0px; text-align: center" >
+					<a href="javascript:void(0);" onclick="extend(<%=i-1%>)">
+					<img src="<%=JSON.parse(guildslogo)[i -1].a%>" style="border-radius: 50%; border-width: 5px; border-color: white; border-style: solid;width: 157px; height: 157px; background-color: e0e0e0;"></img>
+					<a style="color: white; font-size: 24px;"><%=JSON.parse(guildsname)[i -1].a%></a>
+					</a>
+					</div>
+				</td> 
+
+			<% } %>
+		</table>
+		<%
+		for(var i = 1 ; i <= Object.keys(JSON.parse(guildsname)).length ; i++) {
+		%>
+		<div id="<%=i -1%>" style="display: none">
+			<center>
+				<h1 style="color: white; font-size: 36px;"><%=JSON.parse(guildsname)[i -1].a%></h1>
+			</center>
+		</div>
+		<%}%>
 		<footer>
             <p>developped by Jeuxdictator</p>
         </footer>
