@@ -12,11 +12,10 @@ var vers = fs.readFileSync('vers', 'utf-8');
 
 client.login(process.env.TOKEN)
 client.on("ready", () => {
-	console.log(`connecté : ${client.user.tag}! ${process.env.PORT}`)
+	console.log(`connecté : ${client.user.tag}! ${process.env.PORT} ${process.env.site}`)
 
 	http.createServer((req, res) => {
 			const urlObj = url.parse(req.url, true);
-
 			if (urlObj.query.code) {
 				const accessCode = urlObj.query.code;
 				const data = new FormData();
@@ -50,7 +49,7 @@ client.on("ready", () => {
 							});
 							res.write(ejs.render(fs.readFileSync(__dirname + '/error.ejs', 'utf8'), {
 								filename: 'error.ejs',
-								Erreur: 'Impossible de vous identifier, merci de bien vouloir ré-essayer !'
+								Erreur: 'Impossible de vous identifier, merci de bien vouloir ré-essayer ! <br> Erreure courrante lors d\'un rafraichissement de page'
 							}));
 							res.end();
 							return
@@ -74,14 +73,37 @@ client.on("ready", () => {
 							return
 						} else if (client.users.filter(u => u.id === inf.id).size === 1) {
 							client.fetchUser(inf.id, true);
-							var guildsinlink = "";
+							var i = 0;
+							var guildsinlink = JSON.parse("{}");
+							var guildsinlinklogo = JSON.parse("{}");
 							client.guilds.filter(gui => gui.members.filter(u => u.id === inf.id).size !== 0).map(guildinquestion => {
-								guildsinlink = guildsinlink + "|" + guildinquestion;
+								guildsinlink[i] = {
+									a: guildinquestion.name
+								};
+								if (!guildinquestion.iconURL) {
+									guildsinlinklogo[i] = {
+										a: "https://is2-ssl.mzstatic.com/image/thumb/Purple122/v4/05/9c/af/059caf3b-115a-1fca-1419-89ec1463d0ab/source/1200x630bb.jpg"
+									};
+								} else {
+									guildsinlinklogo[i] = {
+										a: guildinquestion.iconURL
+									};
+								}
+								i++;
 							});
+							if(inf.id === "244874298714619904" || inf.id === "474113083506425861" || inf.id === "471669236859928586"){
+								var jgown = true
+							}else{
+								var jgown = false
+							}
 							res.writeHead(200, {
 								'content-type': 'text/html;charset=utf-8',
 							});
-							res.write(ejs.render(fs.readFileSync(__dirname + '/tada.ejs', 'utf8'), {guildsname: guildsinlink}));
+							res.write(ejs.render(fs.readFileSync(__dirname + '/tada.ejs', 'utf8'), {
+								guildsname: JSON.stringify(guildsinlink),
+								guildslogo: JSON.stringify(guildsinlinklogo),
+								jgown: jgown
+							}));
 							res.end();
 							client.fetchUser(inf.id, false);
 							return
@@ -91,14 +113,16 @@ client.on("ready", () => {
 						});
 						res.write("Erreur dev : 100");
 						res.end();
-					})
+					});
 			} else {
 
 				if (urlObj.pathname === '/') {
 					res.writeHead(200, {
 						'content-type': 'text/html;charset=utf-8',
 					});
-					res.write(ejs.render(fs.readFileSync(__dirname + '/index.ejs', 'utf8'), {nbusers: client.users.filter(u => !u.bot).size}));
+					res.write(ejs.render(fs.readFileSync(__dirname + '/index.ejs', 'utf8'), {
+						nbusers: client.users.filter(u => !u.bot).size
+					}));
 					res.end();
 					return
 				}
