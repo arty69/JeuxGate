@@ -684,7 +684,7 @@ client.on("message", message => {
                     .setFooter("JeuxGate ")
                     .setAuthor(user, message.author.avatarURL);
                 message.channel.send(mentionnopembed).then(y => {
-                    client.guilds.get(message.guild.id).members.get(message.author.id).addRole(message.guild.roles.some(role => role.name.toLowerCase() === "muted").first()).catch(O_o => {
+                    client.guilds.get(message.guild.id).members.get(message.author.id).addRole(message.guild.roles.some(role => role.name.toLowerCase() === "muted").first().id).catch(O_o => {
                         return message.channel.send('Erreure 500 : permission insuffisante : impossibilité d\'aplliquer un role')
                     })
                     setTimeout(function () {
@@ -697,13 +697,11 @@ client.on("message", message => {
                         fs.writeFile('muted.json', JSON.stringify(muted), (err) => {
                             if (err) message.channel.send('Erreure 500 : permission insuffisante : impossibilité d\'aplliquer un role');
                         });
-                        client.guilds.get(message.guild.id).members.get(message.author.id).removeRole(message.guild.roles.some(role => role.name.toLowerCase() === "muted").first()).catch(O_o => {
+                        client.guilds.get(message.guild.id).members.get(message.author.id).removeRole(message.guild.roles.some(role => role.name.toLowerCase() === "muted").first().id).catch(O_o => {
                             return message.channel.send('Erreure 504 : Erreure sauvegarde fichier (contacter Jéhèndé#3800)')
                         })
 
                     }, 30000)
-                }).catch(O_o => {
-                    return message.channel.send('Erreure 001 : Impossibilité d\'envoyer un embed : permission insuffisante (ajouter un liens peut suffir)')
                 })
             }
         }
