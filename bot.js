@@ -660,13 +660,13 @@ client.on("message", message => {
         if (message.mentions.members.size !== 0) {
             if (message.mentions.members.filter(z => client.guilds.get(message.guild.id).members.get(z.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")).size !== 0) {
                 message.delete().catch(O_o => {
-                    return
+                    return message.channel.send('Erreure 505 : permission insufissante : suppression message')
                 })
                 muted[message.mentions.members.filter(z => client.guilds.get(message.guild.id).members.get(z.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")).first().id] = {
                     who: message.author.id
                 };
                 fs.writeFile('muted.json', JSON.stringify(muted), (err) => {
-                    if (err) message.channel.send(err);
+                    if (err) message.channel.send('Erreure 504 : Erreure sauvegarde fichier (contacter Jéhèndé#3800)')
                 });
                 const re = new Discord.RichEmbed()
                     .setTitle("Vous avez tenté de mentionner quelqu'un qu'on ne doit pas mentionner !")
@@ -685,25 +685,25 @@ client.on("message", message => {
                     .setAuthor(user, message.author.avatarURL);
                 message.channel.send(mentionnopembed).then(y => {
                     client.guilds.get(message.guild.id).members.get(message.author.id).addRole(message.guild.roles.some(role => role.name === "Muted").first()).catch(O_o => {
-                        return
+                        return message.channel.send('Erreure 500 : permission insuffisante : impossibilité d\'aplliquer un role')
                     })
                     setTimeout(function () {
                         y.edit(re).catch(O_o => {
-                            return
+                            return message.channel.send('Erreure 501 : erreure sans nom : impossibilité d\'éditer le message')
                         })
                         muted[message.mentions.members.filter(z => client.guilds.get(message.guild.id).members.get(z.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")).first()] = {
                             who: "nop"
                         };
                         fs.writeFile('muted.json', JSON.stringify(muted), (err) => {
-                            if (err) message.channel.send(err);
+                            if (err) message.channel.send('Erreure 500 : permission insuffisante : impossibilité d\'aplliquer un role');
                         });
                         client.guilds.get(message.guild.id).members.get(message.author.id).removeRole(message.guild.roles.some(role => role.name === "Muted").first()).catch(O_o => {
-                            return
+                            return message.channel.send('Erreure 504 : Erreure sauvegarde fichier (contacter Jéhèndé#3800)')
                         })
 
                     }, 30000)
                 }).catch(O_o => {
-                    return
+                    return message.channel.send('Erreure 001 : Impossibilité d\'envoyer un embed : permission insuffisante (ajouter un liens peut suffir)')
                 })
             }
         }
@@ -748,7 +748,6 @@ client.on("guildCreate", guild => {
                 deny: ['MANAGE_MESSAGES', 'SEND_MESSAGES']
             }])
             .catch(O_o => {});
-        return
     }
     log(`Un nouveau serveur a été ajouté, le voici : ` + guild.name, guild.name, 2)
     if (guild.roles.some(role => role.name === "🔇Ne pas mentionner🔇").size === 0) {
@@ -756,8 +755,16 @@ client.on("guildCreate", guild => {
             name: '🔇Ne pas mentionner🔇',
             color: 'DARK_RED',
         }).catch(O_o => {})
-        return
     }
+    if (guild.roles.some(role => role.name === "muted").size === 0) {
+        guild.createRole({
+            name: 'muted',
+            color: 'LIGHT_GREY',
+        }).catch(O_o => {})
+    }
+    guild.channels.map(channel => channel.overwritePermissions(guild.roles.some(role => role.name === "muted").first(), {
+        'SEND_MESSAGES': false
+    }))
     if (guild.channels.filter(c => c.name === "log").size === 0 || guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0) {
         const gd = guild.channels.filter(c => c.name === "general" || c.name === "général")
         gd.filter(c => c.send("⚠️ Merci de bien vouloir me donner des droits administrateurs, ou créer les salons vous même").catch(O_o => {}))
