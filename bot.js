@@ -679,12 +679,12 @@ client.on("message", message => {
                     .addField("message :", message.content)
                     .addField(message.mentions.members.filter(z => client.guilds.get(message.guild.id).members.get(z.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")).first().displayName + "Si tu penses qu'il ne devrait pas être mute", "tape `jg/demute` et il sera demute !")
                     .addBlankField()
-                    .addField(user, "Tu seras mute pendant 30 seconde !")
+                    .addField(message.guild.members.get(message.author.id).displayName, "Tu seras mute pendant 30 seconde !")
                     .setTimestamp()
                     .setFooter("JeuxGate ")
-                    .setAuthor(user, message.author.avatarURL);
+                    .setAuthor(message.guild.members.get(message.author.id).displayName, message.author.avatarURL);
                 message.channel.send(mentionnopembed).then(y => {
-                    client.guilds.get(message.guild.id).members.get(message.author.id).addRole(message.guild.roles.some(role => role.name.toLowerCase() === "muted").first().id).catch(O_o => {
+                    client.guilds.get(message.guild.id).members.get(message.author.id).addRole(message.guild.roles.filter(role => role.name.toLowerCase() === "muted").first().id).catch(O_o => {
                         return message.channel.send('Erreure 500 : permission insuffisante : impossibilité d\'aplliquer un role')
                     })
                     setTimeout(function () {
@@ -697,7 +697,7 @@ client.on("message", message => {
                         fs.writeFile('muted.json', JSON.stringify(muted), (err) => {
                             if (err) message.channel.send('Erreure 500 : permission insuffisante : impossibilité d\'aplliquer un role');
                         });
-                        client.guilds.get(message.guild.id).members.get(message.author.id).removeRole(message.guild.roles.some(role => role.name.toLowerCase() === "muted").first().id).catch(O_o => {
+                        client.guilds.get(message.guild.id).members.get(message.author.id).removeRole(message.guild.roles.filter(role => role.name.toLowerCase() === "muted").first().id).catch(O_o => {
                             return message.channel.send('Erreure 504 : Erreure sauvegarde fichier (contacter Jéhèndé#3800)')
                         })
 
