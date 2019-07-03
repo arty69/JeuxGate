@@ -673,11 +673,11 @@ client.on("message", message => {
                     .addField("message :", message.content)
                     .setTimestamp()
                     .setFooter("JeuxGate ")
-                    .setAuthor(user, message.author.avatarURL);
+                    .setAuthor(message.guild.members.get(message.author.id).displayName, message.author.avatarURL);
                 const mentionnopembed = new Discord.RichEmbed()
                     .setTitle("Vous avez tenté de mentionner quelqu'un qu'on ne doit pas mentionner !")
                     .addField("message :", message.content)
-                    .addField(message.mentions.members.filter(z => client.guilds.get(message.guild.id).members.get(z.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")).first().displayName + "Si tu penses qu'il ne devrait pas être mute", "tape `jg/demute` et il sera demute !")
+                    .addField(message.mentions.members.filter(z => client.guilds.get(message.guild.id).members.get(z.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")).first().displayName + " Si tu penses qu'il ne devrait pas être mute", "tape `jg/demute` et il sera demute !")
                     .addBlankField()
                     .addField(message.guild.members.get(message.author.id).displayName, "Tu seras mute pendant 30 seconde !")
                     .setTimestamp()
