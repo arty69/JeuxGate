@@ -192,8 +192,8 @@ client.on("message", message => {
             color: 'LIGHT_GREY',
         }).catch(O_o => {})
     }
-    if (guild.roles.some(role => role.name === "🔇Ne pas mentionner🔇").size === 0) {
-        guild.createRole({
+    if (message.guild.roles.some(role => role.name === "🔇Ne pas mentionner🔇").size === 0) {
+        message.guild.createRole({
             name: '🔇Ne pas mentionner🔇',
             color: 'DARK_RED',
         }).catch(O_o => {})
