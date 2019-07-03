@@ -416,7 +416,7 @@ client.on("message", message => {
             if (client.guilds.get(message.guild.id).members.get(message.author.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")) {
                 client.guilds.get(message.guild.id).members.get(message.author.id).removeRole(message.guild.roles.filter(r => r.name === "🔇Ne pas mentionner🔇").first()).then(z => {
                     message.channel.send("le rôle \"ne pas mentionner\" vous a été retiré !")
-                    var usernot = user.replace(/ \| \🔇/gi, " ")
+                    var usernot = user.replace(/ \|\🔇/gi, " ")
                     client.guilds.get(message.guild.id).members.get(message.author.id).setNickname(usernot)
                 }).catch(O_o => {
                     message.channel.send("Une erreure est survenue, veuillez réessayé")
@@ -424,7 +424,7 @@ client.on("message", message => {
             } else {
                 client.guilds.get(message.guild.id).members.get(message.author.id).addRole(message.guild.roles.filter(r => r.name === "🔇Ne pas mentionner🔇").first()).then(z => {
                     message.channel.send("le rôle \"ne pas mentionner\" vous a été ajouté !")
-                    client.guilds.get(message.guild.id).members.get(message.author.id).setNickname(user + ' | 🔇')
+                    client.guilds.get(message.guild.id).members.get(message.author.id).setNickname(user + ' |🔇')
                 }).catch(O_o => {
                     message.channel.send("Une erreure est survenue, veuillez réessayé")
                 })
