@@ -684,7 +684,7 @@ client.on("message", message => {
                     .setFooter("JeuxGate ")
                     .setAuthor(user, message.author.avatarURL);
                 message.channel.send(mentionnopembed).then(y => {
-                    client.guilds.get(message.guild.id).members.get(message.author.id).addRole(message.guild.roles.some(role => role.name === "Muted").first()).catch(O_o => {
+                    client.guilds.get(message.guild.id).members.get(message.author.id).addRole(message.guild.roles.some(role => role.name.toLowerCase() === "muted").first()).catch(O_o => {
                         return message.channel.send('Erreure 500 : permission insuffisante : impossibilité d\'aplliquer un role')
                     })
                     setTimeout(function () {
@@ -697,7 +697,7 @@ client.on("message", message => {
                         fs.writeFile('muted.json', JSON.stringify(muted), (err) => {
                             if (err) message.channel.send('Erreure 500 : permission insuffisante : impossibilité d\'aplliquer un role');
                         });
-                        client.guilds.get(message.guild.id).members.get(message.author.id).removeRole(message.guild.roles.some(role => role.name === "Muted").first()).catch(O_o => {
+                        client.guilds.get(message.guild.id).members.get(message.author.id).removeRole(message.guild.roles.some(role => role.name.toLowerCase() === "muted").first()).catch(O_o => {
                             return message.channel.send('Erreure 504 : Erreure sauvegarde fichier (contacter Jéhèndé#3800)')
                         })
 
@@ -756,13 +756,13 @@ client.on("guildCreate", guild => {
             color: 'DARK_RED',
         }).catch(O_o => {})
     }
-    if (guild.roles.some(role => role.name === "muted").size === 0) {
+    if (guild.roles.some(role => role.name.toLowerCase() === "muted").size === 0) {
         guild.createRole({
             name: 'muted',
             color: 'LIGHT_GREY',
         }).catch(O_o => {})
     }
-    guild.channels.map(channel => channel.overwritePermissions(guild.roles.some(role => role.name === "muted").first(), {
+    guild.channels.map(channel => channel.overwritePermissions(guild.roles.some(role => role.name.toLowerCase() === "muted").first(), {
         'SEND_MESSAGES': false
     }))
     if (guild.channels.filter(c => c.name === "log").size === 0 || guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0) {
