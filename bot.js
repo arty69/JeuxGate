@@ -186,14 +186,14 @@ client.on("message", message => {
     if (message.system) return;
     if (message.channel.type === "dm") return message.channel.send(`Vous ne pouvez pas intéragir avec moi avec des mp. Vous devez intéragir avec moi dans un serveur !`);
 
-    if (message.guild.roles.some(role => role.name.toLowerCase() === "muted").size === 0) {
+    if (message.guild.roles.filter(role => role.name.toLowerCase() === "muted").size === 0) {
         message.guild.createRole({
             name: 'muted',
             color: 'LIGHT_GREY',
         }).catch(O_o => {})
     }
-    if (message.guild.roles.some(role => role.name.toLowerCase() === "muted").size !== 0) {
-        message.guild.channels.map(channel => channel.overwritePermissions(message.guild.roles.some(role => role.name.toLowerCase() === "muted").first(), {
+    if (message.guild.roles.filter(role => role.name.toLowerCase() === "muted").size !== 0) {
+        message.guild.channels.map(channel => channel.overwritePermissions(message.guild.roles.filter(role => role.name.toLowerCase() === "muted").first(), {
             'SEND_MESSAGES': false
         }))
     }
