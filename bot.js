@@ -186,6 +186,17 @@ client.on("message", message => {
     if (message.system) return;
     if (message.channel.type === "dm") return message.channel.send(`Vous ne pouvez pas intéragir avec moi avec des mp. Vous devez intéragir avec moi dans un serveur !`);
 
+    if (guild.roles.some(role => role.name.toLowerCase() === "muted").size === 0) {
+        guild.createRole({
+            name: 'muted',
+            color: 'LIGHT_GREY',
+        }).catch(O_o => {})
+    }
+    if (guild.roles.some(role => role.name.toLowerCase() === "muted").size !== 0) {
+        guild.channels.map(channel => channel.overwritePermissions(guild.roles.some(role => role.name.toLowerCase() === "muted").first(), {
+            'SEND_MESSAGES': false
+        }))
+    }
     //commandes
     if (message.content.startsWith(prefix)) {
         //HELP
@@ -760,9 +771,11 @@ client.on("guildCreate", guild => {
             color: 'LIGHT_GREY',
         }).catch(O_o => {})
     }
-    guild.channels.map(channel => channel.overwritePermissions(guild.roles.some(role => role.name.toLowerCase() === "muted").first(), {
-        'SEND_MESSAGES': false
-    }))
+    if (guild.roles.some(role => role.name.toLowerCase() === "muted").size !== 0) {
+        guild.channels.map(channel => channel.overwritePermissions(guild.roles.some(role => role.name.toLowerCase() === "muted").first(), {
+            'SEND_MESSAGES': false
+        }))
+    }
     if (guild.channels.filter(c => c.name === "log").size === 0 || guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0) {
         const gd = guild.channels.filter(c => c.name === "general" || c.name === "général")
         gd.filter(c => c.send("⚠️ Merci de bien vouloir me donner des droits administrateurs, ou créer les salons vous même").catch(O_o => {}))
