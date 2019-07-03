@@ -192,6 +192,12 @@ client.on("message", message => {
             color: 'LIGHT_GREY',
         }).catch(O_o => {})
     }
+    if (guild.roles.some(role => role.name === "🔇Ne pas mentionner🔇").size === 0) {
+        guild.createRole({
+            name: '🔇Ne pas mentionner🔇',
+            color: 'DARK_RED',
+        }).catch(O_o => {})
+    }
     if (message.guild.roles.filter(role => role.name.toLowerCase() === "muted").size !== 0) {
         message.guild.channels.map(channel => channel.overwritePermissions(message.guild.roles.filter(role => role.name.toLowerCase() === "muted").first(), {
             'SEND_MESSAGES': false
