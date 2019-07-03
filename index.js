@@ -26,7 +26,7 @@ var httpserveur = http.createServer((req, res) => {
 		data.append('client_id', '515891064721244162');
 		data.append('client_secret', process.env.client_secret);
 		data.append('grant_type', 'authorization_code');
-		data.append('redirect_uri', 'https://' + process.env.site);
+		data.append('redirect_uri', 'http://' + process.env.site);
 		data.append('scope', 'identify');
 		data.append('code', accessCode);
 
@@ -171,9 +171,9 @@ client.on("ready", () => {
 										client.guilds.filter(g => g.id.toString() === a.toString()).first().members.filter(u => u.id === codelist[code].u).first().removeRole(client.guilds.filter(g => g.id.toString() === a.toString()).first().roles.filter(ro => ro.name === "🔇Ne pas mentionner🔇").first()).then(y => {
 											socket.emit('antimentionoffk', `${a}`)
 
-											var usernot = client.guilds.filter(g => g.id.toString() === a.toString()).first().members.filter(u => u.id === codelist[code].u).first().displayName +" |🔇"
+											var usernot = client.guilds.filter(g => g.id.toString() === a.toString()).first().members.filter(u => u.id === codelist[code].u).first().displayName.replace(/ \|\🔇/gi, "")
 											client.guilds.filter(g => g.id.toString() === a.toString()).first().members.filter(u => u.id === codelist[code].u).first().setNickname(usernot).catch(O_o => {socket.emit('errorjg', '600 : impossible de vous renommez, vérifiez que vous n etes ni le fondateur du serveur, ni que le role de jeuxgate soit en dessous du votre')})
-											
+
 											client.fetchUser(codelist[code].u, false);
 										}).catch(y => {
 											socket.emit("antimentionpask", `${a}`)
@@ -183,9 +183,9 @@ client.on("ready", () => {
 										client.guilds.filter(g => g.id.toString() === a.toString()).first().members.filter(u => u.id === codelist[code].u).first().addRole(client.guilds.filter(g => g.id.toString() === a.toString()).first().roles.filter(ro => ro.name === "🔇Ne pas mentionner🔇").first()).then(y => {
 											socket.emit('antimentiononk', `${a}`)
 
-											var usernot = client.guilds.filter(g => g.id.toString() === a.toString()).first().members.filter(u => u.id === codelist[code].u).first().displayName.replace(/ \|\🔇/gi, "")
+											var usernot = client.guilds.filter(g => g.id.toString() === a.toString()).first().members.filter(u => u.id === codelist[code].u).first().displayName +" |🔇"
 											client.guilds.filter(g => g.id.toString() === a.toString()).first().members.filter(u => u.id === codelist[code].u).first().setNickname(usernot).catch(O_o => {socket.emit('errorjg', '600 : impossible de vous renommez, vérifiez que vous n etes ni le fondateur du serveur, ni que le role de jeuxgate soit en dessous du votre')})
-
+											
 											client.fetchUser(codelist[code].u, false);
 										}).catch(y => {
 											socket.emit("antimentionpask", `${a}`)
