@@ -26,7 +26,7 @@ var httpserveur = http.createServer((req, res) => {
 		data.append('client_id', '515891064721244162');
 		data.append('client_secret', process.env.client_secret);
 		data.append('grant_type', 'authorization_code');
-		data.append('redirect_uri', 'https://' + process.env.site);
+		data.append('redirect_uri', 'http://' + process.env.site);
 		data.append('scope', 'identify');
 		data.append('code', accessCode);
 
@@ -73,6 +73,7 @@ var httpserveur = http.createServer((req, res) => {
 					var guildsinlink = JSON.parse("{}");
 					var guildsinlinklogo = JSON.parse("{}");
 					var guildsinlinkid = JSON.parse("{}");
+					var guildsinlinkmention = JSON.parse("{}");
 					client.guilds.filter(gui => gui.members.filter(u => u.id === inf.id).size !== 0).map(guildinquestion => {
 						guildsinlink[i] = {
 							a: guildinquestion.name
@@ -88,6 +89,27 @@ var httpserveur = http.createServer((req, res) => {
 							guildsinlinklogo[i] = {
 								a: guildinquestion.iconURL
 							};
+						}
+						if(guildinquestion.roles.filter(ro => ro.name === "🔇Ne pas mentionner🔇").size === 1){
+							if(guildinquestion.members.filter(u => u.id === inf.id).size !==0){
+								if(guildinquestion.members.filter(u => u.id === inf.id).first().roles.filter(r => r.name === "🔇Ne pas mentionner🔇").size !== 0){
+									guildsinlinkmention[i] = {
+										a: "yes"
+									}
+								}else{
+									guildsinlinkmention[i] = {
+										a: "no"
+									}
+								}
+							}else{
+								guildsinlinkmention[i] = {
+									a: "dis"
+								}
+							}
+						}else{
+							guildsinlinkmention[i] = {
+								a: "dis"
+							}
 						}
 						i++;
 					});
@@ -112,6 +134,7 @@ var httpserveur = http.createServer((req, res) => {
 						guildsname: JSON.stringify(guildsinlink),
 						guildslogo: JSON.stringify(guildsinlinklogo),
 						guildsid: JSON.stringify(guildsinlinkid),
+						guildsmention: JSON.stringify(guildsinlinkmention),
 						jgown: jgown,
 						code: code,
 						id: inf.id,

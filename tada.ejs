@@ -131,7 +131,7 @@
 				<h1 style="color: white; font-size: 36px;"><%=JSON.parse(guildsname)[i -1].a%></h1>
 				<a>Antimention</a> 
 				<label class="switch">
-				  <input type="checkbox" id="<%=JSON.parse(guildsid)[i-1].a%>" onclick="antimention(`<%=JSON.parse(guildsid)[i-1].a%>`)">
+				  <input type="checkbox" id="<%=JSON.parse(guildsid)[i-1].a%>" onclick="antimention(`<%=JSON.parse(guildsid)[i-1].a%>`)" <%if(JSON.parse(guildsmention)[i-1].a === "dis"){%>disabled=""<%}else if(JSON.parse(guildsmention)[i-1].a === "yes"){%>checked<%}%>>
 				  <span class="slider round" ></span>
 				</label>
 			</center>
