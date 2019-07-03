@@ -436,7 +436,7 @@ client.on("message", message => {
             }
             if (muted[message.author.id].who !== "nop") {
                 if (client.guilds.get(message.guild.id).members.get(muted[message.author.id].who).size === 0) message.reply("la personne a démute n'a pas été trouvé !")
-                client.guilds.get(message.guild.id).members.get(muted[message.author.id].who).removeRole(message.guild.roles.some(role => role.name === "Muted").first()).catch(z => message.channel.send("Une erreure est survenue !"))
+                client.guilds.get(message.guild.id).members.get(muted[message.author.id].who).removeRole(message.guild.roles.some(role => role.name === "Muted")).catch(z => message.channel.send("Une erreure est survenue !"))
                 muted[message.author.id] = {
                     who: "nop"
                 }
@@ -460,19 +460,18 @@ client.on("message", message => {
             if (suppression < 2 || suppression > 10001) {
                 return message.reply("**Hey ...**La valeur que vous avez entré est invalide, merci de choisir une valeur comprise entre 2 et 10000");
             }
-            var supressed = suppression
             while (suppression > 100) {
                 message.channel.bulkDelete(100, true).catch(err => message.channel.send(err))
                 var suppression = suppression - 100
             }
             message.channel.bulkDelete(suppression, true).then(ok => {
-                message.reply("**Suppression de " + "" + suppressed + "" + " messages**")
+                message.reply("**Suppression de " + "" + suppressions + "" + " messages**")
                     .then(message => setTimeout(function () {
                         message.delete()
-                    }, 10000))
-                    .catch(err => message.channel.send(err));
+                    }, 10000
+                ))
 
-            }).catch(err => message.channel.send(err));
+            }).catch();
 
             log(`utilisation de la commande de purge par ${message.author.username}`, message.guild.name, 1)
         }
@@ -669,6 +668,8 @@ client.on("message", message => {
         }
 
         if (message.mentions.members.size !== 0) {
+            if (!message.guild.member(client.user).hasPermission("MANAGE_MESSAGES")) return message.channel.send(frmyperm);
+            if (!message.guild.member(client.user).hasPermission("MANAGE_ROLES")) return message.channel.send(frmyperm);
             if (message.mentions.members.filter(z => client.guilds.get(message.guild.id).members.get(z.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")).size !== 0) {
                 message.delete().catch(O_o => {
                     return message.channel.send('Erreure 505 : permission insufissante : suppression message')
