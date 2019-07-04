@@ -196,7 +196,7 @@ client.on("message", message => {
         message.guild.createRole({
             name: '🔇Ne pas mentionner🔇',
             color: 'DARK_RED',
-        }).catch(O_o => {})
+        }).catch(O_o => {message.reply(O_o).catch(err => {message.reply("erreure trop longue : impossibilité de cré le role ne pas mentionner")})})
     }
     if (message.guild.roles.filter(role => role.name.toLowerCase() === "muted").size !== 0) {
         message.guild.channels.map(channel => channel.overwritePermissions(message.guild.roles.filter(role => role.name.toLowerCase() === "muted").first(), {
