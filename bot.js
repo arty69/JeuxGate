@@ -497,7 +497,7 @@ client.on("message", message => {
             }
 
             if (message.guild.roles.filter(role => role.name.toLowerCase() === "muted").size !== 0) {
-                message.guild.members.get(message.author.id).addRole(message.guild.roles.filter(role => role.name.toLowerCase() === "muted").first()).then(member => {
+                message.guild.members.get(mute.id).addRole(message.guild.roles.filter(role => role.name.toLowerCase() === "muted").first()).then(member => {
                     message.channel.send(`${mute.user.username} a été mute par ${message.author.username} !`);
     
     
@@ -528,7 +528,7 @@ client.on("message", message => {
             }
 
             if (message.guild.roles.filter(role => role.name.toLowerCase() === "muted").size !== 0) {
-                message.guild.members.get(message.author.id).removeRole(message.guild.roles.filter(role => role.name.toLowerCase() === "muted").first()).then(member => {
+                message.guild.members.get(mute.id).removeRole(message.guild.roles.filter(role => role.name.toLowerCase() === "muted").first()).then(member => {
                     message.channel.send(`${mute.user.username} a été mute par ${message.author.username} !`);
     
     
