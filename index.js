@@ -152,6 +152,16 @@ var httpserveur = http.createServer((req, res) => {
 					res.write("Erreur dev : 100");
 					res.end();
 				});
+		}else{
+			res.writeHead(200, {
+				'content-type': 'text/html;charset=utf-8',
+			});
+			res.write(ejs.render(fs.readFileSync(__dirname + '/index.ejs', 'utf8'), {
+				filename: 'error.ejs',
+				nbusers: client.users.size
+			}));
+			res.end();
+			return
 		}
 	} else {
 
