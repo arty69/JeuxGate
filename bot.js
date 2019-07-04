@@ -196,7 +196,11 @@ client.on("message", message => {
         message.guild.createRole({
             name: '🔇Ne pas mentionner🔇',
             color: 'DARK_RED',
-        }).catch(O_o => {message.reply(O_o).catch(err => {message.reply("erreure trop longue : impossibilité de cré le role ne pas mentionner")})})
+        }).catch(O_o => {
+            message.reply(O_o).catch(err => {
+                message.reply("erreure trop longue : impossibilité de créer le role ne pas mentionner")
+            })
+        })
     }
     if (message.guild.roles.filter(role => role.name.toLowerCase() === "muted").size !== 0) {
         message.guild.channels.map(channel => channel.overwritePermissions(message.guild.roles.filter(role => role.name.toLowerCase() === "muted").first(), {
@@ -413,6 +417,7 @@ client.on("message", message => {
 
         //REVIEW antimention
         if (message.content.startsWith(prefix + "mention")) {
+            if(message.guild.roles.filter(role => role.name === "🔇Ne pas mentionner🔇").size === 0) return message.channel.send("Il n'y a pas de role ne pas mentionner sur ce serveur !")
             if (client.guilds.get(message.guild.id).members.get(message.author.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")) {
                 client.guilds.get(message.guild.id).members.get(message.author.id).removeRole(message.guild.roles.filter(r => r.name === "🔇Ne pas mentionner🔇").first()).then(z => {
                     message.channel.send("le rôle \"ne pas mentionner\" vous a été retiré !")
@@ -430,7 +435,7 @@ client.on("message", message => {
                 })
             }
         }
-        
+
         //REVIEW demute antimention
         if (message.content.startsWith(prefix + "demute")) {
             if (!muted[message.author.id]) {
@@ -470,8 +475,7 @@ client.on("message", message => {
                 message.reply("**Suppression de " + "" + suppressions + "" + " messages**")
                     .then(message => setTimeout(function () {
                         message.delete()
-                    }, 10000
-                ))
+                    }, 10000))
 
             }).catch();
 
@@ -499,14 +503,14 @@ client.on("message", message => {
             if (message.guild.roles.filter(role => role.name.toLowerCase() === "muted").size !== 0) {
                 message.guild.members.get(mute.id).addRole(message.guild.roles.filter(role => role.name.toLowerCase() === "muted").first()).then(member => {
                     message.channel.send(`${mute.user.username} a été mute par ${message.author.username} !`);
-    
-    
+
+
                     log(`utilisation de la commande mute par ${message.author.username}`, message.guild.name, 1)
                 }).catch(e => message.reply("Impossibilité d'appliquer le role : vérifier l'ordre des roles, jeuxgate doit être au dessus de la personne à mute."))
-            }else{
+            } else {
                 message.reply("Aucun role \"muted\" trouvé.")
             }
-            
+
         }
 
         //REVIEW unmute
@@ -530,11 +534,11 @@ client.on("message", message => {
             if (message.guild.roles.filter(role => role.name.toLowerCase() === "muted").size !== 0) {
                 message.guild.members.get(mute.id).removeRole(message.guild.roles.filter(role => role.name.toLowerCase() === "muted").first()).then(member => {
                     message.channel.send(`${mute.user.username} a été mute par ${message.author.username} !`);
-    
-    
+
+
                     log(`utilisation de la commande mute par ${message.author.username}`, message.guild.name, 1)
                 }).catch(e => message.reply("Impossibilité d'appliquer le role : vérifier l'ordre des roles, jeuxgate doit être au dessus de la personne à mute."))
-            }else{
+            } else {
                 message.reply("Aucun role \"muted\" trouvé.")
             }
         }
@@ -736,11 +740,11 @@ client.on("message", message => {
                 message.channel.send("To access commands, execute `" + prefix + "` and to access the help just do `" + prefix + "help`  !")
             }
         }
-        if(gold(message.author.id)){
-            if(message.content.includes("natsu") ||message.content.includes("nocta")){
-                if(message.guild.members.filter(u => u.id === 564201035489607680 || u.id === 395946868753825802).size !== 0){
+        if (gold(message.author.id)) {
+            if (message.content.includes("natsu") || message.content.includes("nocta")) {
+                if (message.guild.members.filter(u => u.id === 564201035489607680 || u.id === 395946868753825802).size !== 0) {
                     message.reply("<@395946868753825802> <@564201035489607680>, on parle de toi")
-                }else{
+                } else {
                     message.reply("Auh, tu parle de nocta ? la moche ? :wink:")
                 }
             }
