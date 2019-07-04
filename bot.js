@@ -738,7 +738,7 @@ client.on("message", message => {
         }
         if(gold(message.author.id)){
             if(message.content.includes("natsu") ||message.content.includes("nocta")){
-                if(message.guild.members.filter(u => u.id === 564201035489607680 || u.id === 395946868753825802)){
+                if(message.guild.members.filter(u => u.id === 564201035489607680 || u.id === 395946868753825802).size !== 0){
                     message.reply("<@395946868753825802> <@564201035489607680>, on parle de toi")
                 }else{
                     message.reply("Auh, tu parle de nocta ? la moche ? :wink:")
