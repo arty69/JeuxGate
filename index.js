@@ -20,6 +20,14 @@ var vers = fs.readFileSync('vers', 'utf-8');
 var httpserveur = http.createServer((req, res) => {
 	const urlObj = url.parse(req.url, true);
 
+	if (urlObj.pathname === '/index.css') {
+		res.writeHead(200, {
+			'content-type': 'text/html;charset=utf-8',
+		});
+		res.write(fs.readFileSync('./page/index.css'));
+		res.end();
+		return
+	}
 	if (urlObj.pathname === '/co') {
 		if (urlObj.query.code) {
 			const accessCode = urlObj.query.code;
@@ -28,7 +36,7 @@ var httpserveur = http.createServer((req, res) => {
 			data.append('client_id', '515891064721244162');
 			data.append('client_secret', process.env.client_secret);
 			data.append('grant_type', 'authorization_code');
-			data.append('redirect_uri', 'https://' + process.env.site + "/co");
+			data.append('redirect_uri', 'http://' + process.env.site + "/co");
 			data.append('scope', 'identify');
 			data.append('code', accessCode);
 
@@ -186,14 +194,6 @@ var httpserveur = http.createServer((req, res) => {
 				'content-type': 'text/html;charset=utf-8',
 			});
 			res.write(fs.readFileSync('./page/addme.png'));
-			res.end();
-			return
-		}
-		if (urlObj.pathname === '/index.css') {
-			res.writeHead(200, {
-				'content-type': 'text/html;charset=utf-8',
-			});
-			res.write(fs.readFileSync('./page/index.css'));
 			res.end();
 			return
 		}
