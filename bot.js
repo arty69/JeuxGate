@@ -205,13 +205,6 @@ client.on("message", message => {
     }
     //commandes
     if (message.content.startsWith(prefix)) {
-        //HELP
-        if (message.content.startsWith(prefix + "badword")) {
-            message.reply(nobadwords(message.content.substr(prefix.length + 7)))
-        }
-        if (message.content.startsWith(prefix + "badwords?")) {
-            message.reply(dwords(message.content.substr(prefix.length + 9)))
-        }
         if (message.content.startsWith(prefix + "pro?")) {
             if (pro(message.author.id)) {
                 message.reply("yup")
@@ -418,6 +411,7 @@ client.on("message", message => {
         }
 
 
+        //REVIEW antimention
         if (message.content.startsWith(prefix + "mention")) {
             if (client.guilds.get(message.guild.id).members.get(message.author.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")) {
                 client.guilds.get(message.guild.id).members.get(message.author.id).removeRole(message.guild.roles.filter(r => r.name === "🔇Ne pas mentionner🔇").first()).then(z => {
@@ -436,6 +430,8 @@ client.on("message", message => {
                 })
             }
         }
+        
+        //REVIEW demute antimention
         if (message.content.startsWith(prefix + "demute")) {
             if (!muted[message.author.id]) {
                 return message.reply("Aucune personne n'est à demute.")
@@ -500,14 +496,17 @@ client.on("message", message => {
                 return message.reply("Je ne peux pas me mute !");
             }
 
-            message.channel.overwritePermissions(mute, {
-                SEND_MESSAGES: false
-            }).then(member => {
-                message.channel.send(`${mute.user.username} a été mute par ${message.author.username} !`);
-
-
-                log(`utilisation de la commande mute par ${message.author.username}`, message.guild.name, 1)
-            })
+            if (message.guild.roles.filter(role => role.name.toLowerCase() === "muted").size !== 0) {
+                message.guild.members.get(message.author.id).addRole(message.guild.roles.filter(role => role.name.toLowerCase() === "muted").first()).then(member => {
+                    message.channel.send(`${mute.user.username} a été mute par ${message.author.username} !`);
+    
+    
+                    log(`utilisation de la commande mute par ${message.author.username}`, message.guild.name, 1)
+                }).catch(e => message.reply("Impossibilité d'appliquer le role : vérifier l'ordre des roles, jeuxgate doit être au dessus de la personne à mute."))
+            }else{
+                message.reply("Aucun role \"muted\" trouvé.")
+            }
+            
         }
 
         //REVIEW unmute
@@ -528,14 +527,16 @@ client.on("message", message => {
                 return message.reply("Je ne peux pas me unmute !")
             }
 
-            message.channel.overwritePermissions(mute, {
-                SEND_MESSAGES: true
-            }).then(member => {
-                message.channel.send(`${mute.user.username} a été unmute par ${message.author.username} !`);
-
-
-                log(`utilisation de la commande unmute par ${message.author.username}`, message.guild.name, 1)
-            })
+            if (message.guild.roles.filter(role => role.name.toLowerCase() === "muted").size !== 0) {
+                message.guild.members.get(message.author.id).removeRole(message.guild.roles.filter(role => role.name.toLowerCase() === "muted").first()).then(member => {
+                    message.channel.send(`${mute.user.username} a été mute par ${message.author.username} !`);
+    
+    
+                    log(`utilisation de la commande mute par ${message.author.username}`, message.guild.name, 1)
+                }).catch(e => message.reply("Impossibilité d'appliquer le role : vérifier l'ordre des roles, jeuxgate doit être au dessus de la personne à mute."))
+            }else{
+                message.reply("Aucun role \"muted\" trouvé.")
+            }
         }
 
         //REVIEW sinfo
@@ -673,6 +674,7 @@ client.on("message", message => {
             return
         }
 
+        //REVIEW antimention
         if (message.mentions.members.size !== 0) {
             if (!message.guild.member(client.user).hasPermission("MANAGE_MESSAGES")) return message.channel.send(frmyperm);
             if (!message.guild.member(client.user).hasPermission("MANAGE_ROLES")) return message.channel.send(frmyperm);
@@ -732,6 +734,15 @@ client.on("message", message => {
 
             if (message.content.startsWith("system calls") || message.content.startsWith("system call") || message.content.startsWith("systeme calls") || message.content.startsWith("systeme call")) {
                 message.channel.send("To access commands, execute `" + prefix + "` and to access the help just do `" + prefix + "help`  !")
+            }
+        }
+        if(gold(message.author.id)){
+            if(message.content.includes("natsu") ||message.content.includes("nocta")){
+                if(message.guild.members.filter(u => u.id === 564201035489607680 || u.id === 395946868753825802)){
+                    message.reply("<@395946868753825802> <@564201035489607680>, on parle de toi")
+                }else{
+                    message.reply("Auh, tu parle de nocta ? la moche ? :wink:")
+                }
             }
         }
 
