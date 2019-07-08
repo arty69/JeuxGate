@@ -36,7 +36,7 @@ var httpserveur = http.createServer((req, res) => {
 			data.append('client_id', '515891064721244162');
 			data.append('client_secret', process.env.client_secret);
 			data.append('grant_type', 'authorization_code');
-			data.append('redirect_uri', 'https://' + process.env.site + "/co");
+			data.append('redirect_uri', 'http://' + process.env.site + "/co");
 			data.append('scope', 'identify');
 			data.append('code', accessCode);
 
@@ -131,7 +131,16 @@ var httpserveur = http.createServer((req, res) => {
 						res.writeHead(200, {
 							'content-type': 'text/html;charset=utf-8',
 						});
-						var code = Math.random().toString(36).substring(7);
+						var x = true
+						var code = "a"
+						while(x) {
+							var code = Math.random().toString(36).substring(7);
+							if(!codelist[code]) {
+								x = false
+							}else{
+								x = true
+							}
+						}
 						codelist[code] = {
 							a: inf.id,
 							u: inf.id
