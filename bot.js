@@ -13,6 +13,7 @@ console.log(process.env.TOKEN)
 
 var prefix = "jg/";
 var vers = fs.readFileSync('vers', 'utf-8');
+var muted = JSON.parse(fs.readFileSync('muted.json', 'utf-8'));
 var fryourperm = "⚠️**Hey ...** Je suis désolé or, vous n'avez pas la permission d'exécuter celà !";
 var frmyperm = "⚠️**Hey ...** Je suis désolé or, je n'ai pas la permission d'exécuter celà !";
 
