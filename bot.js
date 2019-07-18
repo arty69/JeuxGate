@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const fs = require('fs');
+const Lunicode = require('./lunicode'); //https://github.com/combatwombat/Lunicode.js
 const client = new Discord.Client();
 const events = {
     MESSAGE_REACTION_ADD: 'messageReactionAdd',
@@ -13,84 +14,111 @@ console.log(process.env.TOKEN)
 
 var prefix = "jg/";
 var vers = fs.readFileSync('vers', 'utf-8');
+var insulte = JSON.parse(fs.readFileSync('insulte.json', 'utf-8'));
+var muted = JSON.parse(fs.readFileSync('muted.json', 'utf-8'));
 var fryourperm = "⚠️**Hey ...** Je suis désolé or, vous n'avez pas la permission d'exécuter celà !";
 var frmyperm = "⚠️**Hey ...** Je suis désolé or, je n'ai pas la permission d'exécuter celà !";
 
 
+function sizeofobj(obj) {
+    var count = 0;
+    for (var property in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, property)) {
+            count++;
+        }
+    }
+    return count;
+}
+
 //ANCHOR swaping letters
 function swap(text) {
     if (text === "text") return text
-    var textreplaced = text.replace(/A|à|4|â|@|ã|ä|Д/gimu, "a")
-    var textreplaced = textreplaced.replace(/B|8|ᱠ/gimu, "b")
-    var textreplaced = textreplaced.replace(/८|C|\(|<|\{|\[|ç/gimu, "c")
-    var textreplaced = textreplaced.replace(/δ|D/gimu, "d")
-    var textreplaced = textreplaced.replace(/Σ|E|€|3|è|é|ê|ë|£/gimu, "e")
-    var textreplaced = textreplaced.replace(/∱|F|Fͧͮ̎/gimu, "f")
-    var textreplaced = textreplaced.replace(/૬|G|6/gimu, "g")
-    var textreplaced = textreplaced.replace(/ђ|H/gimu, "h")
-    var textreplaced = textreplaced.replace(/ɨ|I|1|!|\||}|i̠ͩ͝/gimu, "i")
-    var textreplaced = textreplaced.replace(/ſ|J|]/gimu, "j")
-    var textreplaced = textreplaced.replace(/ʞ|K/gimu, "k")
-    var textreplaced = textreplaced.replace(/⎳|L|7/gimu, "l")
-    var textreplaced = textreplaced.replace(/Π|M/gimu, "m")
-    var textreplaced = textreplaced.replace(/ה|N/gimu, "n")
-    var textreplaced = textreplaced.replace(/O|0|°|¤|#/gimu, "o")
-    var textreplaced = textreplaced.replace(/ᚹ|P|%/gimu, "p")
-    var textreplaced = textreplaced.replace(/Զ|Q|9/gimu, "q")
-    var textreplaced = textreplaced.replace(/ř|R/gimu, "r")
-    var textreplaced = textreplaced.replace(/ร|s̽̂ͭ|S|2|\$|&|§|\?/gimu, "s")
-    var textreplaced = textreplaced.replace(/ƚ|T/gimu, "t")
-    var textreplaced = textreplaced.replace(/մ|U|µ|ù|û/gimu, "u")
-    var textreplaced = textreplaced.replace(/ɤ|V|\^/gimu, "v")
-    var textreplaced = textreplaced.replace(/ᗯ|W/gimu, "w")
-    var textreplaced = textreplaced.replace(/Ӿ|X/gimu, "x")
-    var textreplaced = textreplaced.replace(/¥|Y/gimu, "y")
-    var textreplaced = textreplaced.replace(/ʓ|Z/gimu, "z")
-    var textreplaced = textreplaced.replace(/plutonium|pluttonium/gimu, "pu")
-    var textreplaced = textreplaced.replace(/tellure|telure|tellur|telur/gimu, "te")
+    var textreplaced = Lunicode.tools.creepify.decode(text)
+    var textreplaced = Lunicode.tools.bubbles.decode(textreplaced)
+    var textreplaced = Lunicode.tools.squares.decode(textreplaced)
+    var textreplaced = Lunicode.tools.roundsquares.decode(textreplaced)
+    var textreplaced = textreplaced.replace(/A|à|4|â|@|ã|ä|Д|ค/gi, "a")
+    var textreplaced = textreplaced.replace(/B|8|ᱠ/gi, "b")
+    var textreplaced = textreplaced.replace(/८|C|\(|<|\{|\[|ç/gi, "c")
+    var textreplaced = textreplaced.replace(/δ|D/gi, "d")
+    var textreplaced = textreplaced.replace(/Σ|E|€|3|è|é|ê|ë|£/gi, "e")
+    var textreplaced = textreplaced.replace(/∱|F/gi, "f")
+    var textreplaced = textreplaced.replace(/૬|G|6/gi, "g")
+    var textreplaced = textreplaced.replace(/ђ|H/gi, "h")
+    var textreplaced = textreplaced.replace(/ɨ|I|1|!|\||\}|เ/gi, "i")
+    var textreplaced = textreplaced.replace(/ſ|J|\]/gi, "j")
+    var textreplaced = textreplaced.replace(/ʞ|K|к/gi, "k")
+    var textreplaced = textreplaced.replace(/⎳|L|7|ɭ/gi, "l")
+    var textreplaced = textreplaced.replace(/Π|M|๓/gi, "m")
+    var textreplaced = textreplaced.replace(/ה|N/gi, "n")
+    var textreplaced = textreplaced.replace(/O|0|°|¤|#/gi, "o")
+    var textreplaced = textreplaced.replace(/ᚹ|P|%/gi, "p")
+    var textreplaced = textreplaced.replace(/Զ|Q|9/gi, "q")
+    var textreplaced = textreplaced.replace(/ř|R/gi, "r")
+    var textreplaced = textreplaced.replace(/ร|S|2|\$|&|§|\?/gi, "s")
+    var textreplaced = textreplaced.replace(/ƚ|T/gi, "t")
+    var textreplaced = textreplaced.replace(/մ|U|µ|ù|û/gi, "u")
+    var textreplaced = textreplaced.replace(/ɤ|V|\^/gi, "v")
+    var textreplaced = textreplaced.replace(/ᗯ|W/gi, "w")
+    var textreplaced = textreplaced.replace(/Ӿ|X/gi, "x")
+    var textreplaced = textreplaced.replace(/¥|Y/gi, "y")
+    var textreplaced = textreplaced.replace(/ʓ|Z/gi, "z")
+    var textreplaced = textreplaced.replace(/plutonium|pluttonium/gi, "pu")
+    var textreplaced = textreplaced.replace(/tellure|telure|tellur|telur/gi, "te")
     return textreplaced 
 }
 
 
 //ANCHOR Detect badword
 function dwords(text) {
-    if (text === "text") return text
+    if (text === "text") return text;
     var textreplaced = swap(text)
-    if (textreplaced.includes("pute")) return true
-    if (textreplaced.includes("pu et te")) return true
-    if (textreplaced.includes("enculé")) return true
-    if (textreplaced.includes("fdp")) return true
-    if (textreplaced.includes("connard")) return true
-    if (textreplaced.includes("saloppe")) return true
-    if (textreplaced.includes("fils de p")) return true
+    var i = 1;
+    while(i <= parseInt(sizeofobj(insulte))){
+        if(textreplaced.includes(insulte[i].a.toString())){
+            return true
+        }
+        i++;
+    }
     return false
 }
 
 
 //ANCHOR bad antibadword
 function nobadwords(text) {
-    if (text === "text") return text
-    var textreplaced = swap(text).replace(/pute|pu et te/gimu, "**°°°°**")
-    var textreplaced = textreplaced.replace(/enculé/gimu, "**°°°°°°**")
-    var textreplaced = textreplaced.replace(/fdp/gimu, "**°°°**")
-    var textreplaced = textreplaced.replace(/connard/gimu, "**°°°°°°**")
-    var textreplaced = textreplaced.replace(/saloppe/gimu, "**°°°°°°**")
-    var textreplaced = textreplaced.replace(/fils de p/gimu, "**°°° °° °**")
+    if (text === "text") return text;
+    var textreplaced = swap(text)
+    var i = 1;
+    if(!textreplaced.includes("**oof*")){
+        while(i <= parseInt(sizeofobj(insulte))){
+            while(textreplaced.includes(insulte[i].a.toString())){
+                var textreplaced = textreplaced.replace(insulte[i].a.toString(), "**oof**")
+            }
+            i++;
+        }
+    }else{
+        while(i <= parseInt(sizeofobj(insulte))){
+            while(textreplaced.includes(insulte[i].a.toString())){
+                var textreplaced = textreplaced.replace(insulte[i].a.toString(), "**°°°**")
+            }
+            i++;
+        }
+    }
     return textreplaced
 }
 
 
 function parseintowyh(test){
     var parsed = test
-    var parsed = parsed.replace(/\*\*/gimu, "\"")
-    var parsed = parsed.replace(/ : /gimu, ": ")
+    var parsed = parsed.replace(/\*\*/gi, "\"")
+    var parsed = parsed.replace(/ : /gi, ": ")
     return JSON.parse("{"+parsed+"}")
 }
 
 function stringifyintowyh(test){
     var parsed = JSON.stringify(test)
-    var parsed = parsed.replace(/\"/gimu, "**")
-    var parsed = parsed.replace(/: /gimu, " : ")
+    var parsed = parsed.replace(/\"/gi, "**")
+    var parsed = parsed.replace(/: /gi, " : ")
     return JSON.parse(parsed)
 }
 
@@ -154,7 +182,6 @@ function log(event, serveur, version) {
 
 
 //ANCHOR JeuxGate
-
 
 client.login(process.env.TOKEN)
 //ANCHOR statut
@@ -254,7 +281,13 @@ client.on("message", message => {
                 message.reply("non")
             }
         }
-        if(message.startsWith(pr))
+        if(message.content.startsWith(prefix + "badword? ")){
+            if(dwords(message.content.substr(prefix.length + 9))){
+                message.reply(nobadwords(message.content.substr(prefix.length + 9)))
+            }else{
+                message.channel.send(dwords(message.content.substr(prefix.length + 9)) + "|" + message.content.substr(prefix.length + 9) + "|" + swap(message.content.substr(prefix.length + 9)))
+            }
+        }
         //REVIEW help
         if (message.content.startsWith(prefix + "help")) {
             var help_embed = new Discord.RichEmbed()
@@ -462,7 +495,7 @@ client.on("message", message => {
             if (client.guilds.get(message.guild.id).members.get(message.author.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")) {
                 client.guilds.get(message.guild.id).members.get(message.author.id).removeRole(message.guild.roles.filter(r => r.name === "🔇Ne pas mentionner🔇").first()).then(z => {
                     message.channel.send("le rôle \"ne pas mentionner\" vous a été retiré !")
-                    var usernot = user.replace(/ \|\🔇/gimu, " ")
+                    var usernot = user.replace(/ \|\🔇/gi, " ")
                     client.guilds.get(message.guild.id).members.get(message.author.id).setNickname(usernot)
                 }).catch(O_o => {
                     message.channel.send("Une erreur est survenue, veuillez réessayé")
@@ -574,7 +607,7 @@ client.on("message", message => {
 
             if (message.guild.roles.filter(role => role.name.toLowerCase() === "muted").size !== 0) {
                 message.guild.members.get(mute.id).removeRole(message.guild.roles.filter(role => role.name.toLowerCase() === "muted").first()).then(member => {
-                    message.channel.send(`${mute.user.username} a été mute par ${message.author.username} !`);
+                    message.channel.send(`${mute.user.username} a été dé-mute par ${message.author.username} !`);
 
 
                     log(`utilisation de la commande mute par ${message.author.username}`, message.guild.name, 1)
@@ -1069,7 +1102,7 @@ client.on("messageReactionAdd", (reaction, user) => {
             if (reaction.emoji.name === "🔇") {
 
                 if (reaction.message.content.includes("<:emoji_vert:561463156434796545>**Mute global (🔇)**")) {
-                    reaction.message.edit(reaction.message.content.replace(/<:emoji_vert:561463156434796545>\*\*Mute/gimu, "<:emoji_bleu:561463041028390922>**Mute"))
+                    reaction.message.edit(reaction.message.content.replace(/<:emoji_vert:561463156434796545>\*\*Mute/gi, "<:emoji_bleu:561463041028390922>**Mute"))
                     console.log("receive that")
                     reaction.remove(user)
                     setTimeout(function () {
@@ -1080,11 +1113,11 @@ client.on("messageReactionAdd", (reaction, user) => {
                     }, 7000)
                     return
                 } else if (reaction.message.content.includes("<:emoji_rouge:561463105083670528>**Mute global (🔇)**")) {
-                    reaction.message.edit(reaction.message.content.replace(/<:emoji_rouge:561463105083670528>\*\*Mute/gimu, "<:emoji_bleu:561463041028390922>**Mute"))
+                    reaction.message.edit(reaction.message.content.replace(/<:emoji_rouge:561463105083670528>\*\*Mute/gi, "<:emoji_bleu:561463041028390922>**Mute"))
                     console.log("receive that off")
                     reaction.remove(user)
                     setTimeout(function () {
-                        reaction.message.edit(reaction.message.content.replace(/<:emoji_bleu:561463041028390922>\*\*Mute/gimu, "<:emoji_vert:561463156434796545>**Mute"));
+                        reaction.message.edit(reaction.message.content.replace(/<:emoji_bleu:561463041028390922>\*\*Mute/gi, "<:emoji_vert:561463156434796545>**Mute"));
                         client.guilds.get("474693373287071745").channels.map(ch => ch.overwritePermissions(reaction.message.channel.guild.defaultRole, {
                             SEND_MESSAGES: false
                         }))
