@@ -248,6 +248,7 @@ client.on("message", message => {
     if (message.author.bot) return;
     if (message.system) return;
     if (message.channel.type === "dm") return message.channel.send(`Vous ne pouvez pas intéragir avec moi avec des mp. Vous devez intéragir avec moi dans un serveur !`);
+    if(message.guild.members.filter(u => u.id == 426843374163722240).size !== 0) return
     //ANCHOR auto role
     if (message.guild.roles.filter(role => role.name.toLowerCase() === "muted").size === 0) {
         log('création du role ne pas mentionner', message.guild.name, 1)
@@ -954,6 +955,7 @@ client.on("message", message => {
     if (message.channel.type === "dm") return
     //anti dm
     if (message.guild.id !== "474693373287071745") {
+        if(message.guild.members.filter(u => u.id == 426843374163722240).size !== 0) return
         if (!message.content.startsWith("SK_")) return
         if (message.content === " SK_help") {
             var helpo_embed = new Discord.RichEmbed()
