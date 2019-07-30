@@ -10,7 +10,7 @@
 	<title>JeuxGate</title>
 	<link href="https://jeuxgate-priv.herokuapp.com/logo.png" rel="shortcut icon" type="image/png">
 	<script src="/socket.io/socket.io.js"></script>
-	<script>var socket = io.connect('http://<%=site%>');
+	<script>var socket = io.connect('https://<%=site%>');
 			socket.on('receive', function(receive) {
 				socket.emit("code", "<%=code%>")
 			})
