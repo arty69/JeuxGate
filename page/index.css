@@ -1,7 +1,7 @@
 body{
 	background-color: #303030;
 	font-family: Verdana,sans-serif;
-	color: black;
+	color: white;
 	margin: 0px;
 	font-size: 0px;
 }
@@ -82,9 +82,9 @@ input:checked + .slider:before {
     100% {opacity: 1;}
 }
 @keyframes co {
-	0% {background-color: #2eb82e;}
+	0% {background-color: #019aa5;}
 	50% {background-color: #f1f1f1;}
-	100% {background-color: #2eb82e;}
+	100% {background-color: #019aa5;}
 }
 .co{
 	animation-name: co;
@@ -138,7 +138,7 @@ center{
 	text-decoration: none;
 }
 .active {
-	background-color: #4CAF50;
+	background-color: #019aa5;
 }
 .menu-link:hover {
 	background-color: #555;
