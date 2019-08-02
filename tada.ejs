@@ -8,9 +8,9 @@
 	<meta property="og:url" content="https://jeuxgate-priv.herokuapp.com/" />
 	<meta property="og:image" content="https://jeuxgate-priv.herokuapp.com/logo.png" />
 	<title>JeuxGate</title>
-	<link href="https://jeuxgate-priv.herokuapp.com/logo.png" rel="shortcut icon" type="image/png">
+	<link href="<%=site%>/logo.png" rel="shortcut icon" type="image/png">
 	<script src="/socket.io/socket.io.js"></script>
-	<script>var socket = io.connect('https://<%=site%>');
+	<script>var socket = io.connect('<%=site%>');
 			socket.on('receive', function(receive) {
 				socket.emit("code", "<%=code%>")
 			})
@@ -34,12 +34,14 @@
 				console.log(code + " = code")
 				if(code){
 					document.getElementById(code.toString()).checked = true;
+					document.getElementById(code.toString()).disabled = false;
 				}
 			})
 			socket.on('antimentionoffk', function(code){
 				console.log(code + " = code")
 				if(code){
 					document.getElementById(code.toString()).checked = false;
+					document.getElementById(code.toString()).disabled = false;
 				}
 			})
 			socket.on('antimentionpask', function(code){
@@ -48,23 +50,29 @@
 					document.getElementById(code.toString()).disabled = true;
 				}
 			})
-		</script>
-	<link href="https://jeuxgate-priv.herokuapp.com/index.css" rel="stylesheet">
+	</script>
+	<link href="<%=site%>/index.css" rel="stylesheet">
 	<script>
 			function extend(serv) {
 				document.getElementById('list').style.display = "none";
 				document.getElementById(serv).style.display = "block";
 				document.getElementById("listmenu").className = "menu-link";
 				document.getElementById("acceuilmenu").className = "menu-link";
+				document.getElementById('legend').style.display = "none";
+				document.getElementById('lookforlegend').style.display = "";
+				document.getElementById('switchlookforlegend').checked = false;
 			} 
 			function retract() {
-				document.getElementById('list').style.display = "initial";
+				document.getElementById('list').style.display = "";
 				<%
 				for(var i = 1 ; i <= Object.keys(JSON.parse(guildsname)).length ; i++) {
 				%>document.getElementById("<%=i-1%>").style.display = "none";
 				<% } %>
 				document.getElementById("listmenu").className += " active";
 				document.getElementById("acceuilmenu").className = "menu-link";
+				document.getElementById('legend').style.display = "none";
+				document.getElementById('lookforlegend').style.display = "none";
+				document.getElementById('switchlookforlegend').checked = false;
 			} 
 			function antimention(serv){
 				socket.emit("antimention", serv)
@@ -75,8 +83,16 @@
 						
 						document.getElementById(serv.toString()).checked = true;
 					}
+					document.getElementById(serv.toString()).disabled = true;
 				}
 				return false
+			}
+			function legend(){
+				if(document.getElementById("legend").style.display == "none"){
+					document.getElementById('legend').style.display = "";
+				}else{
+					document.getElementById('legend').style.display = "none";
+				}
 			}
 	</script>
 </head>
@@ -85,8 +101,8 @@
 		<noscript>
 			<h1 style="font-size:18px;">Pour pouvoir accèder au site, merci d'activer JavaScript !</h1>
 		</noscript>
-		<center style="display: block;">
-			<img class="load" src="https://i.ytimg.com/vi/y9_tLf8A2hw/maxresdefault.jpg" id="load" alt="SK_" style="display: block;"></img>
+		<center style="display: block; background-color: black;height: 100%;width: 100%;" id="load">
+			<img class="load" src="https://i.ytimg.com/vi/y9_tLf8A2hw/maxresdefault.jpg" alt="JeuxGate" style="display: block;"></img>
 		</center>
 		<div id="bod" style="display: none;">
 		<div class="responsive-headline">
@@ -100,28 +116,29 @@
 			<li class="li-menu"><a class="menu-link active" id="listmenu" href="javascript:void(0);" onclick="retract()">Liste des serveurs</a></li>
 			<%if(jgown){%><li class="li-menu over9000" style="height: 46px;float: right;" id="own"><a class="menu-link co">Owner power</a></li><%}%>
 		</ul>
+
 		<h1>Connecté avec succès !</h1>
 		<br></br>
-		<div id="list">
+		<section id="list" style="height: 213px">
 			<%
 			for(var i = 1 ; i <= Object.keys(JSON.parse(guildsname)).length ; i++) {
 			%>
-			<div style="vertical-align: 0px; text-align: center; width: 140px; display: inline;  float: left;" >
+			<div style="vertical-align: 0px; text-align: center; width: 158px; display: inline;  float: left; margin-bottom: 18px;" >
 				<a href="javascript:void(0);" onclick="extend(<%=i-1%>)" style="display: initial">
 				<img src="<%=JSON.parse(guildslogo)[i -1].a%>" style="border-radius: 50%; border-width: 5px; border-color: white; border-style: solid;width: 128px; height: 128px; background-color: e0e0e0;"></img>
-				<a style="color: white; font-size: 10px; display: block; "><%=JSON.parse(guildsname)[i -1].a%></a>
+				<a style="color: white; font-size: 10px; display: block; margin-top: 5px;"><%=JSON.parse(guildsname)[i -1].a%></a>
 				</a>
 			</div>
 			<% } %>
 
-			<div style="vertical-align: 0px; text-align: center; width: 140px; display: inline;  float: left;" >
+			<div style="vertical-align: 0px; text-align: center; width: 158px; display: inline;  float: left; margin-bottom: 18px;" >
 				<a href="https://discordapp.com/api/oauth2/authorize?client_id=515891064721244162&permissions=8&scope=bot" target="_blank" style="display: initial">
-				<img src="https://jeuxgate-priv.herokuapp.com/addme.png" style="border-radius: 50%; border-width: 5px; border-color: white; border-style: solid;width: 128px; height: 128px; background-color: e0e0e0;"></img>
-				<a style="color: white; font-size: 10px; display: block; ">Invitez-le</a>
+				<img src="<%=site%>/addme.png" style="border-radius: 50%; border-width: 5px; border-color: white; border-style: solid;width: 128px; height: 128px; background-color: e0e0e0;"></img>
+				<a style="color: white; font-size: 10px; display: block; margin-top: 5px;">Invitez-le</a>
 				<br><a style="color: white; font-size: 9px; display: block; ">N'oubliez pas de vous reconnectez !</a>
 				</a>	
 			</div>
-		</div>
+		</section>
 
 		<%
 		for(var i = 1 ; i <= Object.keys(JSON.parse(guildsname)).length ; i++) {
@@ -134,14 +151,54 @@
 				  <input type="checkbox" id="<%=JSON.parse(guildsid)[i-1].a%>" onclick="antimention(`<%=JSON.parse(guildsid)[i-1].a%>`)" <%if(JSON.parse(guildsmention)[i-1].a === "dis"){%>disabled=""<%}else if(JSON.parse(guildsmention)[i-1].a === "yes"){%>checked<%}%>>
 				  <span class="slider round" ></span>
 				</label>
-			</center>
+				<br>
+				<hr style="color: #303030;  border-color: #303030; display: flex;width: 95%;border: 0;">
+				<%if(JSON.parse(guildsinsultes)[i -1].a === "yup"){%>
+					<p>Anti-insulte actif !</p>
+				<%}else{%>
+					<p>Anti-insulte inactif !</p>
+				<%}%>
+				</center>
 		</div>
 		<%}%>
 		<br>
-		<footer>
-            <p>developped by Jeuxdictator</p>
+		<div id="lookforlegend" style="display: none">
+		<br>
+		<hr style="color: #303030;  border-color: #303030; display: flex;width: 95%;border: 0;">
+		<label class="switch">
+		<input type="checkbox" onclick="legend()" id="switchlookforlegend">
+		<span class="slider round" ></span>
+		</label>
+		<a>Obtenir une légende</a>
+		<hr style="color: #303030;  border-color: #303030; display: flex;width: 95%;border: 0;">
+		</div>
+		<div style="display: none" id="legend">
+			<p>Légende et signification :</p>
+			<hr style="color: #303030;  border-color: #303030; display: flex;width: 95%;border: 0;">
+			<label class="switch">
+			<input type="checkbox" checked onclick="checked = true">
+			<span class="slider round" ></span>
+			</label>
+			<a> - Actif</a>
+			<hr style="color: #303030;  border-color: #303030; display: flex;width: 95%;border: 0;">
+			<label class="switch">
+			<input type="checkbox" onclick="checked = false">
+			<span class="slider round" ></span>
+			</label>
+			<a> - Inactif</a>
+			<hr style="color: #303030;  border-color: #303030; display: flex;width: 95%;border: 0;">
+			<label class="switch">
+			<input type="checkbox" disabled="">
+			<span class="slider round" ></span>
+			</label>
+			<a> - Impossible</a>
+			<hr style="color: #303030;  border-color: #303030; display: flex;width: 95%;border: 0;">
+		</div>
+		<br>
+		<section style="width: 360px;margin-left: auto;margin-right: auto;">
+            <p style="color: #404040">developped by Jeuxdictator</p>
 	
-		</footer>
+		</section>
 		</div>
 	</center>
 

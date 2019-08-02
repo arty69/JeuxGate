@@ -14,15 +14,19 @@ const ejs = require('ejs');
 var io = require('socket.io');
 var codelist = JSON.parse(fs.readFileSync('code.json', 'utf-8'));
 
-var list = fs.readFileSync('list.json', 'utf-8');
-var vers = fs.readFileSync('vers', 'utf-8');
+
+fs.writeFile('code.json', "{}", (err) => {
+	if(!err) return
+	console.log("impossible")
+	process.exit(1)
+});
 
 var httpserveur = http.createServer((req, res) => {
 	const urlObj = url.parse(req.url, true);
 
 	if (urlObj.pathname === '/index.css') {
 		res.writeHead(200, {
-			'content-type': 'text/html;charset=utf-8',
+			'content-type': 'text/css;charset=utf-8',
 		});
 		res.write(fs.readFileSync('./page/index.css'));
 		res.end();
@@ -36,7 +40,7 @@ var httpserveur = http.createServer((req, res) => {
 			data.append('client_id', '515891064721244162');
 			data.append('client_secret', process.env.client_secret);
 			data.append('grant_type', 'authorization_code');
-			data.append('redirect_uri', 'https://' + process.env.site + "/co");
+			data.append('redirect_uri', process.env.site + "/co");
 			data.append('scope', 'identify');
 			data.append('code', accessCode);
 
@@ -84,6 +88,7 @@ var httpserveur = http.createServer((req, res) => {
 						var guildsinlinklogo = JSON.parse("{}");
 						var guildsinlinkid = JSON.parse("{}");
 						var guildsinlinkmention = JSON.parse("{}");
+						var guildsinsultes = JSON.parse("{}");
 						client.guilds.filter(gui => gui.members.filter(u => u.id === inf.id).size !== 0).map(guildinquestion => {
 							guildsinlink[i] = {
 								a: guildinquestion.name
@@ -121,6 +126,15 @@ var httpserveur = http.createServer((req, res) => {
 									a: "dis"
 								}
 							}
+							if(guildinquestion.roles.filter(ro => ro.name === "🔇Ne pas mentionner🔇").size === 1){
+								guildsinsultes[i] = {
+									a: "yup"
+								}
+							}else{
+								guildsinsultes[i] = {
+									a: "nope"
+								}
+							}
 							i++;
 						});
 						if (inf.id === "244874298714619904" || inf.id === "474113083506425861" || inf.id === "471669236859928586") {
@@ -154,6 +168,7 @@ var httpserveur = http.createServer((req, res) => {
 							guildslogo: JSON.stringify(guildsinlinklogo),
 							guildsid: JSON.stringify(guildsinlinkid),
 							guildsmention: JSON.stringify(guildsinlinkmention),
+							guildsinsultes: JSON.stringify(guildsinsultes),
 							jgown: jgown,
 							code: code,
 							id: inf.id,
@@ -200,7 +215,7 @@ var httpserveur = http.createServer((req, res) => {
 		}
 		if (urlObj.pathname === '/addme.png') {
 			res.writeHead(200, {
-				'content-type': 'text/html;charset=utf-8',
+				'content-type': 'image/png',
 			});
 			res.write(fs.readFileSync('./page/addme.png'));
 			res.end();
@@ -208,7 +223,7 @@ var httpserveur = http.createServer((req, res) => {
 		}
 		if (urlObj.pathname === '/logo.png') {
 			res.writeHead(200, {
-				'content-type': 'text/html;charset=utf-8',
+				'content-type': 'image/png',
 			});
 			res.write(fs.readFileSync('./page/logo.png'));
 			res.end();
@@ -229,6 +244,14 @@ var httpserveur = http.createServer((req, res) => {
 client.login(process.env.TOKEN)
 client.on("ready", () => {
 	console.log(`connecté : ${client.user.tag}! ${process.env.PORT} ${process.env.site}`)
+	
+    client.user.setPresence({
+        game: { 
+            name: `connecter le site . . .`,
+            type: 'PLAYING' 
+        },
+        status: 'dnd' 
+    })  
 
 	io.listen(httpserveur).sockets.on('connection', function (socket) {
 		socket.emit("receive", "receive")
@@ -257,22 +280,33 @@ client.on("ready", () => {
 											client.fetchUser(codelist[code].u, false);
 										})
 									} else {
-										client.guilds.filter(g => g.id.toString() === a.toString()).first().members.filter(u => u.id === codelist[code].u).first().addRole(client.guilds.filter(g => g.id.toString() === a.toString()).first().roles.filter(ro => ro.name === "🔇Ne pas mentionner🔇").first()).then(y => {
-											socket.emit('antimentiononk', `${a}`)
+										var roledontmentionmebiatch = client.guilds.filter(g => g.id.toString() === a.toString()).first().roles.filter(r => r.name === "🔇Ne pas mentionner🔇").first()
+										if(roledontmentionmebiatch.hasPermission("ADMINISTRATOR") || roledontmentionmebiatch.hasPermission("KICK_MEMBERS") || roledontmentionmebiatch.hasPermission("BAN_MEMBERS") || roledontmentionmebiatch.hasPermission("MANAGE_CHANNELS") || roledontmentionmebiatch.hasPermission("MANAGE_MESSAGES") || roledontmentionmebiatch.hasPermission("MANAGE_GUILD") || roledontmentionmebiatch.hasPermission("MANAGE_NICKNAMES") || roledontmentionmebiatch.hasPermission("MANAGE_ROLES")){
+											socket.emit("antimentionpask", `${a}`)
+											socket.emit('errorjg', '602 : Le role ne pas mentionner a des permissions pouvant compromettre l\'intégrité du serveur en question, celui-ci ne vous sera pas mit.')
+											client.guilds.filter(g => g.id.toString() === a.toString()).first().owner.send(':warning: **Hey Nous avons découvert un problème de sécurité . . .** le role `🔇Ne pas mentionner🔇` sur le serveur ' + client.guilds.filter(g => g.id.toString() === a.toString()).first().name +' a des permissions pouvant compromettre l\'intégrité du serveur, merci de corriger le role. (Erreure 602)').catch(O => {
+												client.guilds.filter(g => g.id.toString() === a.toString()).first().defaultChannel.send(":warning: **Hey Nous avons découvert un problème de sécurité . . .** le role `🔇Ne pas mentionner🔇` sur le serveur ' + client.guilds.filter(g => g.id.toString() === a.toString()).first().name +' a des permissions pouvant compromettre l\'intégrité du serveur, merci de corriger le role. (Erreure 602)").catch(O_o => {})
+											})
+										}else{
+											client.guilds.filter(g => g.id.toString() === a.toString()).first().members.filter(u => u.id === codelist[code].u).first().addRole(client.guilds.filter(g => g.id.toString() === a.toString()).first().roles.filter(ro => ro.name === "🔇Ne pas mentionner🔇").first()).then(y => {
+												socket.emit('antimentiononk', `${a}`)
 
-											var usernot = client.guilds.filter(g => g.id.toString() === a.toString()).first().members.filter(u => u.id === codelist[code].u).first().displayName + " |🔇"
-											client.guilds.filter(g => g.id.toString() === a.toString()).first().members.filter(u => u.id === codelist[code].u).first().setNickname(usernot).catch(O_o => {
-												socket.emit('errorjg', '600 : impossible de vous renommez, vérifiez que vous n etes ni le fondateur du serveur, ni que le role de jeuxgate soit en dessous du votre')
+												var usernot = client.guilds.filter(g => g.id.toString() === a.toString()).first().members.filter(u => u.id === codelist[code].u).first().displayName + " |🔇"
+												client.guilds.filter(g => g.id.toString() === a.toString()).first().members.filter(u => u.id === codelist[code].u).first().setNickname(usernot).catch(O_o => {
+													socket.emit('errorjg', '600 : impossible de vous renommez, vérifiez que vous n etes ni le fondateur du serveur, ni que le role de jeuxgate soit en dessous du votre')
+												})
+
+												client.fetchUser(codelist[code].u, false);
+											}).catch(y => {
+												socket.emit("antimentionpask", `${a}`)
+												client.fetchUser(codelist[code].u, false);
 											})
 
-											client.fetchUser(codelist[code].u, false);
-										}).catch(y => {
-											socket.emit("antimentionpask", `${a}`)
-											client.fetchUser(codelist[code].u, false);
-										})
+										}
+										
 									}
 								} else {
-									socket.emit("antimentionpask", a)
+									socket.emit("errorjg", "601 : plusieurs (ou aucun) rôles ne pas mentionner détectés.")
 									client.fetchUser(codelist[code].u, false);
 								}
 							} else {
