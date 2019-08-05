@@ -2,6 +2,7 @@ body{
 	background-color: #303030;
 	font-family: Verdana,sans-serif;
 	color: white;
+	height: 100%;
 	margin: 0px;
 	font-size: 0px;
 }
@@ -75,6 +76,8 @@ input:checked + .slider:before {
 	animation-duration: 4s;
 	animation-iteration-count: infinite;
 	background-color: black;
+	height: auto;
+	width: 100%;
 }
 @keyframes loading {
     0%   {opacity: 1;}
@@ -90,7 +93,6 @@ input:checked + .slider:before {
 	animation-name: co;
 	animation-duration: 4s;
 	animation-iteration-count: infinite;
-	font-size : 16px;
 }
 .error{
     background-color: azure;
@@ -102,7 +104,7 @@ input:checked + .slider:before {
     font-family: Consolas;
 }
 center{
-	font-size: 15px;
+	font-size: 1vw;
 }
 .responsive-headline{
 	line-height: 0;
@@ -124,6 +126,9 @@ center{
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
+	position: -webkit-sticky; /* Safari */
+	position: sticky;
+	top: 0;
 	overflow: hidden;
 	background-color: #f1f1f1;
 }
@@ -149,18 +154,43 @@ center{
 	border-width: 5px;
 	border-style: solid;
 }
-.jeuxgatetxt {
-	color: white;
-	font-size: 40px;
-	line-height: 40px;
+.icon{
+	display: none;
+	height: 19px;
 }
-.byzanbottxt {
-	color: #e65c00;
-	font-size: 30px;
-	line-height: 30px;
+.servlist{
+	font-size: 10px;
 }
-.shruggytxt {
-	color: #99ccff;
-	font-size: 30px;
-	line-height: 30px;
+.servinv{
+	font-size: 9px;
+}
+@media screen and (max-width: 800px) {
+	.menu a:not(:first-child) {display: none;}
+	.menu a.icon {
+	  float: right;
+	  display: block;
+	}
+	.menu.responsive {position: relative;}
+	.menu.responsive .icon {
+	  position: absolute;
+	  right: 0;
+	  top: 0;
+	}
+	.menu.responsive a {
+	  float: none;
+	  display: block;
+	  text-align: left;
+	}
+	center{
+		font-size: 16px
+	}
+	.co{
+		font-size: 18px
+	}
+	.servlist{
+		font-size: 13px;
+	}
+	.servinv{
+		font-size: 11px;
+	}
 }
