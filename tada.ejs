@@ -1,5 +1,8 @@
+<!DOCTYPE html>
 <html lang="fr">
+
 <head>
+	<!-- meta -->
 	<meta charset="utf-8">
 	<meta property="theme-color" content="#019aa5">
 	<meta property="og:type" content="website">
@@ -7,102 +10,152 @@
 	<meta property="og:description" content="Le bot nommé Jeuxgate" />
 	<meta property="og:url" content="https://jeuxgate-priv.herokuapp.com/" />
 	<meta property="og:image" content="https://jeuxgate-priv.herokuapp.com/logo.png" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+	
+	<!-- title + link -->
 	<title>JeuxGate</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link href="<%=site%>/logo.png" rel="shortcut icon" type="image/png">
-	<script src="/socket.io/socket.io.js"></script>
-	<script>var socket = io.connect('<%=site%>');
-			socket.on('receive', function(receive) {
-				socket.emit("code", "<%=code%>")
-			})
-			socket.on('code', function(id){
-				if(id === "<%=id%>"){
-					document.getElementById("bod").style.display = "initial";
-					document.getElementById("load").style.display = "none";
-				}
-			})
-			socket.on('error', function(code){
-				if(code){
-					alert(code.toString())
-				}
-			})
-			socket.on('errorjg', function(code){
-				if(code){
-					alert("Erreure " + code.toString())
-				}
-			})
-			socket.on('antimentiononk', function(code){
-				console.log(code + " = code")
-				if(code){
-					document.getElementById(code.toString()).checked = true;
-					document.getElementById(code.toString()).disabled = false;
-				}
-			})
-			socket.on('antimentionoffk', function(code){
-				console.log(code + " = code")
-				if(code){
-					document.getElementById(code.toString()).checked = false;
-					document.getElementById(code.toString()).disabled = false;
-				}
-			})
-			socket.on('antimentionpask', function(code){
-				console.log(code + " = code")
-				if(code){
-					document.getElementById(code.toString()).disabled = true;
-				}
-			})
-	</script>
 	<link href="<%=site%>/index.css" rel="stylesheet">
+	<script src="/socket.io/socket.io.js"></script>
+	
+	<!-- script -->
 	<script>
-			function extend(serv) {
-				document.getElementById('list').style.display = "none";
-				document.getElementById(serv).style.display = "block";
-				document.getElementById("listmenu").className = "menu-link";
-				document.getElementById("acceuilmenu").className = "menu-link";
-				document.getElementById('legend').style.display = "none";
-				document.getElementById('lookforlegend').style.display = "";
-				document.getElementById('switchlookforlegend').checked = false;
-			} 
-			function retract() {
-				document.getElementById('list').style.display = "";
-				<%
-				for(var i = 1 ; i <= Object.keys(JSON.parse(guildsname)).length ; i++) {
-				%>document.getElementById("<%=i-1%>").style.display = "none";
-				<% } %>
-				document.getElementById("listmenu").className += " active";
-				document.getElementById("acceuilmenu").className = "menu-link";
-				document.getElementById('legend').style.display = "none";
-				document.getElementById('lookforlegend').style.display = "none";
-				document.getElementById('switchlookforlegend').checked = false;
-			} 
-			function antimention(serv){
-				socket.emit("antimention", serv)
-				if(document.getElementById(serv.toString()).disabled === false){
-					if (document.getElementById(serv.toString()).checked === true){
-						document.getElementById(serv.toString()).checked = true;
-					}else{
-						
-						document.getElementById(serv.toString()).checked = true;
-					}
-					document.getElementById(serv.toString()).disabled = true;
-				}
-				return false
+		var socket = io.connect('<%=site%>');
+		socket.on('receive', function (receive) {
+			socket.emit("code", "<%=code%>")
+		})
+		socket.on('code', function (id) {
+			socket.emit("id", "<%=id%>")
+		})
+		socket.on('launchauthorised', function (code) {
+			if (code) {
+				document.getElementById("bod").style.display = "initial";
+				document.getElementById("load").style.display = "none";
 			}
-			function legend(){
-				if(document.getElementById("legend").style.display == "none"){
-					document.getElementById('legend').style.display = "";
-				}else{
-					document.getElementById('legend').style.display = "none";
-				}
+		})
+		socket.on('error', function (code) {
+			if (code) {
+				alert(code.toString())
 			}
+		})
+		socket.on('errorjg', function (code) {
+			if (code) {
+				alert("Erreure " + code.toString())
+			}
+		})
+		socket.on('antimentiononk', function (code) {
+			if (code) {
+				document.getElementById(code.toString() +"mention").checked = true;
+				document.getElementById(code.toString() +"mention").disabled = false;
+			}
+		})
+		socket.on('antimentionoffk', function (code) {
+			if (code) {
+				document.getElementById(code.toString() +"mention").checked = false;
+				document.getElementById(code.toString() +"mention").disabled = false;
+			}
+		})
+		socket.on('antimentionpask', function (code) {
+			if (code) {
+				document.getElementById(code.toString() +"mention").disabled = true;
+			}
+		})
+		socket.on('insulteonk', function (code) {
+			if (code) {
+				document.getElementById(code.toString() +"insulte").checked = true;
+				document.getElementById(code.toString() +"insulte").disabled = false;
+				document.getElementById(code.toString() +"insultetxt").innerHTML = "Anti-insulte actif !";
+			}
+		})
+		socket.on('insulteoffk', function (code) {
+			if (code) {
+				document.getElementById(code.toString() +"insulte").checked = false;
+				document.getElementById(code.toString() +"insulte").disabled = false;
+				document.getElementById(code.toString() +"insultetxt").innerHTML = "Anti-insulte inactif !";
+			}
+		})
+		socket.on('insultepask', function (code) {
+			if (code) {
+				document.getElementById(code.toString() +"insulte").disabled = true;
+			}
+		})
+		socket.on('redirect', function (code) {
+			if (code) {
+				window.location.replace(code)
+			}
+		})
+	</script>
+	<script>
+		function extend(serv) {
+			document.getElementById('list').style.display = "none";
+			document.getElementById(serv).style.display = "block";
+			document.getElementById("listmenu").className = "menu-link li-menu";
+			document.getElementById("acceuilmenu").className = "menu-link li-menu";
+			document.getElementById('legend').style.display = "none";
+			document.getElementById('lookforlegend').style.display = "";
+			document.getElementById('switchlookforlegend').checked = false;
+		}
+		function retract() {
+			document.getElementById('list').style.display = ""; 
+			<%for (var i = 1; i <= Object.keys(JSON.parse(guildsname)).length; i++) {%> 
+				document.getElementById("<%=i-1%>").style.display = "none"; 
+			<%}%>
+			document.getElementById("listmenu").className += " active";
+			document.getElementById("acceuilmenu").className = "menu-link li-menu";
+			document.getElementById('legend').style.display = "none";
+			document.getElementById('lookforlegend').style.display = "none";
+			document.getElementById('switchlookforlegend').checked = false;
+		}
+		function antimention(serv) {
+			socket.emit("antimention", serv)
+			if (document.getElementById(serv.toString() + "mention").disabled === false) {
+				if (document.getElementById(serv.toString() + "mention").checked === true) {
+					document.getElementById(serv.toString() + "mention").checked = true;
+				} else {
+					document.getElementById(serv.toString() + "mention").checked = true;
+				}
+				document.getElementById(serv.toString() + "mention").disabled = true;
+			}
+			return false
+		}
+		function switchinsulte(serv) {
+			socket.emit("switchinsultes", serv)
+			if (document.getElementById(serv.toString() + "insulte").disabled === false) {
+				if (document.getElementById(serv.toString() + "insulte").checked === true) {
+					document.getElementById(serv.toString() + "insulte").checked = true;
+				} else {
+					document.getElementById(serv.toString() + "insulte").checked = false;
+				}
+				document.getElementById(serv.toString() + "insulte").disabled = true;
+			}
+			return false
+		}
+		function legend() {
+			if (document.getElementById("legend").style.display == "none") {
+				document.getElementById('legend').style.display = "";
+			} else {
+				document.getElementById('legend').style.display = "none";
+			}
+		}
+		function menuex() {
+			if (document.getElementById("menu").className === "menu") {
+				document.getElementById("menu").className += " responsive";
+			} else {
+				document.getElementById("menu").className = "menu";
+			}
+		}
 	</script>
 </head>
+
 <body>
-    <center>
+	<center>
 		<noscript>
 			<h1 style="font-size:18px;">Pour pouvoir accèder au site, merci d'activer JavaScript !</h1>
 		</noscript>
 		<center style="display: block; background-color: black;height: 100%;width: 100%;" id="load">
-			<img class="load" src="https://i.ytimg.com/vi/y9_tLf8A2hw/maxresdefault.jpg" alt="JeuxGate" style="display: block;"></img>
+			<img class="load" src="https://i.ytimg.com/vi/y9_tLf8A2hw/maxresdefault.jpg" alt="JeuxGate"
+				style="display: block;"></img>
 		</center>
 		<div id="bod" style="display: none;">
 		<div class="responsive-headline">
@@ -111,10 +164,13 @@
 			</center>
 		</div>
 
-		<ul class="menu">
-			<li class="li-menu"><a class="menu-link" id="acceuilmenu" href="./">Accueil / se déconnecter</a></li>
-			<li class="li-menu"><a class="menu-link active" id="listmenu" href="javascript:void(0);" onclick="retract()">Liste des serveurs</a></li>
-			<%if(jgown){%><li class="li-menu over9000" style="height: 46px;float: right;" id="own"><a class="menu-link co">Owner power</a></li><%}%>
+		<ul class="menu" id="menu">
+			<a class="menu-link li-menu" id="acceuilmenu" href="./">Accueil / se déconnecter</a>
+			<a class="menu-link active li-menu" id="listmenu" href="javascript:void(0);" onclick="retract()">Liste des serveurs</a>
+			<%if(jgown){%><a class="menu-link co li-menu over9000">Owner power</a><%}%>
+			<a href="javascript:void(0);" class="icon li-menu menu-link" onclick="menuex()">
+			  <i class="fa fa-bars" style="height: 19px"></i>
+			</a>
 		</ul>
 
 		<h1>Connecté avec succès !</h1>
@@ -123,48 +179,55 @@
 			<%
 			for(var i = 1 ; i <= Object.keys(JSON.parse(guildsname)).length ; i++) {
 			%>
-			<div style="vertical-align: 0px; text-align: center; width: 158px; display: inline;  float: left; margin-bottom: 18px;" >
-				<a href="javascript:void(0);" onclick="extend(<%=i-1%>)" style="display: initial">
-				<img src="<%=JSON.parse(guildslogo)[i -1].a%>" style="border-radius: 50%; border-width: 5px; border-color: white; border-style: solid;width: 128px; height: 128px; background-color: e0e0e0;"></img>
-				<a style="color: white; font-size: 10px; display: block; margin-top: 5px;"><%=JSON.parse(guildsname)[i -1].a%></a>
-				</a>
-			</div>
+				<div style="vertical-align: 0px; text-align: center; width: 158px; display: inline;  float: left; margin-bottom: 18px;">
+					<a href="javascript:void(0);" onclick="extend(<%=i-1%>)" style="display: initial">
+						<img src="<%=JSON.parse(guildslogo)[i -1].a%>" style="border-radius: 50%; border-width: 5px; border-color: white; border-style: solid;width: 128px; height: 128px; background-color: e0e0e0;"></img>
+						<a class="servlist" style="color: white; display: block; margin-top: 5px;"><%=JSON.parse(guildsname)[i -1].a%></a>
+					</a>
+				</div>
 			<% } %>
 
-			<div style="vertical-align: 0px; text-align: center; width: 158px; display: inline;  float: left; margin-bottom: 18px;" >
-				<a href="https://discordapp.com/api/oauth2/authorize?client_id=515891064721244162&permissions=8&scope=bot" target="_blank" style="display: initial">
-				<img src="<%=site%>/addme.png" style="border-radius: 50%; border-width: 5px; border-color: white; border-style: solid;width: 128px; height: 128px; background-color: e0e0e0;"></img>
-				<a style="color: white; font-size: 10px; display: block; margin-top: 5px;">Invitez-le</a>
-				<br><a style="color: white; font-size: 9px; display: block; ">N'oubliez pas de vous reconnectez !</a>
-				</a>	
+			<div
+				style="vertical-align: 0px; text-align: center; width: 158px; display: inline;  float: left; margin-bottom: 18px;">
+				<a href="https://discordapp.com/api/oauth2/authorize?client_id=515891064721244162&permissions=8&scope=bot"
+					target="_blank" style="display: initial">
+					<img src="<%=site%>/addme.png"style="border-radius: 50%; border-width: 5px; border-color: white; border-style: solid;width: 128px; height: 128px; background-color: e0e0e0;"></img>
+					<a class="servlist" style="color: white; display: block; margin-top: 5px;">Invitez-le</a>
+					<br><a sclass="servinv" tyle="color: white; display: block; ">N'oubliez pas de vous reconnectez	!</a>
+				</a>
 			</div>
 		</section>
 
-		<%
-		for(var i = 1 ; i <= Object.keys(JSON.parse(guildsname)).length ; i++) {
-		%>
-		<div id="<%=i -1%>" style="display: none">
-			<center>
-				<h1 style="color: white; font-size: 36px;"><%=JSON.parse(guildsname)[i -1].a%></h1>
-				<a>Antimention</a> 
-				<label class="switch">
-				  <input type="checkbox" id="<%=JSON.parse(guildsid)[i-1].a%>" onclick="antimention(`<%=JSON.parse(guildsid)[i-1].a%>`)" <%if(JSON.parse(guildsmention)[i-1].a === "dis"){%>disabled=""<%}else if(JSON.parse(guildsmention)[i-1].a === "yes"){%>checked<%}%>>
-				  <span class="slider round" ></span>
-				</label>
-				<br>
-				<hr style="color: #303030;  border-color: #303030; display: flex;width: 95%;border: 0;">
-				<%if(JSON.parse(guildsinsultes)[i -1].a === "yup"){%>
-					<p>Anti-insulte actif !</p>
-				<%}else{%>
-					<p>Anti-insulte inactif !</p>
-				<%}%>
-				</center>
-		</div>
-		<%}%>
-		<br>
-		<div id="lookforlegend" style="display: none">
+			<%
+			for(var i = 1 ; i <= Object.keys(JSON.parse(guildsname)).length ; i++) {
+			%>
+				<div id="<%=i -1%>" style="display: none">
+					<center>
+						<h1 style="color: white; font-size: 36px;"><%=JSON.parse(guildsname)[i -1].a%></h1>
+						<a>Antimention</a>
+						<label class="switch">
+						<input type="checkbox" id="<%=JSON.parse(guildsid)[i-1].a + "mention"%>" onclick="antimention(`<%=JSON.parse(guildsid)[i-1].a%>`)" <%if(JSON.parse(guildsmention)[i-1].a === "dis"){%>disabled="" <%}else if(JSON.parse(guildsmention)[i-1].a === "yes"){%>checked<%}%>>
+				  		<span class="slider round" ></span>
+						</label>
+						<br>
+						<hr style="color: #303030;  border-color: #303030; display: flex;width: 95%;border: 0;">
+						<%if(JSON.parse(guildsinsultes)[i -1].a === "yup"){%>
+							<p id="<%=JSON.parse(guildsid)[i-1].a + "insultetxt"%>">Anti-insulte actif !</p>
+						<%}else{%>
+							<p id="<%=JSON.parse(guildsid)[i-1].a + "insultetxt"%>">Anti-insulte inactif !</p>
+						<%}if(JSON.parse(guildsadmin)[i -1].a === "yup"){%>
+							<label class="switch">
+							<input type="checkbox" id="<%=JSON.parse(guildsid)[i-1].a + "insulte"%>" onclick="switchinsulte(`<%=JSON.parse(guildsid)[i-1].a%>`)" <%if(JSON.parse(guildsinsultes)[i-1].a === "yup"){%>checked<%}%>>
+							<span class="slider round" ></span>
+							</label>
+						<%}%> 
+					</center> 
+				</div> 
+			<%}%>
 		<br>
 		<hr style="color: #303030;  border-color: #303030; display: flex;width: 95%;border: 0;">
+		<div id="lookforlegend" style="display: none">
+		<br>
 		<label class="switch">
 		<input type="checkbox" onclick="legend()" id="switchlookforlegend">
 		<span class="slider round" ></span>
@@ -196,7 +259,8 @@
 		</div>
 		<br>
 		<section style="width: 360px;margin-left: auto;margin-right: auto;">
-            <p style="color: #404040">developped by Jeuxdictator</p>
+			<p style="font-size: 9px">Attention : Ce site utilise des cookies.</p>
+            <p>developped by Jeuxdictator</p>
 	
 		</section>
 		</div>
