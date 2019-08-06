@@ -1,32 +1,14 @@
-<!DOCTYPE html>
-<html lang="fr"><!--<![endif]-->
+<html class="no-js" lang="fr"><!--<![endif]-->
 <head>
-		<!-- meta -->
-		<meta charset="utf-8">
-		<meta property="theme-color" content="#019aa5">
-		<meta property="og:type" content="website">
-		<meta property="og:title" content="JeuxGate" />
-		<meta property="og:description" content="Le bot nommé Jeuxgate" />
-		<meta property="og:url" content="https://jeuxgate-priv.herokuapp.com/" />
-		<meta property="og:image" content="https://jeuxgate-priv.herokuapp.com/logo.png" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-		
-		<!-- title + link -->
-		<title>JeuxGate</title>
-		<link href="https://jeuxgate-priv.herokuapp.com/logo.png" rel="shortcut icon" type="image/png">
-		<link href="https://jeuxgate-priv.herokuapp.com/index.css" rel="stylesheet">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-		<!--script-->
-		<script>
-				function menuex() {
-					if (document.getElementById("menu").className === "menu") {
-						document.getElementById("menu").className += " responsive";
-					} else {
-						document.getElementById("menu").className = "menu";
-					}
-				}
-		</script>
+	<meta charset="utf-8">
+	<meta property="og:type" content="website">
+	<meta property="og:title" content="JeuxGate" />
+	<meta property="og:description" content="Le bot nommé Jeuxgate (doc :readthedoc: wait ...)" />
+	<meta property="og:url" content="https://jeuxgate-priv.herokuapp.com/" />
+	<meta property="og:image" content="https://jeuxgate-priv.herokuapp.com/logo.png" />
+	<title>JeuxGate</title>
+	<link href="https://jeuxgate-priv.herokuapp.com/logo.png" rel="shortcut icon" type="image/png">
+	<link href="https://jeuxgate-priv.herokuapp.com/index.css" rel="stylesheet">
  </head>
  
 <div class="responsive-headline">
@@ -36,14 +18,11 @@
 </div>
 <body>
     <center>
-		<ul class="menu" id="menu">
-			<a href="https://jeuxgate-priv.herokuapp.com/" class="menu-link li-menu">Acceuil</a>
-			<a class="menu-link active li-menu">Doc</a>
-			<a href="https://discordapp.com/api/oauth2/authorize?client_id=515891064721244162&permissions=8&scope=bot" class="menu-link li-menu">L'inviter !</a>
-			<a class="menu-link co li-menu" style="height: 16px;float: right;" href="https://discordapp.com/api/oauth2/authorize?client_id=515891064721244162&redirect_uri=https%3A%2F%2Fjeuxgate-priv.herokuapp.com%2Fco&response_type=code&scope=identify">Se connecter</a>
-			<a href="javascript:void(0);" class="icon li-menu menu-link" onclick="menuex()">
-				<i class="fa fa-bars" style="height: 19px"></i>
-			</a>
+		<ul class="menu">
+			<li class="li-menu"><a href="https://jeuxgate-priv.herokuapp.com/" class="menu-link">Acceuil</a></li>
+			<li class="li-menu"><a class="menu-link active">Doc</a></li>
+			<li class="li-menu"><a href="https://discordapp.com/api/oauth2/authorize?client_id=515891064721244162&permissions=8&scope=bot" class="menu-link">L'inviter !</a></li>
+			<li class="li-menu co" style="height: 46px;float: right;"><a class="menu-link co" href="https://discordapp.com/api/oauth2/authorize?client_id=515891064721244162&redirect_uri=https%3A%2F%2Fjeuxgate-priv.herokuapp.com%2Fco&response_type=code&scope=identify">Se connecter</a></li>
 		</ul>
 		<br></br>
 		<h2>Générales :</h2>
@@ -53,12 +32,6 @@
 		   </tr> 
 		   <tr> 
 			  <td>help</td><td>Voir le message d'aide</td><td>Aucune</td> 
-		   </tr> 
-		   <tr> 
-			  <td>fun</td><td>Avoir de l'aide pour trouver toutes les commandes de fun</td><td>Aucune</td> 
-		   </tr> 
-		   <tr> 
-			  <td>mod</td><td>Avoir de l'aide pour trouver toutes les commandes de modération</td><td>Aucune</td> 
 		   </tr> 
 		</table> 
 		<h2>Fun :</h2>
@@ -100,7 +73,16 @@
 			  <td>unmute @quelqu'un</td><td>Rend le droit d'écrire à quelqu'un dans le salon ou la demande a été effectué (textuel)</td><td>Administrateur</td> 
 		   </tr> 
 		   <tr>
+			  <td>ping</td><td>Permet de connaître la latence du bot</td><td>Aucune</td> 
+		   </tr> 
+		   <tr>
+			  <td>mention</td><td>Permet d'avoir le role d'antimention</td><td>Aucune</td> 
+		   </tr> 
+		   <tr>
 			  <td>purge (un nombre)</td><td>Supprime un nombre de message</td><td>Gérer les messages</td> 
+		   </tr> 
+		   <tr>
+			  <td>id (un id d'une personne)</td><td>Permet d'le pseudo associer à l'id (s'il est connue du système)</td><td>Aucune</td> 
 		   </tr> 
 		   <tr>
 			  <td>binfo</td><td>Donne les informations du bot</td><td>Aucune</td> 
@@ -113,6 +95,9 @@
 		   </tr>
 		</table>
 		<br>
+		<br>
+		<h1>Pour l'antimention et le mute :</h1>
+		<h2>Vérifier que le role de jeuxgate est au dessus du role des membre de vôtre serveur et que les role muted et ne pas mentionner soit au dessus de celui de JeuxGate</h2>
 		<h2>Pour plus d'aide, allez sur le discord de JeuxGate !</h2>
 		<br>
 		<iframe src="https://discordapp.com/widget?id=517372982268657684&theme=dark" width="100%" height="500" allowtransparency="true" frameborder="0"></iframe>
