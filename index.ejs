@@ -1,75 +1,68 @@
 <!DOCTYPE html>
-<html class="no-js" lang="fr">
+<html lang="fr">
 <head>
-	<meta charset="utf-8">
-	<meta property="theme-color" content="#019aa5">
-	<meta property="og:type" content="website">
-	<meta property="og:title" content="JeuxGate" />
-	<meta property="og:description" content="Le bot nommé Jeuxgate" />
-	<meta property="og:url" content="https://jeuxgate-priv.herokuapp.com/" />
-	<meta property="og:image" content="https://jeuxgate-priv.herokuapp.com/logo.png" />
-	<title>JeuxGate</title>
-	<link href="https://jeuxgate-priv.herokuapp.com/logo.png" rel="shortcut icon" type="image/png">
-	<link href="https://jeuxgate-priv.herokuapp.com/index.css" rel="stylesheet">
- </head>
+		<!-- meta -->
+		<meta charset="utf-8">
+		<meta property="theme-color" content="#019aa5">
+		<meta property="og:type" content="website">
+		<meta property="og:title" content="JeuxGate" />
+		<meta property="og:description" content="Le bot nommé Jeuxgate" />
+		<meta property="og:url" content="https://jeuxgate-priv.herokuapp.com/" />
+		<meta property="og:image" content="https://jeuxgate-priv.herokuapp.com/logo.png" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+		
+		<!-- title + link -->
+		<title>JeuxGate</title>
+		<link href="<%=site%>/logo.png" rel="shortcut icon" type="image/png">
+		<link href="<%=site%>/index.css" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+		<!--script-->
+		<script>
+				function menuex() {
+					if (document.getElementById("menu").className === "menu") {
+						document.getElementById("menu").className += " responsive";
+					} else {
+						document.getElementById("menu").className = "menu";
+					}
+				}
+		</script>
+</head>
+<body>
 <div class="responsive-headline">
 	<center>
 		<h1>JeuxGate</h1>
 	</center>
 </div>
-<body>
     <center>
-		<ul class="menu">
-			<li class="li-menu"><a class="menu-link" href="https://jeuxgate-priv.herokuapp.com/">Accueil</a></li>
-			<li class="li-menu"><a href="https://jeuxgate-priv.herokuapp.com/doc" class="menu-link">Doc</a></li>
-			<li class="li-menu"><a href="https://discordapp.com/api/oauth2/authorize?client_id=515891064721244162&permissions=8&scope=bot" class="menu-link">L'inviter !</a></li>
-			<li class="li-menu co" style="height: 46px;float: right;"><a class="menu-link co" href="https://discordapp.com/api/oauth2/authorize?client_id=515891064721244162&redirect_uri=https%3A%2F%2Fjeuxgate-priv.herokuapp.com%2Fco&response_type=code&scope=identify">Se connecter</a></li>
-		</ul>
+	<ul class="menu" id="menu">
+		<a class="menu-link li-menu active" href="https://jeuxgate-priv.herokuapp.com/">Accueil</a>
+		<a href="https://jeuxgate-priv.herokuapp.com/doc" class="li-menu menu-link">Doc</a>
+		<a href="https://discordapp.com/api/oauth2/authorize?client_id=515891064721244162&permissions=8&scope=bot" class="li-menu menu-link">L'inviter !</a>
+		<a href="javascript:void(0);" class="icon li-menu menu-link" onclick="menuex()">
+				<i class="fa fa-bars" style="height: 19px"></i>
+		</a>
+	</ul>
+	<a id="login" class="menu-link co" href="https://discordapp.com/api/oauth2/authorize?client_id=515891064721244162&redirect_uri=https%3A%2F%2Fjeuxgate-priv.herokuapp.com%2Fco&response_type=code&scope=identify">Connectez-vous</a>
 	<br>
-	<a id="login" class="menu-link co" style="font-size: 18px" href="https://discordapp.com/api/oauth2/authorize?client_id=515891064721244162&redirect_uri=https%3A%2F%2Fjeuxgate-priv.herokuapp.com%2Fco&response_type=code&scope=identify">Connectez-vous</a>
+	<h2>Le bot développé sur le temps libre d'un petit développeur.</h2><br>
+	<h2>Voici ce qu'il est capable de faire :</h2>
+	<ul>
+		<li>Des niveaux</li>
+		<li>mute/unmute</li>
+		<li>purge</li>
+		<li>un chat inter JeuxGate</li>
+		<li>Kiss @quelqu'un</li>
+		<li>hug @quelqu'un et j'épargne les autres commandes </li>
+	</ul>
 	<br>
 	<a style="font-size: 20px; color: azure;">Connectez vous pour rejoindre les <%= nbusers %> utilisateurs qui utilisent JeuxGate</a>
+	<br>
+	<h3> Il possède aussi son serveur, si vous avez un problème, c'est dessus qu'il faut le dire !</h3>
+	<iframe src="https://discordapp.com/widget?id=517372982268657684&theme=dark" width="100%" height="500" allowtransparency="true" frameborder="0" alt="Problème de chargement du widget Discord" style="background-image: url(<%=site%>/notfound.png)" class="widget"></iframe>
 	<footer>
-		<p>developped by Jeuxdictator</p>
+		<p style="font-size: 9px">Attention : Ce site utilise des cookies.</p>
+		<p>developped by Jéhèndé</p>
 	</footer>
-	<script>
-		function generateRandomString() {
-			const rand = Math.floor(Math.random() * 10);
-			let randStr = '';
-			for (let i = 0; i < 20 + rand; i++) {
-				randStr += String.fromCharCode(33 + Math.floor(Math.random() * 94));
-			}
-			return randStr;
-		}
-		window.onload = () => {
-			const fragment = new URLSearchParams(window.location.hash.slice(1));
-			if (fragment.has("access_token")) {
-				const urlState = fragment.get("state");
-				const stateParameter = localStorage.getItem('stateParameter');
-				if (stateParameter !== atob(decodeURIComponent(urlState))) {
-					return console.log('You may have been clickjacked!');
-				}
-				const accessToken = fragment.get("access_token");
-				const tokenType = fragment.get("token_type");
-				fetch('https://discordapp.com/api/users/@me', {
-					headers: {
-						authorization: `${tokenType} ${accessToken}`
-					}
-				})
-					.then(res => res.json())
-					.then(response => {
-						console.log(response);
-						const { username, discriminator } = response;
-					})
-					.catch(O_o => {});
-			}
-			else {
-				const randStr = generateRandomString();
-				localStorage.setItem('stateParameter', randStr);
-				document.getElementById('login').href += `&state=${encodeURIComponent(btoa(randStr))}`;
-			}
-		}
-	</script>
 </body>
 </html>
