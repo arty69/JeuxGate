@@ -214,7 +214,7 @@ client.on("ready", () => {
             },
             status: 'dnd'
         });
-    }, 30000);
+    }, 1200000);
 });
 
 
@@ -250,30 +250,31 @@ client.on("message", message => {
     if (message.channel.type === "dm") return message.channel.send(`Vous ne pouvez pas intéragir avec moi avec des mp. Vous devez intéragir avec moi dans un serveur !`);
     if(message.guild.members.filter(u => u.id == 426843374163722240).size !== 0) return
     //ANCHOR auto role
-    if (message.guild.roles.filter(role => role.name.toLowerCase() === "muted").size === 0) {
-        log('création du role ne pas mentionner', message.guild.name, 1)
-        message.guild.createRole({
-            name: 'muted',
-            color: 'LIGHT_GREY',
-        }).catch(O_o => {})
-    }
-    if (message.guild.roles.filter(role => role.name === "🔇Ne pas mentionner🔇").size === 0) {
-        log('création du role ne pas mentionner', message.guild.name, 1)
-        message.guild.createRole({
-            name: '🔇Ne pas mentionner🔇',
-            color: 'DARK_RED',
-        }).catch(O_o => {
-            message.reply(O_o + "erreur").catch(err => {
-                message.reply("erreur trop longue : impossibilité de créer le role ne pas mentionner")
+    if(message.guild.members.get(client.user.id).hasPermission("MANAGE_ROLES_OR_PERMISSIONS")){
+        if (message.guild.roles.filter(role => role.name.toLowerCase() === "muted").size === 0) {
+            log('création du role ne pas mentionner', message.guild.name, 1)
+            message.guild.createRole({
+                name: 'muted',
+                color: 'LIGHT_GREY',
+            }).catch(O_o => {})
+        }
+        if (message.guild.roles.filter(role => role.name === "🔇Ne pas mentionner🔇").size === 0) {
+            log('création du role ne pas mentionner', message.guild.name, 1)
+            message.guild.createRole({
+                name: '🔇Ne pas mentionner🔇',
+                color: 'DARK_RED',
+            }).catch(O_o => {
+                message.reply(O_o + "erreur").catch(err => {
+                    message.reply("erreur trop longue : impossibilité de créer le role ne pas mentionner")
+                })
             })
-        })
+        }
+        if (message.guild.roles.filter(role => role.name.toLowerCase() === "muted").size !== 0) {
+            message.guild.channels.map(channel => channel.overwritePermissions(message.guild.roles.filter(role => role.name.toLowerCase() === "muted").first(), {
+                'SEND_MESSAGES': false
+            }))
+        }
     }
-    if (message.guild.roles.filter(role => role.name.toLowerCase() === "muted").size !== 0) {
-        message.guild.channels.map(channel => channel.overwritePermissions(message.guild.roles.filter(role => role.name.toLowerCase() === "muted").first(), {
-            'SEND_MESSAGES': false
-        }))
-    }
-    
     //commandes
     if (message.content.startsWith(prefix)) {
         if (message.content.startsWith(prefix + "pro?")) {
@@ -307,7 +308,7 @@ client.on("message", message => {
                 .addField(":envelope: Serveur", "Fais `" + prefix + "serveur` pour obtenir le serveur du bot !")
                 .addField(":door: Invitation", "Fais `" + prefix + "invite` pour obtenir le lien pour inviter le bot dans votre serveur !")
                 .addBlankField()
-                .addField(":no_bell: Mute", "Fais `" + prefix + "mute @quelqu'un` pour mute `@quelqu'un` !")
+                .addField(":no_bell: Mute", "Fais `" + prefix + "mute @quelqu'un` pour mute `@quelqu'un` ! -- ")
                 .addField(":bell: Unmute", "Fais `" + prefix + "unmute @quelqu'un` pour unmute `@quelqu'un` !")
                 .addField(":timer: Ping", "Fais `" + prefix + "ping` pour savoir le ping du bot!")
                 .addField(":no_bell: Antimention", "Fais `" + prefix + "mention` pour recevoir le role d'antimention !")
@@ -493,7 +494,7 @@ client.on("message", message => {
 
         //REVIEW antimention
         if (message.content.startsWith(prefix + "mention")) {
-            if(message.guild.roles.filter(role => role.name === "🔇Ne pas mentionner🔇").size === 0) return message.channel.send("Il n'y a pas de role ne pas mentionner sur ce serveur !")
+            if(message.guild.roles.filter(role => role.name === "🔇Ne pas mentionner🔇").size === 0) return message.channel.send("Il n'y a pas de role ne pas mentionner sur ce serveur ! (vous pouvez me donner les permissions nécessaires, et je vous le ferait (gérer les roles)")
             if (client.guilds.get(message.guild.id).members.get(message.author.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")) {
                 client.guilds.get(message.guild.id).members.get(message.author.id).removeRole(message.guild.roles.filter(r => r.name === "🔇Ne pas mentionner🔇").first()).then(z => {
                     message.channel.send("le rôle \"ne pas mentionner\" vous a été retiré !")
