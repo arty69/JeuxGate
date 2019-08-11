@@ -65,7 +65,7 @@ function swap(text) {
     var textreplaced = textreplaced.replace(/ʓ|Z/gi, "z")
     var textreplaced = textreplaced.replace(/plutonium|pluttonium/gi, "pu")
     var textreplaced = textreplaced.replace(/tellure|telure|tellur|telur/gi, "te")
-    return textreplaced 
+    return textreplaced
 }
 
 
@@ -74,8 +74,8 @@ function dwords(text) {
     if (text === "text") return text;
     var textreplaced = swap(text)
     var i = 1;
-    while(i <= parseInt(sizeofobj(insulte))){
-        if(textreplaced.includes(insulte[i].a.toString())){
+    while (i <= parseInt(sizeofobj(insulte))) {
+        if (textreplaced.includes(insulte[i].a.toString())) {
             return true
         }
         i++;
@@ -89,16 +89,16 @@ function nobadwords(text) {
     if (text === "text") return text;
     var textreplaced = swap(text)
     var i = 1;
-    if(!textreplaced.includes("**oof**")){
-        while(i <= parseInt(sizeofobj(insulte))){
-            while(textreplaced.includes(insulte[i].a.toString())){
+    if (!textreplaced.includes("**oof**")) {
+        while (i <= parseInt(sizeofobj(insulte))) {
+            while (textreplaced.includes(insulte[i].a.toString())) {
                 var textreplaced = textreplaced.replace(insulte[i].a.toString(), "**oof**")
             }
             i++;
         }
-    }else{
-        while(i <= parseInt(sizeofobj(insulte))){
-            while(textreplaced.includes(insulte[i].a.toString())){
+    } else {
+        while (i <= parseInt(sizeofobj(insulte))) {
+            while (textreplaced.includes(insulte[i].a.toString())) {
                 var textreplaced = textreplaced.replace(insulte[i].a.toString(), "**°°°**")
             }
             i++;
@@ -108,14 +108,14 @@ function nobadwords(text) {
 }
 
 
-function parseintowyh(test){
+function parseintowyh(test) {
     var parsed = test
     var parsed = parsed.replace(/\*\*/gi, "\"")
     var parsed = parsed.replace(/ : /gi, ": ")
-    return JSON.parse("{"+parsed+"}")
+    return JSON.parse("{" + parsed + "}")
 }
 
-function stringifyintowyh(test){
+function stringifyintowyh(test) {
     var parsed = JSON.stringify(test)
     var parsed = parsed.replace(/\"/gi, "**")
     var parsed = parsed.replace(/: /gi, " : ")
@@ -136,6 +136,7 @@ function pro(iduser) {
         return false
     }
 }
+
 function gold(iduser) {
     if (iduser === "iduser") return false;
     if (!client.users.get(iduser)) return false;
@@ -248,9 +249,9 @@ client.on("message", message => {
     if (message.author.bot) return;
     if (message.system) return;
     if (message.channel.type === "dm") return message.channel.send(`Vous ne pouvez pas intéragir avec moi avec des mp. Vous devez intéragir avec moi dans un serveur !`);
-    if(message.guild.members.filter(u => u.id == 426843374163722240).size !== 0) return
+    if (message.guild.members.filter(u => u.id == 426843374163722240).size !== 0) return
     //ANCHOR auto role
-    if(message.guild.members.get(client.user.id).hasPermission("MANAGE_ROLES_OR_PERMISSIONS")){
+    if (message.guild.members.get(client.user.id).hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) {
         if (message.guild.roles.filter(role => role.name.toLowerCase() === "muted").size === 0) {
             log('création du role ne pas mentionner', message.guild.name, 1)
             message.guild.createRole({
@@ -284,10 +285,10 @@ client.on("message", message => {
                 message.reply("non")
             }
         }
-        if(message.content.startsWith(prefix + "badword? ")){
-            if(dwords(message.content.substr(prefix.length + 9))){
+        if (message.content.startsWith(prefix + "badword? ")) {
+            if (dwords(message.content.substr(prefix.length + 9))) {
                 message.reply(nobadwords(message.content.substr(prefix.length + 9)))
-            }else{
+            } else {
                 message.channel.send(dwords(message.content.substr(prefix.length + 9)) + "|" + message.content.substr(prefix.length + 9) + "|" + swap(message.content.substr(prefix.length + 9)))
             }
         }
@@ -494,7 +495,7 @@ client.on("message", message => {
 
         //REVIEW antimention
         if (message.content.startsWith(prefix + "mention")) {
-            if(message.guild.roles.filter(role => role.name === "🔇Ne pas mentionner🔇").size === 0) return message.channel.send("Il n'y a pas de role ne pas mentionner sur ce serveur ! (vous pouvez me donner les permissions nécessaires, et je vous le ferait (gérer les roles)")
+            if (message.guild.roles.filter(role => role.name === "🔇Ne pas mentionner🔇").size === 0) return message.channel.send("Il n'y a pas de role ne pas mentionner sur ce serveur ! (vous pouvez me donner les permissions nécessaires, et je vous le ferait (gérer les roles)")
             if (client.guilds.get(message.guild.id).members.get(message.author.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")) {
                 client.guilds.get(message.guild.id).members.get(message.author.id).removeRole(message.guild.roles.filter(r => r.name === "🔇Ne pas mentionner🔇").first()).then(z => {
                     message.channel.send("le rôle \"ne pas mentionner\" vous a été retiré !")
@@ -506,7 +507,7 @@ client.on("message", message => {
             } else {
                 client.guilds.get(message.guild.id).members.get(message.author.id).addRole(message.guild.roles.filter(r => r.name === "🔇Ne pas mentionner🔇").first()).then(z => {
                     message.channel.send("le rôle \"ne pas mentionner\" vous a été ajouté !")
-                    client.guilds.get(message.guild.id).members.get(message.author.id).setNickname(user + ' |🔇')
+                    client.guilds.get(message.guild.id).members.get(message.author.id).setNickname(client.guilds.get(message.guild.id).members.get(message.author.id).displayName + ' |🔇')
                 }).catch(O_o => {
                     message.channel.send("Une erreur est survenue, veuillez réessayé")
                 })
@@ -678,24 +679,7 @@ client.on("message", message => {
                 if (!message.guild.member(message.author).hasPermission("ADMINISTRATOR")) return message.channel.send(fryourperm);
             }
             if (!message.guild.member(client.user).hasPermission("ADMINISTRATOR")) return message.channel.send(frmyperm);
-            if (message.guild.channels.filter(c => c.name === "jeuxgate-chat").size !== 0) return message.reply("Vous avez déjà les salons crées, après, si ils ne fonctionnent pas, merci de vérifier vous-même.")
-            if (message.guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0) {
-                const jgembed = new Discord.RichEmbed()
-                    .setColor(`RANDOM`)
-                    .setTimestamp()
-                    .setFooter("JeuxGate")
-                    .setDescription("*Le message*")
-                    .addField("Jeuxgate chat provided", "Nom du serveur")
-                    .setAuthor("Nom de la personne", client.user.avatarURL)
-                message.guild.createChannel('jeuxgate-chat', 'text', [{
-                        id: message.guild.id,
-                        deny: ['MANAGE_MESSAGES'],
-                        allow: ['SEND_MESSAGES']
-                    }])
-                    .then(channel => channel.send(jgembed))
-                    .catch(console.error);
-
-            }
+            
             if (message.guild.channels.filter(c => c.name === "log").size === 0) {
                 message.guild.createChannel('log', 'text', [{
                         id: message.guild.id,
@@ -728,11 +712,11 @@ client.on("message", message => {
             client.guilds.map(jg => message.channel.send(jg.name + "| " + jg.id + "| " + jg.region + "| " + jg.memberCount + "membres"))
         }
     } else {
-        if(message.guild.roles.filter(ro => ro.name === "jg insulte").size !== 0){
-            if(dwords(message.content)){
-                if(!message.guild.members.get(message.author.id).hasPermission("ADMINISTRATOR")){
-                    if(!message.guild.member(client.user).hasPermission("ADMINISTRATOR")){
-                        if (!message.guild.member(client.user).hasPermission("MANAGE_MESSAGES") || !message.guild.member(client.user).hasPermission("MANAGE_ROLES") ) return message.channel.send(frmyperm);
+        if (message.guild.roles.filter(ro => ro.name === "jg insulte").size !== 0) {
+            if (dwords(message.content)) {
+                if (!message.guild.members.get(message.author.id).hasPermission("ADMINISTRATOR")) {
+                    if (!message.guild.member(client.user).hasPermission("ADMINISTRATOR")) {
+                        if (!message.guild.member(client.user).hasPermission("MANAGE_MESSAGES") || !message.guild.member(client.user).hasPermission("MANAGE_ROLES")) return message.channel.send(frmyperm);
                     }
                     message.delete().catch(O_o => {
                         return message.channel.send('erreur 505 : permission insufissante : suppression message')
@@ -772,32 +756,6 @@ client.on("message", message => {
                 }
             }
         }
-        //REVIEW jeuxgatechat
-        if (message.channel.name === "jeuxgate-chat") {
-            if (message.content.length >= 2048) return message.reply("⚠️ Vôtre message est trop long, sois, plus de 2048 caractères")
-            if(dwords(message.content)) return message.reply("⚠️ parlez sans insultes.")
-            if (message.attachments.size === 0) {
-                if (gold(message.author.id)) {
-                    var usernamejg = `bling bling ${message.author.tag}  `
-                } else if (pro(message.author.id)) {
-                    var usernamejg = `bling mais pas trop ${message.author.tag}  `
-                }
-                const chembed = new Discord.RichEmbed()
-                    .setColor(`RANDOM`)
-                    .setTimestamp()
-                    .setFooter("JeuxGate")
-                    .setDescription(message.content)
-                    .addField("Jeuxgate chat provided", message.guild.name)
-                    .setAuthor(usernamejg, message.author.avatarURL)
-                const c1 = client.channels.filter(c => c.name === "jeuxgate-chat" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text" && c.id !== message.channel.id);
-                c1.map(z => z.send(chembed).catch(O_o => {}))
-                message.react('👌')
-            } else {
-                message.react('❌')
-                message.channel.send("⚠️ **Votre message ne doit pas contenir d'image ou de fichier, ou celui-ci ne sera pas envoyé**")
-            }
-            return
-        }
 
         //REVIEW antimention
         if (message.mentions.members.size !== 0) {
@@ -822,6 +780,7 @@ client.on("message", message => {
                 const mentionnopembed = new Discord.RichEmbed()
                     .setTitle("Vous avez tenté de mentionner quelqu'un qu'on ne doit pas mentionner !")
                     .addField("message :", message.content)
+                    .addBlankField()
                     .addField(message.mentions.members.filter(z => client.guilds.get(message.guild.id).members.get(z.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")).first().displayName + " Si tu penses qu'il ne devrait pas être mute", "tape `jg/demute` et il sera demute !")
                     .addBlankField()
                     .addField(message.guild.members.get(message.author.id).displayName, "Tu seras mute pendant 30 seconde !")
@@ -843,7 +802,7 @@ client.on("message", message => {
                             who: "nop"
                         };
                         fs.writeFile('muted.json', JSON.stringify(muted), (err) => {
-                            if (err){ 
+                            if (err) {
                                 y.edit(re).catch(O_o => {
                                     return message.channel.send('erreur 501 : erreur sans nom : impossibilité d\'éditer le message \+ erreur 504 : erreur de sauvegarde de fichier')
                                 })
@@ -862,6 +821,9 @@ client.on("message", message => {
             }
         }
 
+        if(message.channel.name =="jeuxgate-chat"){
+            message.reply(":warning: la fonctionnalité jeuxgate chat a été supprimé, vous pouvez supprimer ce salon !")
+        }
         if (pro(message.author.id)) {
             if (message.content.includes("adriaayl")) {
                 message.channel.send("adriaaaaaaaaaaaaaaaaaaaaaaaayl play despacito")
@@ -894,22 +856,6 @@ client.on("guildCreate", guild => {
     if (guild.region.startsWith("vip-")) {
         const gd = guild.channels.filter(c => c.name === "general" || c.name === "général")
         gd.filter(c => c.send("⚠️ I actually do not well support a lot of commands at the same time !").catch(O_o => {}))
-    }
-    if (guild.channels.filter(c => c.name === "jeuxgate-chat").size === 0) {
-        const jgembed = new Discord.RichEmbed()
-            .setColor(`RANDOM`)
-            .setTimestamp()
-            .setFooter("JeuxGate")
-            .setDescription("*Le message*")
-            .addField("Jeuxgate chat provided", "Nom du serveur")
-            .setAuthor("Nom de la personne", client.user.avatarURL)
-        guild.createChannel('jeuxgate-chat', 'text', [{
-                id: guild.id,
-                deny: ['MANAGE_MESSAGES'],
-                allow: ['SEND_MESSAGES']
-            }])
-            .catch(O_o => {})
-            .then(channel => channel.send(jgembed)).catch(O_o => {});
     }
     if (guild.channels.filter(c => c.name === "log" || c.name === "logs").size === 0) {
         guild.createChannel('log', 'text', [{
