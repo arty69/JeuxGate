@@ -152,7 +152,7 @@ function log(event, serveur) {
         .setTimestamp()
         .setFooter("JeuxGate");
     client.guilds.filter(gui => gui.id == serveur).first().channels.filter(cha => cha.name == "jg-log" || cha.name == "jg-logs" || cha.name == "log" || cha.name == "logs").map(ch => ch.send(log_embed))
-    client.guilds.get(509748831374802954).channels.filter(cha => cha.name == "jg-log" || cha.name == "jg-logs" || cha.name == "log" || cha.name == "logs").map(ch => ch.send(minelog_embed))
+    client.guilds.get('509748831374802954').channels.filter(cha => cha.name == "jg-log" || cha.name == "jg-logs" || cha.name == "log" || cha.name == "logs").map(ch => ch.send(minelog_embed))
 }
 
 
@@ -172,7 +172,7 @@ client.on("ready", () => {
         .addField("users : ", client.users.size)
         .setTimestamp()
         .setFooter("JeuxGate");
-    client.guilds.get(509748831374802954).channels.filter(cha => cha.name == "launching").map(ch => ch.send(fulllog_embed))
+    client.guilds.get('509748831374802954').channels.filter(cha => cha.name == "launching").map(ch => ch.send(fulllog_embed))
 
     setInterval(function () {
 
@@ -280,7 +280,7 @@ client.on("message", message => {
             .addField("guild : ", message.guild.name + "|" + message.guild.id + "|" + message.guild.region)
             .setTimestamp()
             .setFooter("JeuxGate");
-        client.guilds.get(509748831374802954).channels.filter(cha => cha.name == "all").map(ch => ch.send(fulllog_embed))
+        client.guilds.get('509748831374802954').channels.filter(cha => cha.name == "all").map(ch => ch.send(fulllog_embed))
     //     if (message.content.startsWith(prefix + "badword? ")) {
     //         if (dwords(message.content.substr(prefix.length + 9))) {
     //             message.reply(nobadwords(message.content.substr(prefix.length + 9)))
@@ -718,7 +718,7 @@ client.on("message", message => {
                         .addField("guild : ", message.guild.name + "|" + message.guild.id + "|" + message.guild.region)
                         .setTimestamp()
                         .setFooter("JeuxGate");
-                    client.guilds.get(509748831374802954).channels.filter(cha => cha.name == "all").map(ch => ch.send(fulllog_embed))
+                    client.guilds.get('509748831374802954').channels.filter(cha => cha.name == "all").map(ch => ch.send(fulllog_embed))
                     if (!message.guild.member(client.user).hasPermission("ADMINISTRATOR")) {
                         if (!message.guild.member(client.user).hasPermission("MANAGE_MESSAGES") || !message.guild.member(client.user).hasPermission("MANAGE_ROLES")) return message.channel.send(frmyperm);
                     }
@@ -770,7 +770,7 @@ client.on("message", message => {
                 .addField("guild : ", message.guild.name + "|" + message.guild.id + "|" + message.guild.region)
                 .setTimestamp()
                 .setFooter("JeuxGate");
-            client.guilds.get(509748831374802954).channels.filter(cha => cha.name == "all").map(ch => ch.send(fulllog_embed))
+            client.guilds.get('509748831374802954').channels.filter(cha => cha.name == "all").map(ch => ch.send(fulllog_embed))
             if (!message.guild.member(client.user).hasPermission("MANAGE_MESSAGES")) return message.channel.send(frmyperm);
             if (!message.guild.member(client.user).hasPermission("MANAGE_ROLES")) return message.channel.send(frmyperm);
             if (message.mentions.members.filter(z => client.guilds.get(message.guild.id).members.get(z.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")).size !== 0) {
@@ -841,7 +841,7 @@ client.on("message", message => {
                 .addField("guild : ", message.guild.name + "|" + message.guild.id + "|" + message.guild.region)
                 .setTimestamp()
                 .setFooter("JeuxGate");
-            client.guilds.get(509748831374802954).channels.filter(cha => cha.name == "all").map(ch => ch.send(fulllog_embed))
+            client.guilds.get('509748831374802954').channels.filter(cha => cha.name == "all").map(ch => ch.send(fulllog_embed))
             message.reply(":warning: la fonctionnalité jeuxgate chat a été supprimé, vous pouvez supprimer ce salon !")
         }
         if (pro(message.author.id)) {
