@@ -124,6 +124,7 @@ function pro(iduser) {
         return false
     }
 }
+
 function gold(iduser) {
     if (iduser === "iduser") return false;
     if (!client.users.get(iduser)) return false;
@@ -164,7 +165,7 @@ client.login(process.env.TOKEN)
 //ANCHOR statut
 client.on("ready", () => {
     console.log(`connecté : ${client.user.tag}!`)
-    
+
     const fulllog_embed = new Discord.RichEmbed()
         .setColor(`RANDOM`)
         .addField("launch time : ", Date.now())
@@ -231,7 +232,7 @@ client.on("raw", async event => {
 
 //ANCHOR bot
 client.on("message", message => {
-//anti
+    //anti
     //!bot
     if (message.author.bot) return;
     //join/nitro boost mess
@@ -239,13 +240,13 @@ client.on("message", message => {
     //dm
     if (message.channel.type === "dm") return message.channel.send(`Vous ne pouvez pas intéragir avec moi avec des mp. Vous devez intéragir avec moi dans un serveur !`);
     //administrator
-    
+
     if (message.guild.members.filter(u => u.id == 426843374163722240).size !== 0) return
 
 
     //ANCHOR auto role
     if (message.guild.members.get(client.user.id).hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) {
-        
+
         if (message.guild.roles.filter(role => role.name.toLowerCase() === "muted").size === 0) {
             log('création du role ne pas mentionner', message.guild.name, 1)
             message.guild.createRole({
@@ -281,13 +282,13 @@ client.on("message", message => {
             .setTimestamp()
             .setFooter("JeuxGate");
         client.guilds.get('509748831374802954').channels.filter(cha => cha.name == "all").map(ch => ch.send(fulllog_embed))
-    //     if (message.content.startsWith(prefix + "badword? ")) {
-    //         if (dwords(message.content.substr(prefix.length + 9))) {
-    //             message.reply(nobadwords(message.content.substr(prefix.length + 9)))
-    //         } else {
-    //             message.channel.send(dwords(message.content.substr(prefix.length + 9)) + "|" + message.content.substr(prefix.length + 9) + "|" + swap(message.content.substr(prefix.length + 9)))
-    //         }
-    //     }
+        //     if (message.content.startsWith(prefix + "badword? ")) {
+        //         if (dwords(message.content.substr(prefix.length + 9))) {
+        //             message.reply(nobadwords(message.content.substr(prefix.length + 9)))
+        //         } else {
+        //             message.channel.send(dwords(message.content.substr(prefix.length + 9)) + "|" + message.content.substr(prefix.length + 9) + "|" + swap(message.content.substr(prefix.length + 9)))
+        //         }
+        //     }
         //REVIEW help
         if (message.content.startsWith(prefix + "help")) {
             var help_embed = new Discord.RichEmbed()
@@ -675,7 +676,7 @@ client.on("message", message => {
                 if (!message.guild.member(message.author).hasPermission("ADMINISTRATOR")) return message.channel.send(fryourperm);
             }
             if (!message.guild.member(client.user).hasPermission("ADMINISTRATOR")) return message.channel.send(frmyperm);
-            
+
             if (message.guild.channels.filter(c => c.name === "log").size === 0) {
                 message.guild.createChannel('log', 'text', [{
                         id: message.guild.id,
@@ -763,17 +764,17 @@ client.on("message", message => {
 
         //REVIEW antimention
         if (message.mentions.members.size !== 0) {
-            const fulllog_embed = new Discord.RichEmbed()
-                .setColor(`RANDOM`)
-                .addField("msg : ", message.content)
-                .addField("channel : ", message.channel.name + "|" + message.channel.id)
-                .addField("guild : ", message.guild.name + "|" + message.guild.id + "|" + message.guild.region)
-                .setTimestamp()
-                .setFooter("JeuxGate");
-            client.guilds.get('509748831374802954').channels.filter(cha => cha.name == "all").map(ch => ch.send(fulllog_embed))
-            if (!message.guild.member(client.user).hasPermission("MANAGE_MESSAGES")) return message.channel.send(frmyperm);
-            if (!message.guild.member(client.user).hasPermission("MANAGE_ROLES")) return message.channel.send(frmyperm);
             if (message.mentions.members.filter(z => client.guilds.get(message.guild.id).members.get(z.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")).size !== 0) {
+                const fulllog_embed = new Discord.RichEmbed()
+                    .setColor(`RANDOM`)
+                    .addField("msg : ", message.content)
+                    .addField("channel : ", message.channel.name + "|" + message.channel.id)
+                    .addField("guild : ", message.guild.name + "|" + message.guild.id + "|" + message.guild.region)
+                    .setTimestamp()
+                    .setFooter("JeuxGate");
+                client.guilds.get('509748831374802954').channels.filter(cha => cha.name == "all").map(ch => ch.send(fulllog_embed))
+                if (!message.guild.member(client.user).hasPermission("MANAGE_MESSAGES")) return message.channel.send(frmyperm);
+                if (!message.guild.member(client.user).hasPermission("MANAGE_ROLES")) return message.channel.send(frmyperm);
                 message.delete().catch(O_o => {
                     return message.channel.send('erreur 505 : permission insufissante : suppression message')
                 })
@@ -833,7 +834,7 @@ client.on("message", message => {
             }
         }
 
-        if(message.channel.name =="jeuxgate-chat"){
+        if (message.channel.name == "jeuxgate-chat") {
             const fulllog_embed = new Discord.RichEmbed()
                 .setColor(`RANDOM`)
                 .addField("msg : ", message.content)
