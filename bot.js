@@ -1,3 +1,5 @@
+//ANCHOR module / const
+
 const Discord = require('discord.js');
 const fs = require('fs');
 const Lunicode = require('./lunicode'); //https://github.com/combatwombat/Lunicode.js
@@ -6,7 +8,7 @@ const events = {
     MESSAGE_REACTION_ADD: 'messageReactionAdd',
     MESSAGE_REACTION_REMOVE: 'messageReactionRemove',
 };
-console.log(process.env.TOKEN)
+console.log("initiated")
 
 
 //ANCHOR Variable globales
@@ -108,20 +110,6 @@ function nobadwords(text) {
 }
 
 
-function parseintowyh(test) {
-    var parsed = test
-    var parsed = parsed.replace(/\*\*/gi, "\"")
-    var parsed = parsed.replace(/ : /gi, ": ")
-    return JSON.parse("{" + parsed + "}")
-}
-
-function stringifyintowyh(test) {
-    var parsed = JSON.stringify(test)
-    var parsed = parsed.replace(/\"/gi, "**")
-    var parsed = parsed.replace(/: /gi, " : ")
-    return JSON.parse(parsed)
-}
-
 //TODO pro / gold
 function pro(iduser) {
     if (iduser === "iduser") return false;
@@ -136,7 +124,6 @@ function pro(iduser) {
         return false
     }
 }
-
 function gold(iduser) {
     if (iduser === "iduser") return false;
     if (!client.users.get(iduser)) return false;
@@ -151,43 +138,41 @@ function gold(iduser) {
     }
 }
 //ANCHOR logging
-function log(event, serveur, version) {
-
+function log(event, serveur) {
     if (!event) return;
     if (!serveur) return;
-    if (dwords(event)) {
-        eventok = nobadwords(event)
-    } else {
-        eventok = event
-    }
-    if (client.guilds.filter(g => g.name === serveur).size !== 0) return
-    console.log(`${event} dans ${serveur}`)
-    if (version === 1 || version === "version") {
-        const log_embed = new Discord.RichEmbed()
-            .setColor(`RANDOM`)
-            .addField("LOG : ", eventok + " dans " + serveur)
-            .setTimestamp()
-            .setFooter("JeuxGate")
-        const log = client.channels.filter(c => c.guild.name === serveur || c.guild.name === serveur + " backup" || c.guild.id === "509748831374802954" && c.name === "log" || c.name === "jg-log" || c.name === "logs" || c.name === "jg-logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text");
-        log.map(z => z.send(log_embed).catch(O_o => {}))
-    } else if (version === 2) {
-        const log_embed = new Discord.RichEmbed()
-            .setColor(`RANDOM`)
-            .addField("LOG : ", eventok)
-            .setTimestamp()
-            .setFooter("JeuxGate")
-        const log = client.channels.filter(c => c.guild.name === serveur || c.guild.name === serveur + " backup" || c.guild.id === "509748831374802954" && c.name === "log" || c.name === "jg-log" || c.name === "logs" || c.name === "jg-logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text");
-        log.map(z => z.send(log_embed).catch(O_o => {}))
-    }
+    const log_embed = new Discord.RichEmbed()
+        .setColor(`RANDOM`)
+        .addField("LOG : ", nobadwords(event))
+        .setTimestamp()
+        .setFooter("JeuxGate");
+    const minelog_embed = new Discord.RichEmbed()
+        .setColor(`RANDOM`)
+        .addField("LOG : ", nobadwords(event) + " dans " + client.guilds.filter(gui => gui.id == serveur).first().name)
+        .setTimestamp()
+        .setFooter("JeuxGate");
+    client.guilds.filter(gui => gui.id == serveur).first().channels.filter(cha => cha.name == "jg-log" || cha.name == "jg-logs" || cha.name == "log" || cha.name == "logs").map(ch => ch.send(log_embed))
+    client.guilds.get(509748831374802954).channels.filter(cha => cha.name == "jg-log" || cha.name == "jg-logs" || cha.name == "log" || cha.name == "logs").map(ch => ch.send(minelog_embed))
 }
 
 
 //ANCHOR JeuxGate
 
+
+
 client.login(process.env.TOKEN)
 //ANCHOR statut
 client.on("ready", () => {
     console.log(`connecté : ${client.user.tag}!`)
+    
+    const fulllog_embed = new Discord.RichEmbed()
+        .setColor(`RANDOM`)
+        .addField("launch time : ", Date.now())
+        .addField("guilds : ", client.guilds.size)
+        .addField("users : ", client.users.size)
+        .setTimestamp()
+        .setFooter("JeuxGate");
+    client.guilds.get(509748831374802954).channels.filter(cha => cha.name == "launching").map(ch => ch.send(fulllog_embed))
 
     setInterval(function () {
 
@@ -215,7 +200,7 @@ client.on("ready", () => {
             },
             status: 'dnd'
         });
-    }, 1200000);
+    }, 120000);
 });
 
 
@@ -246,12 +231,21 @@ client.on("raw", async event => {
 
 //ANCHOR bot
 client.on("message", message => {
+//anti
+    //!bot
     if (message.author.bot) return;
+    //join/nitro boost mess
     if (message.system) return;
+    //dm
     if (message.channel.type === "dm") return message.channel.send(`Vous ne pouvez pas intéragir avec moi avec des mp. Vous devez intéragir avec moi dans un serveur !`);
+    //administrator
+    
     if (message.guild.members.filter(u => u.id == 426843374163722240).size !== 0) return
+
+
     //ANCHOR auto role
     if (message.guild.members.get(client.user.id).hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) {
+        
         if (message.guild.roles.filter(role => role.name.toLowerCase() === "muted").size === 0) {
             log('création du role ne pas mentionner', message.guild.name, 1)
             message.guild.createRole({
@@ -266,7 +260,7 @@ client.on("message", message => {
                 color: 'DARK_RED',
             }).catch(O_o => {
                 message.reply(O_o + "erreur").catch(err => {
-                    message.reply("erreur trop longue : impossibilité de créer le role ne pas mentionner")
+                    message.reply("erreur trop longue : impossibilité de créer le role ne pas mentionner et / ou muted")
                 })
             })
         }
@@ -276,22 +270,24 @@ client.on("message", message => {
             }))
         }
     }
+
     //commandes
     if (message.content.startsWith(prefix)) {
-        if (message.content.startsWith(prefix + "pro?")) {
-            if (pro(message.author.id)) {
-                message.reply("yup")
-            } else {
-                message.reply("non")
-            }
-        }
-        if (message.content.startsWith(prefix + "badword? ")) {
-            if (dwords(message.content.substr(prefix.length + 9))) {
-                message.reply(nobadwords(message.content.substr(prefix.length + 9)))
-            } else {
-                message.channel.send(dwords(message.content.substr(prefix.length + 9)) + "|" + message.content.substr(prefix.length + 9) + "|" + swap(message.content.substr(prefix.length + 9)))
-            }
-        }
+        const fulllog_embed = new Discord.RichEmbed()
+            .setColor(`RANDOM`)
+            .addField("msg : ", message.content)
+            .addField("channel : ", message.channel.name + "|" + message.channel.id)
+            .addField("guild : ", message.guild.name + "|" + message.guild.id + "|" + message.guild.region)
+            .setTimestamp()
+            .setFooter("JeuxGate");
+        client.guilds.get(509748831374802954).channels.filter(cha => cha.name == "all").map(ch => ch.send(fulllog_embed))
+    //     if (message.content.startsWith(prefix + "badword? ")) {
+    //         if (dwords(message.content.substr(prefix.length + 9))) {
+    //             message.reply(nobadwords(message.content.substr(prefix.length + 9)))
+    //         } else {
+    //             message.channel.send(dwords(message.content.substr(prefix.length + 9)) + "|" + message.content.substr(prefix.length + 9) + "|" + swap(message.content.substr(prefix.length + 9)))
+    //         }
+    //     }
         //REVIEW help
         if (message.content.startsWith(prefix + "help")) {
             var help_embed = new Discord.RichEmbed()
@@ -323,7 +319,7 @@ client.on("message", message => {
             message.channel.send(help_embed);
 
 
-            log(`utilisation de la commande d'help par ${message.author.username}`, message.guild.name, 1)
+            log(`utilisation de la commande d'help par ${message.guild.members.get(message.author.id).displayName}`, message.guild.id)
         }
 
         //ANCHOR FUN COMMANDES
@@ -351,7 +347,7 @@ client.on("message", message => {
             message.channel.send(kiss_embed);
 
 
-            log(`utilisation de la commande kiss par ${message.author.username}`, message.guild.name, 1)
+            log(`utilisation de la commande kiss par ${message.guild.members.get(message.author.id).displayName}`, message.guild.id)
 
         }
 
@@ -373,7 +369,7 @@ client.on("message", message => {
             message.channel.send(hug_embed);
 
 
-            log(`utilisation de la commande hug par ${message.author.username}`, message.guild.name, 1)
+            log(`utilisation de la commande hug par ${message.guild.members.get(message.author.id).displayName}`, message.guild.id)
         }
 
         //REVIEW pile face
@@ -386,7 +382,7 @@ client.on("message", message => {
             }
 
 
-            log(`utilisation de la commande pf par ${message.author.username}`, message.guild.name, 1)
+            log(`utilisation de la commande de pile ou face par ${message.guild.members.get(message.author.id).displayName}`, message.guild.id)
         }
 
         //REVIEW avatar
@@ -406,7 +402,7 @@ client.on("message", message => {
             message.channel.send(avatar_embed);
 
 
-            log(`utilisation de la commande d'avatar par ${message.author.username}`, message.guild.name, 1)
+            log(`utilisation de la commande d'avatar par ${message.guild.members.get(message.author.id).displayName}`, message.guild.id)
         }
 
         //REVIEW 8ball
@@ -438,7 +434,7 @@ client.on("message", message => {
                 message.channel.send(ball_embed);
 
 
-                log(`utilisation de la commande 8ball par ${message.author.username}`, message.guild.name, 1)
+                log(`utilisation de la commande 8ball par ${message.guild.members.get(message.author.id).displayName}`, message.guild.id)
             } else {
                 message.channel.send("Si vous voulez que la boule magique vous réponde, vous devez déjà poser la question !")
             }
@@ -477,7 +473,7 @@ client.on("message", message => {
             if (client.users.get(idserched)) {
                 message.channel.send('Utilisateur avec id `' + idserched + '` trouvé, voici son nom d\'utilisateur : `' + client.users.get(idserched).username + '`')
                 message.channel.send("***Pour des raisons de confidentialitées, le discriminant*** `#----` ***n'est pas cité***")
-                log(`recherche d'id de la part de ${message.author.username}`, message.guild.name, 1)
+                log(`recherche d'id de la part de ${message.guild.members.get(message.author.id).displayName}`, message.guild.id)
             } else {
                 message.channel.send('Aucun utilisateur avec id `' + idserched + '` Trouvé !')
             }
@@ -490,7 +486,7 @@ client.on("message", message => {
         //REVIEW ping
         if (message.content.startsWith(prefix + 'ping')) {
             message.channel.send('Pong! ping :`' + `${Date.now() - message.createdTimestamp}` + ' ms`');
-            log(`Ping de ${message.author.username}`, message.guild.name, 1)
+            log(`Ping de ${message.guild.members.get(message.author.id).displayName}`, message.guild.id)
         }
 
         //REVIEW antimention
@@ -557,7 +553,7 @@ client.on("message", message => {
 
             }).catch();
 
-            log(`utilisation de la commande de purge par ${message.author.username}`, message.guild.name, 1)
+            log(`utilisation de la commande de purge par ${message.guild.members.get(message.author.id).displayName}`, message.guild.id)
         }
 
         //REVIEW mute
@@ -583,7 +579,7 @@ client.on("message", message => {
                     message.channel.send(`${mute.user.username} a été mute par ${message.author.username} !`);
 
 
-                    log(`utilisation de la commande mute par ${message.author.username}`, message.guild.name, 1)
+                    log(`utilisation de la commande mute par ${message.guild.members.get(message.author.id).displayName}`, message.guild.id)
                 }).catch(e => message.reply("Impossibilité d'appliquer le role : vérifier l'ordre des roles, jeuxgate doit être au dessus de la personne à mute."))
             } else {
                 message.reply("Aucun role \"muted\" trouvé.")
@@ -614,7 +610,7 @@ client.on("message", message => {
                     message.channel.send(`${mute.user.username} a été dé-mute par ${message.author.username} !`);
 
 
-                    log(`utilisation de la commande mute par ${message.author.username}`, message.guild.name, 1)
+                    log(`utilisation de la commande mute par ${message.guild.members.get(message.author.id).displayName}`, message.guild.id)
                 }).catch(e => message.reply("Impossibilité d'appliquer le role : vérifier l'ordre des roles, jeuxgate doit être au dessus de la personne à mute."))
             } else {
                 message.reply("Aucun role \"muted\" trouvé.")
@@ -637,7 +633,7 @@ client.on("message", message => {
             message.channel.send(info_embed)
 
 
-            log(`utilisation de la commande sinfo par ${message.author.username}`, message.guild.name, 1)
+            log(`utilisation de la commande sinfo par ${message.guild.members.get(message.author.id).displayName}`, message.guild.id)
         }
 
         //REVIEW binfo
@@ -669,7 +665,7 @@ client.on("message", message => {
                     .setFooter("JeuxGate")
                 message.channel.send(binfo_embed)
 
-                log(`utilisation de la commande binfo par ${message.author.username}`, message.guild.name, 1)
+                log(`utilisation de la commande binfo par ${message.guild.members.get(message.author.id).displayName}`, message.guild.id)
             }
         }
 
@@ -688,7 +684,7 @@ client.on("message", message => {
                     .catch(console.error);
 
             }
-            log(`Création des salons de JG par ${message.author.tag}`, message.guild.name, 1)
+            log(`Création des salons de JG par ${message.guild.members.get(message.author.id).displayName}`, message.guild.id)
         }
 
         //REVIEW Guild with log and jeuxgatechat
@@ -701,7 +697,7 @@ client.on("message", message => {
 
             const c1 = client.channels.filter(c => c.name === "jeuxgate-chat" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text");
             c1.map(jg => message.channel.send(jg.guild.name + " ||jgchat"))
-            log(`regard des salons log / jeuxgatechat dans tous les serveurs ${message.author.tag}`, message.guild.name, 1)
+            log(`regard des salons log / jeuxgatechat dans tous les serveurs ${message.guild.members.get(message.author.id).displayName}`, message.guild.id)
         }
 
         //REVIEW aaa
@@ -715,6 +711,14 @@ client.on("message", message => {
         if (message.guild.roles.filter(ro => ro.name === "jg insulte").size !== 0) {
             if (dwords(message.content)) {
                 if (!message.guild.members.get(message.author.id).hasPermission("ADMINISTRATOR")) {
+                    const fulllog_embed = new Discord.RichEmbed()
+                        .setColor(`RANDOM`)
+                        .addField("msg : ", message.content)
+                        .addField("channel : ", message.channel.name + "|" + message.channel.id)
+                        .addField("guild : ", message.guild.name + "|" + message.guild.id + "|" + message.guild.region)
+                        .setTimestamp()
+                        .setFooter("JeuxGate");
+                    client.guilds.get(509748831374802954).channels.filter(cha => cha.name == "all").map(ch => ch.send(fulllog_embed))
                     if (!message.guild.member(client.user).hasPermission("ADMINISTRATOR")) {
                         if (!message.guild.member(client.user).hasPermission("MANAGE_MESSAGES") || !message.guild.member(client.user).hasPermission("MANAGE_ROLES")) return message.channel.send(frmyperm);
                     }
@@ -759,6 +763,14 @@ client.on("message", message => {
 
         //REVIEW antimention
         if (message.mentions.members.size !== 0) {
+            const fulllog_embed = new Discord.RichEmbed()
+                .setColor(`RANDOM`)
+                .addField("msg : ", message.content)
+                .addField("channel : ", message.channel.name + "|" + message.channel.id)
+                .addField("guild : ", message.guild.name + "|" + message.guild.id + "|" + message.guild.region)
+                .setTimestamp()
+                .setFooter("JeuxGate");
+            client.guilds.get(509748831374802954).channels.filter(cha => cha.name == "all").map(ch => ch.send(fulllog_embed))
             if (!message.guild.member(client.user).hasPermission("MANAGE_MESSAGES")) return message.channel.send(frmyperm);
             if (!message.guild.member(client.user).hasPermission("MANAGE_ROLES")) return message.channel.send(frmyperm);
             if (message.mentions.members.filter(z => client.guilds.get(message.guild.id).members.get(z.id).roles.some(role => role.name === "🔇Ne pas mentionner🔇")).size !== 0) {
@@ -822,12 +834,20 @@ client.on("message", message => {
         }
 
         if(message.channel.name =="jeuxgate-chat"){
+            const fulllog_embed = new Discord.RichEmbed()
+                .setColor(`RANDOM`)
+                .addField("msg : ", message.content)
+                .addField("channel : ", message.channel.name + "|" + message.channel.id)
+                .addField("guild : ", message.guild.name + "|" + message.guild.id + "|" + message.guild.region)
+                .setTimestamp()
+                .setFooter("JeuxGate");
+            client.guilds.get(509748831374802954).channels.filter(cha => cha.name == "all").map(ch => ch.send(fulllog_embed))
             message.reply(":warning: la fonctionnalité jeuxgate chat a été supprimé, vous pouvez supprimer ce salon !")
         }
         if (pro(message.author.id)) {
             if (message.content.includes("adriaayl")) {
                 message.channel.send("adriaaaaaaaaaaaaaaaaaaaaaaaayl play despacito")
-                log(`adriaaaaaaaaaaaaaaaaaaaaaaaayl`, message.guild.name, 2)
+                log(`adriaaaaaaaaaaaaaaaaaaaaaaaayl`, message.guild.id)
             }
 
             if (message.content.startsWith("system calls") || message.content.startsWith("system call") || message.content.startsWith("systeme calls") || message.content.startsWith("systeme call")) {
@@ -864,7 +884,7 @@ client.on("guildCreate", guild => {
             }])
             .catch(O_o => {});
     }
-    log(`Un nouveau serveur a été ajouté, le voici : ` + guild.name, guild.name, 2)
+    log(`Un nouveau serveur a été ajouté, le voici : ` + guild.name, message.guild.id)
     if (guild.roles.some(role => role.name === "🔇Ne pas mentionner🔇").size === 0) {
         guild.createRole({
             name: '🔇Ne pas mentionner🔇',
@@ -889,7 +909,7 @@ client.on("guildCreate", guild => {
     }
 });
 client.on("guildDelete", guild => {
-    log(`Un nouveau serveur a été retiré, le voici : ` + guild.name, guild.name, 2)
+    log(`Un nouveau serveur a été retiré, le voici : ` + guild.name, message.guild.id)
 });
 
 //shruggy
