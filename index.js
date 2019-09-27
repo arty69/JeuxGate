@@ -207,17 +207,43 @@ var httpserveur = http.createServer((req, res) => {
 									};
 								}
 								if (guildinquestion.roles.filter(ro => ro.name === "🔇Ne pas mentionner🔇").size === 1) {
-									guildsinlinkmention[i] = {
-										a: "dis"
+									if (guildinquestion.members.filter(u => u.id === inf.id).size !== 0) {
+										if (guildinquestion.members.filter(u => u.id === inf.id).first().roles.filter(r => r.name === "🔇Ne pas mentionner🔇").size !== 0) {
+											guildsinlinkmention[i] = {
+												a: "yes"
+											}
+										} else {
+											guildsinlinkmention[i] = {
+												a: "no"
+											}
+										}
+									} else {
+										guildsinlinkmention[i] = {
+											a: "dis"
+										}
 									}
 								} else {
 									guildsinlinkmention[i] = {
 										a: "dis"
 									}
 								}
-								guildsadmin[i] = {
-									a: "nop"
+								
+								if (guildinquestion.members.filter(u => u.id === inf.id).size !== 0) {
+									if (guildinquestion.members.filter(u => u.id === inf.id).first().hasPermission("ADMINISTRATOR")) {
+										guildsadmin[i] = {
+											a: "yup"
+										}
+									} else {
+										guildsadmin[i] = {
+											a: "nop"
+										}
+									}
+								} else {
+									guildsadmin[i] = {
+										a: "nop"
+									}
 								}
+								
 								if (guildinquestion.roles.filter(ro => ro.name === "jg insulte").size === 1) {
 									guildsinsultes[i] = {
 										a: "yup"
