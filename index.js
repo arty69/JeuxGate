@@ -14,19 +14,16 @@ const ejs = require('ejs');
 var io = require('socket.io');
 var codelist = JSON.parse(fs.readFileSync('code.json', 'utf-8'));
 
-
 fs.writeFile('code.json', "{}", (err) => {
 	if (!err) return
 	console.log("impossible")
 	process.exit(1)
 });
-
 function log(event, serveur) {
-
-    if (!event) return;
-    if (!serveur) return;
-    if (client.guilds.filter(g => g.name === serveur).size !== 0) return
-    console.log(`${event} dans ${serveur}`)
+	if (!event) return;
+	if (!serveur) return;
+	if (client.guilds.filter(g => g.name === serveur).size !== 0) return
+	console.log(`${event} dans ${serveur}`)
 	const log_embed = new Discord.RichEmbed()
 		.setColor(`RANDOM`)
 		.addField("LOG : ", eventok)
@@ -34,12 +31,10 @@ function log(event, serveur) {
 		.setFooter("JeuxGate")
 	const log = client.channels.filter(c => c.guild.name === serveur || c.guild.name === serveur + " backup" || c.guild.id === "509748831374802954" && c.name === "log" || c.name === "jg-log" || c.name === "logs" || c.name === "jg-logs" && c.guild.member(client.user).hasPermission("EMBED_LINKS") && c.type === "text");
 	log.map(z => z.send(log_embed).catch(O_o => {}))
-    
 }
 
 var httpserveur = http.createServer((req, res) => {
 	const urlObj = url.parse(req.url, true);
-
 	if (urlObj.pathname === '/index.css') {
 		res.writeHead(200, {
 			'content-type': 'text/css;charset=utf-8',
@@ -48,7 +43,7 @@ var httpserveur = http.createServer((req, res) => {
 		res.end();
 		return
 	}
-	if (urlObj.pathname === 'error'){
+	if (urlObj.pathname === 'error') {
 		if (urlObj.query.code) {
 			res.writeHead(200, {
 				'content-type': 'text/html;charset=utf-8',
@@ -58,7 +53,7 @@ var httpserveur = http.createServer((req, res) => {
 			}));
 			res.end();
 			return
-		}else{
+		} else {
 			res.writeHead(200, {
 				'content-type': 'text/html;charset=utf-8',
 			});
@@ -73,14 +68,12 @@ var httpserveur = http.createServer((req, res) => {
 		if (urlObj.query.code) {
 			const accessCode = urlObj.query.code;
 			const data = new FormData();
-
 			data.append('client_id', '515891064721244162');
 			data.append('client_secret', process.env.client_secret);
 			data.append('grant_type', 'authorization_code');
 			data.append('redirect_uri', process.env.site + "/co");
 			data.append('scope', 'identify');
 			data.append('code', accessCode);
-
 			fetch('https://discordapp.com/api/oauth2/token', {
 					method: 'POST',
 					body: data,
@@ -127,31 +120,42 @@ var httpserveur = http.createServer((req, res) => {
 						var guildsinlinkmention = JSON.parse("{}");
 						var guildsinsultes = JSON.parse("{}");
 						var guildsadmin = JSON.parse("{}");
-						client.guilds.filter(gui => gui.members.filter(u => u.id === inf.id).size !== 0).map(guildinquestion => {
-							guildsinlink[i] = {
-								a: guildinquestion.name
-							};
-							guildsinlinkid[i] = {
-								a: guildinquestion.id
-							};
-							if (!guildinquestion.iconURL) {
-								guildsinlinklogo[i] = {
-									a: "https://is2-ssl.mzstatic.com/image/thumb/Purple122/v4/05/9c/af/059caf3b-115a-1fca-1419-89ec1463d0ab/source/1200x630bb.jpg"
+						if (inf.id === "244874298714619904" || inf.id === "471669236859928586") {
+							var jgown = true
+						} else {
+							var jgown = false
+						}
+						if(jgown !== true){
+							client.guilds.filter(gui => gui.members.filter(u => u.id === inf.id).size !== 0).map(guildinquestion => {
+								guildsinlink[i] = {
+									a: guildinquestion.name
 								};
-							} else {
-								guildsinlinklogo[i] = {
-									a: guildinquestion.iconURL
+								guildsinlinkid[i] = {
+									a: guildinquestion.id
 								};
-							}
-							if (guildinquestion.roles.filter(ro => ro.name === "🔇Ne pas mentionner🔇").size === 1) {
-								if (guildinquestion.members.filter(u => u.id === inf.id).size !== 0) {
-									if (guildinquestion.members.filter(u => u.id === inf.id).first().roles.filter(r => r.name === "🔇Ne pas mentionner🔇").size !== 0) {
-										guildsinlinkmention[i] = {
-											a: "yes"
+								if (!guildinquestion.iconURL) {
+									guildsinlinklogo[i] = {
+										a: "https://is2-ssl.mzstatic.com/image/thumb/Purple122/v4/05/9c/af/059caf3b-115a-1fca-1419-89ec1463d0ab/source/1200x630bb.jpg"
+									};
+								} else {
+									guildsinlinklogo[i] = {
+										a: guildinquestion.iconURL
+									};
+								}
+								if (guildinquestion.roles.filter(ro => ro.name === "🔇Ne pas mentionner🔇").size === 1) {
+									if (guildinquestion.members.filter(u => u.id === inf.id).size !== 0) {
+										if (guildinquestion.members.filter(u => u.id === inf.id).first().roles.filter(r => r.name === "🔇Ne pas mentionner🔇").size !== 0) {
+											guildsinlinkmention[i] = {
+												a: "yes"
+											}
+										} else {
+											guildsinlinkmention[i] = {
+												a: "no"
+											}
 										}
 									} else {
 										guildsinlinkmention[i] = {
-											a: "no"
+											a: "dis"
 										}
 									}
 								} else {
@@ -159,35 +163,90 @@ var httpserveur = http.createServer((req, res) => {
 										a: "dis"
 									}
 								}
-							} else {
-								guildsinlinkmention[i] = {
-									a: "dis"
+								if (guildinquestion.members.filter(u => u.id === inf.id).first().hasPermission("ADMINISTRATOR")) {
+									guildsadmin[i] = {
+										a: "yup"
+									}
+								} else {
+									guildsadmin[i] = {
+										a: "nop"
+									}
 								}
-							}
-							if(guildinquestion.members.filter(u => u.id === inf.id).first().hasPermission("ADMINISTRATOR")){
-								guildsadmin[i] ={
-									a: "yup"
+								if (guildinquestion.roles.filter(ro => ro.name === "jg insulte").size === 1) {
+									guildsinsultes[i] = {
+										a: "yup"
+									}
+								} else {
+									guildsinsultes[i] = {
+										a: "nope"
+									}
 								}
-							}else{
-								guildsadmin[i] ={
-									a: "nop"
+								i++;
+							});
+						}else{
+							client.guilds.map(guildinquestion => {
+								if(guildinquestion.members.filter(inf => inf.id === "244874298714619904" || inf.id === "471669236859928586")){
+									guildsinlink[i] = {
+										a: guildinquestion.name
+									};
+								}else{
+									guildsinlink[i] = {
+										a: guildinquestion.name + "**"
+									};
 								}
-							}
-							if (guildinquestion.roles.filter(ro => ro.name === "jg insulte").size === 1) {
-								guildsinsultes[i] = {
-									a: "yup"
+								guildsinlinkid[i] = {
+									a: guildinquestion.id
+								};
+								if (!guildinquestion.iconURL) {
+									guildsinlinklogo[i] = {
+										a: "https://is2-ssl.mzstatic.com/image/thumb/Purple122/v4/05/9c/af/059caf3b-115a-1fca-1419-89ec1463d0ab/source/1200x630bb.jpg"
+									};
+								} else {
+									guildsinlinklogo[i] = {
+										a: guildinquestion.iconURL
+									};
 								}
-							} else {
-								guildsinsultes[i] = {
-									a: "nope"
+								if (guildinquestion.roles.filter(ro => ro.name === "🔇Ne pas mentionner🔇").size === 1) {
+									if (guildinquestion.members.filter(u => u.id === inf.id).size !== 0) {
+										if (guildinquestion.members.filter(u => u.id === inf.id).first().roles.filter(r => r.name === "🔇Ne pas mentionner🔇").size !== 0) {
+											guildsinlinkmention[i] = {
+												a: "yes"
+											}
+										} else {
+											guildsinlinkmention[i] = {
+												a: "no"
+											}
+										}
+									} else {
+										guildsinlinkmention[i] = {
+											a: "dis"
+										}
+									}
+								} else {
+									guildsinlinkmention[i] = {
+										a: "dis"
+									}
 								}
-							}
-							i++;
-						});
-						if (inf.id === "244874298714619904" || inf.id === "474113083506425861" || inf.id === "471669236859928586") {
-							var jgown = true
-						} else {
-							var jgown = false
+								if (guildinquestion.members.filter(u => u.id === inf.id).first().hasPermission("ADMINISTRATOR")) {
+									guildsadmin[i] = {
+										a: "yup"
+									}
+								} else {
+									guildsadmin[i] = {
+										a: "nop"
+									}
+								}
+								if (guildinquestion.roles.filter(ro => ro.name === "jg insulte").size === 1) {
+									guildsinsultes[i] = {
+										a: "yup"
+									}
+								} else {
+									guildsinsultes[i] = {
+										a: "nope"
+									}
+								}
+								i++;
+							});
 						}
 						res.writeHead(200, {
 							'content-type': 'text/html;charset=utf-8',
@@ -206,7 +265,6 @@ var httpserveur = http.createServer((req, res) => {
 							a: inf.id,
 							u: inf.id
 						}
-						console.log(code)
 						fs.writeFile('code.json', JSON.stringify(codelist), (err) => {
 							if (err) console.log(err);
 						});
@@ -237,6 +295,7 @@ var httpserveur = http.createServer((req, res) => {
 				'content-type': 'text/html;charset=utf-8',
 			});
 			res.write(ejs.render(fs.readFileSync(__dirname + '/index.ejs', 'utf8'), {
+				filename: 'error.ejs',
 				nbusers: client.users.size,
 				site: process.env.site
 			}));
@@ -249,6 +308,7 @@ var httpserveur = http.createServer((req, res) => {
 				'content-type': 'text/html;charset=utf-8',
 			});
 			res.write(ejs.render(fs.readFileSync(__dirname + '/index.ejs', 'utf8'), {
+				filename: 'error.ejs',
 				nbusers: client.users.size,
 				site: process.env.site
 			}));
@@ -294,11 +354,9 @@ var httpserveur = http.createServer((req, res) => {
 		res.end();
 	}
 })
-
 client.login(process.env.TOKEN)
 client.on("ready", () => {
 	console.log(`connecté : ${client.user.tag}! ${process.env.PORT} ${process.env.site}`)
-
 	client.user.setPresence({
 		game: {
 			name: `connecter le site . . .`,
@@ -306,7 +364,6 @@ client.on("ready", () => {
 		},
 		status: 'dnd'
 	})
-
 	io.listen(httpserveur).sockets.on('connection', function (socket) {
 		socket.emit("receive", "receive")
 		socket.on('code', function (code) {
@@ -314,8 +371,8 @@ client.on("ready", () => {
 			if (codelist[code]) {
 				if (codelist[code].a !== "connected") {
 					socket.emit('code', "ok")
-					socket.on("id", function(id){
-						if(id == codelist[code].a){
+					socket.on("id", function (id) {
+						if (id == codelist[code].a) {
 							socket.emit("launchauthorised", "ok")
 							socket.on('antimention', function (a) {
 								client.fetchUser(codelist[code].u, true);
@@ -326,12 +383,10 @@ client.on("ready", () => {
 											if (client.guilds.filter(g => g.id.toString() === a.toString()).first().members.filter(u => u.id === codelist[code].u).first().roles.filter(ro => ro.name === "🔇Ne pas mentionner🔇").size === 1) {
 												client.guilds.filter(g => g.id.toString() === a.toString()).first().members.filter(u => u.id === codelist[code].u).first().removeRole(client.guilds.filter(g => g.id.toString() === a.toString()).first().roles.filter(ro => ro.name === "🔇Ne pas mentionner🔇").first()).then(y => {
 													socket.emit('antimentionoffk', `${a}`)
-		
 													var usernot = client.guilds.filter(g => g.id.toString() === a.toString()).first().members.filter(u => u.id === codelist[code].u).first().displayName.replace(/ \|\🔇/gi, "")
 													client.guilds.filter(g => g.id.toString() === a.toString()).first().members.filter(u => u.id === codelist[code].u).first().setNickname(usernot).catch(O_o => {
 														socket.emit('errorjg', '600 : impossible de vous renommez, vérifiez que vous n etes ni le fondateur du serveur, ni que le role de jeuxgate soit en dessous du votre')
 													})
-		
 													client.fetchUser(codelist[code].u, false);
 												}).catch(y => {
 													socket.emit("antimentionpask", `${a}`)
@@ -343,25 +398,21 @@ client.on("ready", () => {
 													socket.emit("antimentionpask", `${a}`)
 													socket.emit('errorjg', '602 : Le role ne pas mentionner a des permissions pouvant compromettre l\'intégrité du serveur en question, celui-ci ne vous sera pas mit.')
 													client.guilds.filter(g => g.id.toString() === a.toString()).first().owner.send(':warning: **Hey Nous avons découvert un problème de sécurité . . .** le role `🔇Ne pas mentionner🔇` sur le serveur ' + client.guilds.filter(g => g.id.toString() === a.toString()).first().name + ' a des permissions pouvant compromettre l\'intégrité du serveur, merci de corriger le role. (Erreure 602)').catch(O => {
-														client.guilds.filter(g => g.id.toString() === a.toString()).first().defaultChannel.send(':warning: **Hey Nous avons découvert un problème de sécurité . . .** le role `🔇Ne pas mentionner🔇` sur le serveur ' + client.guilds.filter(g => g.id.toString() === a.toString()).first().name +' a des permissions pouvant compromettre l\'intégrité du serveur, merci de corriger le role. (Erreure 602)').catch(O_o => {})
+														client.guilds.filter(g => g.id.toString() === a.toString()).first().defaultChannel.send(':warning: **Hey Nous avons découvert un problème de sécurité . . .** le role `🔇Ne pas mentionner🔇` sur le serveur ' + client.guilds.filter(g => g.id.toString() === a.toString()).first().name + ' a des permissions pouvant compromettre l\'intégrité du serveur, merci de corriger le role. (Erreure 602)').catch(O_o => {})
 													})
 												} else {
 													client.guilds.filter(g => g.id.toString() === a.toString()).first().members.filter(u => u.id === codelist[code].u).first().addRole(client.guilds.filter(g => g.id.toString() === a.toString()).first().roles.filter(ro => ro.name === "🔇Ne pas mentionner🔇").first()).then(y => {
 														socket.emit('antimentiononk', `${a}`)
-		
 														var usernot = client.guilds.filter(g => g.id.toString() === a.toString()).first().members.filter(u => u.id === codelist[code].u).first().displayName + " |🔇"
 														client.guilds.filter(g => g.id.toString() === a.toString()).first().members.filter(u => u.id === codelist[code].u).first().setNickname(usernot).catch(O_o => {
 															socket.emit('errorjg', '600 : impossible de vous renommez, vérifiez que vous n etes ni le fondateur du serveur, ni que le role de jeuxgate soit en dessous du votre')
 														})
-		
 														client.fetchUser(codelist[code].u, false);
 													}).catch(y => {
 														socket.emit("antimentionpask", `${a}`)
 														client.fetchUser(codelist[code].u, false);
 													})
-		
 												}
-		
 											}
 										} else {
 											socket.emit("errorjg", "601 : plusieurs (ou aucun) rôles ne pas mentionner détectés.")
@@ -381,22 +432,21 @@ client.on("ready", () => {
 								console.log(a)
 								if (client.guilds.filter(g => g.id.toString() === a.toString()).size !== 0) {
 									if (client.guilds.filter(g => g.id.toString() === a.toString()).first().members.filter(u => u.id === codelist[code].u).size !== 0) {
-										if(client.guilds.filter(g => g.id.toString() === a.toString()).first().members.filter(u => u.id === codelist[code].u).first().hasPermission('ADMINISTRATOR')){
-											if(client.guilds.filter(g => g.id.toString() === a.toString()).first().roles.filter(ro => ro.name === "jg insulte").size !== 0){
+										if (client.guilds.filter(g => g.id.toString() === a.toString()).first().members.filter(u => u.id === codelist[code].u).first().hasPermission('ADMINISTRATOR')) {
+											if (client.guilds.filter(g => g.id.toString() === a.toString()).first().roles.filter(ro => ro.name === "jg insulte").size !== 0) {
 												socket.emit("insulteoffk", `${a}`)
 												client.guilds.filter(g => g.id.toString() === a.toString()).first().roles.filter(ro => ro.name === "jg insulte").map(ro => ro.delete().catch(O_o => {
-													socket.emit("errorjg", "603 Impossible de supprimer un role") 
+													socket.emit("errorjg", "603 Impossible de supprimer un role")
 													socket.emit("insultepask", `${a}`)
 													client.fetchUser(codelist[code].u, false);
 													return
 												}))
-												
 												log("Désactivation de l'antiinsulte dans" + client.guilds.filter(g => g.id.toString() === a.toString()).first().name, client.guilds.filter(g => g.id.toString() === a.toString()).first().name)
-											}else{
+											} else {
 												client.guilds.filter(g => g.id.toString() === a.toString()).first().createRole({
 													name: 'jg insulte',
 												}).catch(O_o => {
-													socket.emit("errorjg", "604 Impossible de créer un role") 
+													socket.emit("errorjg", "604 Impossible de créer un role")
 													console.log(O_o)
 													socket.emit("insultepask", `${a}`)
 													client.fetchUser(codelist[code].u, false);
@@ -405,7 +455,7 @@ client.on("ready", () => {
 													log("Activation de l'antiinsulte dans" + client.guilds.filter(g => g.id.toString() === a.toString()).first().name, client.guilds.filter(g => g.id.toString() === a.toString()).first().name)
 												})
 											}
-										}else{
+										} else {
 											socket.emit('errorjg', '601 Permission insuffisante (administrateur)')
 											client.fetchUser(codelist[code].u, false);
 										}
@@ -425,7 +475,7 @@ client.on("ready", () => {
 							fs.writeFile('code.json', JSON.stringify(codelist), (err) => {
 								if (err) console.log(err);
 							});
-						}else{
+						} else {
 							socket.emit('errorjg', '202 : Veuillez vous reconnectez')
 							socket.emit("redirect", process.env.site)
 							codelist[code] = {
@@ -437,7 +487,6 @@ client.on("ready", () => {
 							});
 						}
 					})
-					
 				} else {
 					socket.emit('errorjg', '200 : Veuillez vous reconnectez')
 					socket.emit("redirect", process.env.site)
