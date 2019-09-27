@@ -40,7 +40,7 @@
 			<a href="https://jeuxgate-priv.herokuapp.com/" class="menu-link li-menu">Acceuil</a>
 			<a class="menu-link active li-menu">Doc</a>
 			<a href="https://discordapp.com/api/oauth2/authorize?client_id=515891064721244162&permissions=8&scope=bot" class="menu-link li-menu">L'inviter !</a>
-			<a class="menu-link co li-menu" style="height: 16px;float: right;" href="https://discordapp.com/api/oauth2/authorize?client_id=515891064721244162&redirect_uri=https%3A%2F%2Fjeuxgate-priv.herokuapp.com%2Fco&response_type=code&scope=identify">Se connecter</a>
+			<a class="menu-link co li-menu" style="height: 23px;float: right;" href="https://discordapp.com/api/oauth2/authorize?client_id=515891064721244162&redirect_uri=https%3A%2F%2Fjeuxgate-priv.herokuapp.com%2Fco&response_type=code&scope=identify">Se connecter</a>
 			<a href="javascript:void(0);" class="icon li-menu menu-link" onclick="menuex()">
 				<i class="fa fa-bars" style="height: 19px"></i>
 			</a>
@@ -48,81 +48,78 @@
 		<br></br>
 		<h2>Générales :</h2>
 		<table rules="all" cellpadding="5px" style="border:solid 1px black; width: 75%; font-family:verdana; font-size:12px;"> 
-		   	<tr style="color:steelblue;"> 
-			  	<th>Commande (sans le prefix)</th><th>Utilité</th><th>Permission requise</th> 
-		   	</tr> 
-		   	<tr> 
-			  	<td>help</td><td>Voir le message d'aide</td><td>Aucune</td> 
-		   	</tr> 
+		   <tr style="color:steelblue;"> 
+			  <th>Commande (sans le prefix)</th><th>Utilité</th><th>Permission requise</th> 
+		   </tr> 
+		   <tr> 
+			  <td>help</td><td>Voir le message d'aide</td><td>Aucune</td> 
+		   </tr> 
+		   <tr> 
+			  <td>fun</td><td>Avoir de l'aide pour trouver toutes les commandes de fun</td><td>Aucune</td> 
+		   </tr> 
+		   <tr> 
+			  <td>mod</td><td>Avoir de l'aide pour trouver toutes les commandes de modération</td><td>Aucune</td> 
+		   </tr> 
 		</table> 
 		<h2>Fun :</h2>
 		<table rules="all" cellpadding="5px" style="border:solid 1px black; width: 75%; font-family:verdana; font-size:12px;"> 
-		   	<tr style="color:steelblue;"> 
-			  	<th>Commande (sans le prefix)</th><th>Utilité</th><th>Permission requise</th> 
-		   	</tr> 
-		   	<tr> 
-			  	<td>kiss @quelqu'un</td><td>Permet d'embrasser quelqu'un</td><td>Aucune</td> 
-		   	</tr> 
-		   	<tr> 
-			  	<td>hug @quelqu'un</td><td>Permet de caliner quelqu'un</td><td>Aucune</td> 
-		   	</tr> 
-		   	<tr> 
-			  	<td>pf</td><td>Permet de simuler un pile ou face</td><td>Aucune</td> 
-		   	</tr> 
-		   	<tr> 
-			  	<td>avatar @quelqu'un</td><td>Permet de récuprer la photo de profile de quelqu'un</td><td>Aucune</td> 
-		   	</tr> 
-		   	<tr> 
-			  	<td>8ball (ta question)</td><td>Demande à la boule magique la réponse à ta question !</td><td>Aucune</td> 
-		   	</tr> 
-		   	<tr> 
-			  	<td>serveur</td><td>Donne le lien du serveur discord de JeuxGate !</td><td>Aucune</td> 
-		   	</tr> 
-		   	<tr> 
-			  	<td>invite</td><td>Donne le lien pour inviter JeuxGate sur vôtre serveur !</td><td>Aucune</td> 
-		   	</tr>  
+		   <tr style="color:steelblue;"> 
+			  <th>Commande (sans le prefix)</th><th>Utilité</th><th>Permission requise</th> 
+		   </tr> 
+		   <tr> 
+			  <td>kiss @quelqu'un</td><td>Permet d'embrasser quelqu'un</td><td>Aucune</td> 
+		   </tr> 
+		   <tr> 
+			  <td>hug @quelqu'un</td><td>Permet de caliner quelqu'un</td><td>Aucune</td> 
+		   </tr> 
+		   <tr> 
+			  <td>pf</td><td>Permet de simuler un pile ou face</td><td>Aucune</td> 
+		   </tr> 
+		   <tr> 
+			  <td>avatar @quelqu'un</td><td>Permet de récuprer la photo de profile de quelqu'un</td><td>Aucune</td> 
+		   </tr> 
+		   <tr> 
+			  <td>8ball (ta question)</td><td>Demande à la boule magique la réponse à ta question !</td><td>Aucune</td> 
+		   </tr> 
+		   <tr> 
+			  <td>serveur</td><td>Donne le lien du serveur discord de JeuxGate !</td><td>Aucune</td> 
+		   </tr> 
+		   <tr> 
+			  <td>invite</td><td>Donne le lien pour inviter JeuxGate sur vôtre serveur !</td><td>Aucune</td> 
+		   </tr>  
 		</table>
 		<h2>Modération :</h2>
 		<table rules="all" cellpadding="5px" style="border:solid 1px black; width: 75%; font-family:verdana; font-size:12px;"> 
-		  	<tr style="color:steelblue;"> 
-			  	<th>Commande (sans le prefix)</th><th>Utilité</th><th>Permission requise</th> 
-		  	</tr> 
-		  	<tr> 
-			  	<td>mute @quelqu'un</td><td>Rend muet quelqu'un dans le salon ou la demande a été effectué (textuel)</td><td>Administrateur</td> 
-		  	</tr> 
-		  	<tr>
-			  	<td>unmute @quelqu'un</td><td>Rend le droit d'écrire à quelqu'un dans le salon ou la demande a été effectué (textuel)</td><td>Administrateur</td> 
-		    </tr> 
-			<tr>
-			   <td>ping</td><td>Permet de connaître la latence du bot</td><td>Aucune</td> 
-			</tr> 
-			<tr>
-			   <td>mention</td><td>Permet d'avoir le role d'antimention</td><td>Aucune</td> 
-			</tr> 
-		    <tr>
-			  	<td>purge (un nombre)</td><td>Supprime un nombre de message</td><td>Gérer les messages</td> 
-		    </tr> 
-		    <tr>
-				<td>id (un id d'une personne)</td><td>Permet d'le pseudo associer à l'id (s'il est connue du système)</td><td>Aucune</td> 
-		 	</tr> 
-		   	<tr>
-			  	<td>binfo</td><td>Donne les informations du bot</td><td>Aucune</td> 
-		   	</tr> 
-		   	<tr>
-			  	<td>sinfo</td><td>Donne les informations du serveur</td><td>Aucune</td> 
-		   	</tr> 
-		   	<tr>
-			  	<td>channel</td><td>Créer Les salons dédié à JeuxGate</td><td>Administrateur</td> 
-		   	</tr>
+		   <tr style="color:steelblue;"> 
+			  <th>Commande (sans le prefix)</th><th>Utilité</th><th>Permission requise</th> 
+		   </tr> 
+		   <tr> 
+			  <td>mute @quelqu'un</td><td>Rend muet quelqu'un dans le salon ou la demande a été effectué (textuel)</td><td>Administrateur</td> 
+		   </tr> 
+		   <tr>
+			  <td>unmute @quelqu'un</td><td>Rend le droit d'écrire à quelqu'un dans le salon ou la demande a été effectué (textuel)</td><td>Administrateur</td> 
+		   </tr> 
+		   <tr>
+			  <td>purge (un nombre)</td><td>Supprime un nombre de message</td><td>Gérer les messages</td> 
+		   </tr> 
+		   <tr>
+			  <td>binfo</td><td>Donne les informations du bot</td><td>Aucune</td> 
+		   </tr> 
+		   <tr>
+			  <td>sinfo</td><td>Donne les informations du serveur</td><td>Aucune</td> 
+		   </tr> 
+		   <tr>
+			  <td>channel</td><td>Créer Les salons dédié à JeuxGate</td><td>Administrateur</td> 
+		   </tr>
 		</table>
 		<br>
 		<h1>Pour l'antimention et le mute :</h1>
-		<h2>Vérifier que le role de jeuxgate est au dessus du role des membre de vôtre serveur et que les role muted et ne pas mentionner soit au dessus de celui de JeuxGate</h2>
+		<h2>Vérifier que le role de jeuxgate est au dessus du role des membre de vôtre serveur et que les roles muted et ne pas mentionner soit en dessous de celui de JeuxGate</h2>
 		<h2>Pour plus d'aide, allez sur le discord de JeuxGate !</h2>
 		<br>
 		<iframe src="https://discordapp.com/widget?id=517372982268657684&theme=dark" width="100%" height="500" allowtransparency="true" frameborder="0"></iframe>
         <footer>
-            <p>developped by Jéhèndé</p>
+            <p>developped by Jeuxdictator</p>
         </footer>
     </center>
  
