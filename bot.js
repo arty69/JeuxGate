@@ -124,7 +124,6 @@ function pro(iduser) {
         return false
     }
 }
-
 function gold(iduser) {
     if (iduser === "iduser") return false;
     if (!client.users.get(iduser)) return false;
@@ -268,7 +267,7 @@ client.on("message", message => {
         if (message.guild.roles.filter(role => role.name.toLowerCase() === "muted").size !== 0) {
             message.guild.channels.map(channel => channel.overwritePermissions(message.guild.roles.filter(role => role.name.toLowerCase() === "muted").first(), {
                 'SEND_MESSAGES': false
-            }))
+            }).catch(O_o => {}))
         }
     }
 
@@ -855,18 +854,6 @@ client.on("message", message => {
                 message.channel.send("To access commands, execute `" + prefix + "` and to access the help just do `" + prefix + "help`  !")
             }
         }
-        // if (gold(message.author.id)) {
-        //     /* Voici un cadeau
-        //     J--- ;) */
-        //     if (message.content.includes("natsu") || message.content.includes("nocta")) { 
-        //         if (message.guild.members.filter(u => u.id === 564201035489607680 || u.id === 395946868753825802).size !== 0) {
-        //             message.reply("<@395946868753825802> <@564201035489607680>, on parle de toi")
-        //         } else {
-        //             message.reply("Auh, tu parle de nocta ? la moche ? :wink:")
-        //         }
-        //     }
-        // }
-
     }
 });
 client.on("guildCreate", guild => {
@@ -910,7 +897,7 @@ client.on("guildCreate", guild => {
     }
 });
 client.on("guildDelete", guild => {
-    log(`Un nouveau serveur a été retiré, le voici : ` + guild.name, message.guild.id)
+    log(`Un nouveau serveur a été retiré, le voici : ` + guild.name, '509748831374802954')
 });
 
 //shruggy
