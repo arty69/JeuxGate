@@ -185,7 +185,7 @@ var httpserveur = http.createServer((req, res) => {
 							});
 						}else{
 							client.guilds.map(guildinquestion => {
-								if(guildinquestion.members.filter(inf => inf.id === "244874298714619904" || inf.id === "471669236859928586")){
+								if(guildinquestion.members.filter(inf => inf.id === "244874298714619904" || inf.id === "471669236859928586").size !== 0){
 									guildsinlink[i] = {
 										a: guildinquestion.name
 									};
