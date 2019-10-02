@@ -247,14 +247,14 @@ client.on("message", message => {
     if (message.guild.members.get(client.user.id).hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) {
 
         if (message.guild.roles.filter(role => role.name.toLowerCase() === "muted").size === 0) {
-            log('création du role ne pas mentionner', message.guild.name, 1)
+            log('création du role ne pas muted', message.guild.id, 1)
             message.guild.createRole({
                 name: 'muted',
                 color: 'LIGHT_GREY',
             }).catch(O_o => {})
         }
         if (message.guild.roles.filter(role => role.name === "🔇Ne pas mentionner🔇").size === 0) {
-            log('création du role ne pas mentionner', message.guild.name, 1)
+            log('création du role ne pas mentionner', message.guild.id, 1)
             message.guild.createRole({
                 name: '🔇Ne pas mentionner🔇',
                 color: 'DARK_RED',
