@@ -370,7 +370,7 @@ client.on("ready", () => {
 			name: `connecter le site . . .`,
 			type: 'PLAYING'
 		},
-		status: 'dnd'
+		status: 'idle'
 	})
 	io.listen(httpserveur).sockets.on('connection', function (socket) {
 		socket.emit("receive", "receive")
