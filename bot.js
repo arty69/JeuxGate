@@ -198,7 +198,7 @@ client.on("ready", () => {
                 name: statut[random],
                 type: view[random]
             },
-            status: 'dnd'
+            status: 'idle'
         });
     }, 120000);
 });
