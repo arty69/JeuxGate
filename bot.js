@@ -532,9 +532,7 @@ client.on("message", message => {
 
         //REVIEW purge
         if (message.content.startsWith(prefix + "purge")) {
-            if (!message.author.id === "244874298714619904") {
-                if (!message.guild.member(message.author).hasPermission("MANAGE_MESSAGES")) return message.channel.send(fryourperm);
-            }
+            if (!message.guild.member(message.author).hasPermission("MANAGE_MESSAGES")) return message.channel.send(fryourperm);
             if (!message.guild.member(client.user).hasPermission("MANAGE_MESSAGES")) return message.channel.send(frmyperm);
 
             var suppression = message.content.substr(prefix.length + 6);
@@ -558,9 +556,7 @@ client.on("message", message => {
 
         //REVIEW mute
         if (message.content.startsWith(prefix + "mute")) {
-            if (!message.author.id === "244874298714619904" || !message.author.id === "471669236859928586") {
-                if (!message.guild.member(message.author).hasPermission("ADMINISTRATOR")) return message.channel.send(fryourperm);
-            }
+            if (!message.guild.member(message.author).hasPermission("ADMINISTRATOR")) return message.channel.send(fryourperm);
             if (!message.guild.member(client.user).hasPermission("ADMINISTRATOR")) return message.channel.send(frmyperm);
 
             if (message.mentions.users.size === 0) {
@@ -589,9 +585,7 @@ client.on("message", message => {
 
         //REVIEW unmute
         if (message.content.startsWith(prefix + "unmute")) {
-            if (!message.author.id === "244874298714619904" || !message.author.id === "471669236859928586") {
-                if (!message.guild.member(message.author).hasPermission("ADMINISTRATOR")) return message.channel.send("**Hey ...**Vous n'avez pas la permissions d'éxécuter cela !");
-            }
+            if (!message.guild.member(message.author).hasPermission("ADMINISTRATOR")) return message.channel.send("**Hey ...**Vous n'avez pas la permissions d'éxécuter cela !");
             if (!message.guild.member(client.user).hasPermission("ADMINISTRATOR")) return message.channel.send("Je n'ai pas la permission !");
 
             if (message.mentions.users.size === 0) {
