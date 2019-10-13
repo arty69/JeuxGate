@@ -43,7 +43,7 @@ var httpserveur = http.createServer((req, res) => {
 		res.end();
 		return
 	}
-	if (urlObj.pathname === 'error') {
+	if (urlObj.pathname === '/error') {
 		if (urlObj.query.code) {
 			res.writeHead(200, {
 				'content-type': 'text/html;charset=utf-8',
