@@ -120,7 +120,7 @@ var httpserveur = http.createServer((req, res) => {
 						var guildsinlinkmention = JSON.parse("{}");
 						var guildsinsultes = JSON.parse("{}");
 						var guildsadmin = JSON.parse("{}");
-						if (inf.id === "244874298714619904" || inf.id === "471669236859928586") {
+						if (inf.id === "474113083506425861" || inf.id === "471669236859928586") {
 							var jgown = true
 						} else {
 							var jgown = false
