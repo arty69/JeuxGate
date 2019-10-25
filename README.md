@@ -5,7 +5,7 @@ A simple Discord Bot created by JeuxDictator. (prefix : `jg/`)
 Un Bot Discord simple créé par JeuxDictator. (préfixe : `jg/`)
 
 ## Features/Fonctionnalités
-### Moderation/Modération `jg/mod`
+### Moderation/Modération 
 ##### Mute/Muet
  - Do `jg/mute @somebody` to mute `@somebody`.
  - Faites `jg/mute @quelqu'un` pour rendre muet `@quelqu'un`.
@@ -34,7 +34,7 @@ Un Bot Discord simple créé par JeuxDictator. (préfixe : `jg/`)
  - Do `jg/channel` to create the needed channels for the bot.
  - Faites `jg/channel` pour créer les salons nécessaires au fonctionnement du robot.
 
-### Fun `jg/fun`
+### Fun 
 ##### Kiss
  - Do `jg/kiss @someone` to kiss `@someone`.
  - Faites `jg/kiss @quelqu'un` pour faire un bisou à `@quelqu'un`.
