@@ -68,5 +68,4 @@ Un Bot Discord simple créé par JeuxDictator. (préfixe : `jg/`)
 - [Website/ Site internet](https://jeuxdictator.github.io/Jeuxgate-web/)
 - [Discord bot.org](https://discordbots.org/bot/515891064721244162)
 
-####### README.md written by AdriaAyl (That will be deleted ¯\_(ツ)_/¯ (PS : oof))
-No it isn't BIATCH
+####### README.md written by AdriaAyl 
