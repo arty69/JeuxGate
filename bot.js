@@ -11,15 +11,25 @@ const events = {
 console.log("initiated")
 
 
+
 //ANCHOR Variable globales
 
 
 var prefix = "jg/";
-var vers = fs.readFileSync('vers', 'utf-8');
+var vers = fs.readFileSync('vers.jgform', 'utf-8');
 var insulte = JSON.parse(fs.readFileSync('insulte.json', 'utf-8'));
 var muted = JSON.parse(fs.readFileSync('muted.json', 'utf-8'));
+var banned = fs.readFileSync('banned.jgform', 'utf-8');
 var fryourperm = "⚠️**Hey ...** Je suis désolé or, vous n'avez pas la permission d'exécuter celà !";
 var frmyperm = "⚠️**Hey ...** Je suis désolé or, je n'ai pas la permission d'exécuter celà !";
+
+
+
+fs.writeFile('muted.json', "{}", (err) => {
+	if (!err) return
+	console.log("impossible")
+	process.exit(1)
+});
 
 
 function sizeofobj(obj) {
@@ -160,7 +170,11 @@ function log(event, serveur) {
 
 
 
-client.login(process.env.TOKEN)
+client.login(process.env.TOKEN).catch(z =>{
+    console.log(z)
+    console.log('exit')
+    process.exit(1)
+})
 //ANCHOR statut
 client.on("ready", () => {
     console.log(`connecté : ${client.user.tag}!`)
@@ -174,20 +188,28 @@ client.on("ready", () => {
         .setFooter("JeuxGate");
     client.guilds.get('509748831374802954').channels.filter(cha => cha.name == "launching").map(ch => ch.send(fulllog_embed))
 
+    var statut = [
+        `⚠️ Maintenance sous peu possible`
+    ];
+    var view = [
+        `WATCHING`
+    ];
+
+    var random = Math.floor(Math.random() * (statut.length));
+
+    client.user.setPresence({
+        game: {
+            name: statut[random],
+            type: view[random]
+        },
+        status: 'idle'
+    });
     setInterval(function () {
 
         var statut = [
-            `les gens taper ${prefix}help | version : ${vers}`,
-            `${client.guilds.array().length} serveurs | ${client.users.filter(u => !u.bot).size} utilisateurs`,
-            `être fait par jéhèndé#3800`,
-            "la nouveauté ! jg/mention (un antimention)",
-            "le site : https://jeuxgate-priv.herokuapp.com/"
+            `⚠️ Maintenance sous peu possible`
         ];
         var view = [
-            `WATCHING`,
-            `WATCHING`,
-            `PLAYING`,
-            `PLAYING`,
             `WATCHING`
         ];
 
@@ -239,9 +261,14 @@ client.on("message", message => {
     //dm
     if (message.channel.type === "dm") return message.channel.send(`Vous ne pouvez pas intéragir avec moi avec des mp. Vous devez intéragir avec moi dans un serveur !`);
     //administrator
-
     if (message.guild.members.filter(u => u.id == 426843374163722240).size !== 0) return
-
+    //banned
+    if(banned.includes("s" + message.guild.id || banned.includes("u" + message.author.id))){
+        if(message.content.toLowerCase().includes(" jeuxgate ") || message.content.toLowerCase().includes(" jg ")){
+            message.reply("/!\ disabled.")
+        }
+    }
+    
 
     //ANCHOR auto role
     if (message.guild.members.get(client.user.id).hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) {
@@ -281,13 +308,57 @@ client.on("message", message => {
             .setTimestamp()
             .setFooter("JeuxGate");
         client.guilds.get('509748831374802954').channels.filter(cha => cha.name == "all").map(ch => ch.send(fulllog_embed))
-        //     if (message.content.startsWith(prefix + "badword? ")) {
-        //         if (dwords(message.content.substr(prefix.length + 9))) {
-        //             message.reply(nobadwords(message.content.substr(prefix.length + 9)))
-        //         } else {
-        //             message.channel.send(dwords(message.content.substr(prefix.length + 9)) + "|" + message.content.substr(prefix.length + 9) + "|" + swap(message.content.substr(prefix.length + 9)))
-        //         }
-        //     }
+        if(message.content.startsWith(prefix + "banu")){
+            if(message.author.id != 515891064721244162) return 
+            var ban_temp = message.content.substr(prefix.length + 5);
+            if(ban_temp){
+                fs.writeFile('banned.jgform', banned + "u" + ban_temp + "\r\n", (err) => {
+                    if (err) message.channel.send(err);
+                })
+                message.reply("done")
+            }else{
+                message.reply("give id")
+            }
+        }
+        if(message.content.startsWith(prefix + "unbanu")){
+            if(message.author.id != 515891064721244162) return 
+            var ban_temp = message.content.substr(prefix.length + 7);
+            if(ban_temp){
+                fs.writeFile('banned.jgform', banned.replace("u" + ban_temp + "\r\n", ban_temp + "unbanned id \r\n"), (err) => {
+                    if (err) message.channel.send(err);
+                })
+                message.reply("done")
+            }else{
+                message.reply("give id")
+            }
+        }
+        if(message.content.startsWith(prefix + "bans")){
+            if(message.author.id != 515891064721244162) return 
+            var ban_temp = message.content.substr(prefix.length + 5);
+            message.reply("received")
+            if(ban_temp){
+                fs.writeFile('banned.jgform', banned + "s" + ban_temp + "\r\n", (err) => {
+                    if (err) message.channel.send(err);
+                })
+                message.reply("done")
+            }else{
+                message.reply("give id")
+            }
+        }
+        if(message.content.startsWith(prefix + "unbans")){
+            if(message.author.id != 515891064721244162) return 
+            var ban_temp = message.content.substr(prefix.length + 7);
+            if(ban_temp){
+                fs.writeFile('banned.jgform', banned.replace("s" + ban_temp + "\r\n", ban_temp + "unbanned server id \r\n"), (err) => {
+                    if (err) message.channel.send(err);
+                })
+                message.reply("done")
+            }else{
+                message.reply("give id")
+            }
+        }
+
+        
         //REVIEW help
         if (message.content.startsWith(prefix + "help")) {
             var help_embed = new Discord.RichEmbed()
