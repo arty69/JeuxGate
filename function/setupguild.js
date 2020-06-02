@@ -1,4 +1,6 @@
 
+const fs = require("fs")
+
 exports.run = async (message, client) =>{
     if (message.guild.members.get(client.user.id).hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) {
 
@@ -24,5 +26,12 @@ exports.run = async (message, client) =>{
                 })
             })
         }
+    }
+    if(!fs.existsSync("./config/guild/" + message.guild.id + "/lastupdated") || (fs.readFileSync("./config/guild/" + message.guild.id + "/lastupdated", "utf-8") !== fs.readFileSync("./config/now", 'utf-8'))){
+        
+        message.guild.channels.map(channel => channel.overwritePermissions(message.guild.roles.filter(role => role.name.toLowerCase() === "muted").first(), {
+            'SEND_MESSAGES': false
+        }).catch(O_o => {}))
+        fs.writeFileSync("./config/guild/" + message.guild.id + "/lastupdated", fs.readFileSync("./config/now", 'utf-8'))
     }
 }
