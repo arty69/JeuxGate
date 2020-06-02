@@ -15,13 +15,11 @@ exports.run = async (message, client) =>{
                         message.channel.send(`${mute.user.username} a été dé-mute par ${message.author.username} !`);
                     }).catch(e => message.reply("Impossibilité d'appliquer le role : vérifier l'ordre des roles, jeuxgate doit être au dessus de la personne à mute."))
                     return
-                }else{
-                    if (!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send("**Hey ...** Vous n'avez pas la permission nécessaire pour effectuer cette action.");
                 }
             }
         }
-        if (!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send("**Hey ...** Vous n'avez pas la permission nécessaire pour effectuer cette action.");
-        if (!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send("**Hey ...** Je n'ai pas les permissions nécessaire pour faire cette action.");
+        if (!message.member.hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) return message.channel.send("**Hey ...** Vous n'avez pas la permission nécessaire pour effectuer cette action.");
+        if (!message.guild.member(client.user).hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) return message.channel.send("**Hey ...** Je n'ai pas les permissions nécessaire pour faire cette action.");
 
         if (message.mentions.users.size === 0) {
             return message.reply("Tu dois mentionner quelqu'un pour faire cette commande");

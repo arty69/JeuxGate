@@ -7,8 +7,8 @@ exports.run = async (message, client) =>{
     if(message.content.startsWith(prefix + "mute")){
         log.log("[JeuxGate : Cmute] mute command received from " + message.author.username + " - " + message.author.id, "mute", message.guild.id + "/commands")
         
-        if (!message.guild.member(message.author).hasPermission("ADMINISTRATOR")) return message.channel.send("**Hey ...** Vous n'avez pas la permission nécessaire pour effectuer cette action.");
-        if (!message.guild.member(client.user).hasPermission("ADMINISTRATOR")) return message.channel.send("**Hey ...** Je n'ai pas les permissions nécessaire pour faire cette action.");
+        if (!message.guild.member(message.author).hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) return message.channel.send("**Hey ...** Vous n'avez pas la permission nécessaire pour effectuer cette action.");
+        if (!message.guild.member(client.user).hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) return message.channel.send("**Hey ...** Je n'ai pas les permissions nécessaire pour faire cette action.");
 
         if (message.mentions.users.size === 0) {
             return message.reply("Tu dois mentionner quelqu'un pour faire cette commande");
