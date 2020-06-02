@@ -69,8 +69,6 @@ client.on("message", async (message) => {
     if (message.system) return;
     //dm
     if (message.channel.type === "dm") return message.channel.send(`Vous ne pouvez pas intéragir avec moi avec des mp. Vous devez intéragir avec moi dans un serveur !`);
-    //administrator
-    if (message.guild.members.filter(u => u.id == 426843374163722240).size !== 0) return
     //antirule command
     if(message.channel.id == "428569427718438933" || message.channel.id == "517373451577589781") return
     //banned
