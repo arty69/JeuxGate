@@ -13,10 +13,11 @@ exports.run = async (message, client) =>{
             return message.channel.send(mentionned + "vous avez été mentionné par <@" + message.author.id + ">")
         }
         if(!message.member.hasPermission("MANAGE_ROLES_OR_PERMISSIONS")){
+            if (message.guild.roles.filter(ro => ro.name === "🔇Ne pas mentionner🔇").size === 0) return
             if (message.mentions.members.filter(mentionned => mentionned.roles.filter(role => role.name === "🔇Ne pas mentionner🔇")).size !== 0) {
                 log.log("[JeuxGate : Eantimention] Triggered gid" + message.guild.id + message.guild.name + " uid" + message.author.id + " u mentionned" + message.mentions.members.filter(mentionned => mentionned.roles.filter(role => role.name === "🔇Ne pas mentionner🔇")).size + message.mentions.members.filter(mentionned => mentionned.roles.filter(role => role.name === "🔇Ne pas mentionner🔇")).first().displayName + message.mentions.members.filter(mentionned => mentionned.roles.filter(role => role.name === "🔇Ne pas mentionner🔇")).first().roles, "antimention"  , message.guild.id + "/auto" )
-                if (!message.guild.member(client.user).hasPermission("MANAGE_MESSAGES")) return message.channel.send(frmyperm);
-                if (!message.guild.member(client.user).hasPermission("MANAGE_ROLES")) return message.channel.send(frmyperm);
+                if (!message.guild.member(client.user).hasPermission("MANAGE_MESSAGES")) return message.channel.send("**Hey ...** Je n'ai pas les permissions nécessaire pour faire cette action.");
+                if (!message.guild.member(client.user).hasPermission("MANAGE_ROLES")) return message.channel.send("**Hey ...** Je n'ai pas les permissions nécessaire pour faire cette action.");
                 message.delete().catch(O_o => {
                     return message.channel.send('erreur 505 : permission insufissante : suppression message')
                 })
@@ -50,7 +51,7 @@ exports.run = async (message, client) =>{
                         y.edit(re).catch(O_o => {
                             return message.channel.send('erreur 501 : erreur sans nom : impossibilité d\'éditer le message')
                         })
-                        fs.unlinkSync("./config/guild/" + message.guild.id + "/temp muted/" + message.author.id)
+                        if(fs.existsSync("./config/guild/" + message.guild.id + "/temp muted/" + message.author.id)) fs.unlinkSync("./config/guild/" + message.guild.id + "/temp muted/" + message.author.id)
                         message.member.removeRole(message.guild.roles.filter(role => role.name.toLowerCase() === "muted").first().id).catch(O_o => {
                             y.edit(re).catch(O_o => {
                                 return message.channel.send('erreur 501 : erreur sans nom : impossibilité d\'éditer le message \+ erreur 500 : permission insuffisante')

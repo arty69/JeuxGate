@@ -11,6 +11,9 @@ exports.run = async (message, client) =>{
                 if (fs.readFileSync("./config/guild/" + message.guild.id + "/temp muted/" + message.mentions.members.first().id, "utf-8") === message.author.id.toString()){
                     message.reply("La personne a bien été démute !")
                     fs.unlinkSync("./config/guild/" + message.guild.id + "/temp muted/" + message.mentions.members.first().id)
+                    message.guild.member(message.mentions.users.first()).removeRole(message.guild.roles.filter(role => role.name.toLowerCase() === "muted").first()).then(member => {
+                        message.channel.send(`${mute.user.username} a été dé-mute par ${message.author.username} !`);
+                    }).catch(e => message.reply("Impossibilité d'appliquer le role : vérifier l'ordre des roles, jeuxgate doit être au dessus de la personne à mute."))
                     return
                 }else{
                     if (!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send("**Hey ...** Vous n'avez pas la permission nécessaire pour effectuer cette action.");

@@ -8,6 +8,7 @@ const events = {
 };
 const prefix = fs.readFileSync("./config/prefix", "utf-8")
 
+console.log("ok")
 let ts = Date.now();
 let date_ob = new Date(ts);
 let minute = date_ob.getMinutes();

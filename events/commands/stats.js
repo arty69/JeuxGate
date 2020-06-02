@@ -13,6 +13,7 @@ exports.run = async (message, client) =>{
         }else{
             var sstat = message.author.id
         }
+        if(!fs.existsSync("./config/guild/" + message.guild.id + "/lvl/enabled") || !(fs.readFileSync("./config/guild/" + message.guild.id + "/lvl/enabled", "utf-8") === "on")) return message.reply("Les niveaux ne sont pas activés, faites `jg/lvl`pour les activer")
         if (fs.existsSync("./config/guild/" + message.guild.id + "/lvl/" + sstat + " lvl.json", "utf-8")){
             var lvlu = JSON.parse(fs.readFileSync("./config/guild/" + message.guild.id + "/lvl/" + sstat + " lvl.json", "utf-8"))
             var lvl = JSON.parse(fs.readFileSync("./config/lvl.json", "utf-8"))
