@@ -80,32 +80,32 @@ function nobadwords(text) {
 
 exports.run = async (message, client) => {
     
-    if (message.guild.roles.filter(ro => ro.name === "jg insulte").size !== 0) {
+    if (message.guild.roles.cache.filter(ro => ro.name === "jg insulte").size !== 0) {
         if (dwords(message.content)) {
             if (!message.member.hasPermission("ADMINISTRATOR")) {
-                if(message.member.roles.filter(role => role.name === "muted").size !== 0) return 
+                if(message.member.roles.cache.filter(role => role.name === "muted").size !== 0) return 
                 log.log("[JeuxGate : Eantiinsulte] Triggered gid" + message.guild.id + " uid" + message.author.id, "antiinsulte", message.guild.id + "/auto" )
                 if (!message.guild.member(client.user).hasPermission("ADMINISTRATOR")) {
-                    if (!message.guild.member(client.user).hasPermission("MANAGE_MESSAGES") || !message.guild.member(client.user).hasPermission("MANAGE_ROLES")) return message.channel.send("**Hey ...** Je n'ai pas les permissions nécessaire pour faire cette action.");
+                    if (!message.guild.member(client.user).hasPermission("MANAGE_MESSAGES") || !message.guild.member(client.user).hasPermission("MANAGE_roles.cache")) return message.channel.send("**Hey ...** Je n'ai pas les permissions nécessaire pour faire cette action.");
                 }
                 message.delete().catch(O_o => {
                     return message.channel.send('erreur 505 : permission insufissante : suppression message')
                 })
-                const re = new Discord.RichEmbed()
+                const re = new Discord.MessageEmbed()
                     .setTitle("Vous avez tenté de dire une insulte !")
                     .addField("message :", nobadwords(message.content))
                     .setTimestamp()
                     .setFooter("JeuxGate ")
-                    .setAuthor(message.member.displayName, message.author.avatarURL);
-                const mentionnopembed = new Discord.RichEmbed()
+                    .setAuthor(message.member.displayName, message.author.avatarURL({ size: 1024 }));
+                const mentionnopembed = new Discord.MessageEmbed()
                     .setTitle("Vous avez tenté de dire une insulte !")
                     .addField("message :", nobadwords(message.content))
                     .addField(message.member.displayName, "Tu seras mute pendant 30 seconde !")
                     .setTimestamp()
                     .setFooter("JeuxGate ")
-                    .setAuthor(message.member.displayName, message.author.avatarURL);
+                    .setAuthor(message.member.displayName, message.author.avatarURL({ size: 1024 }));
                 message.channel.send(mentionnopembed).then(y => {
-                    client.guilds.get(message.guild.id).members.get(message.author.id).addRole(message.guild.roles.filter(role => role.name.toLowerCase() === "muted").first().id).catch(O_o => {
+                    message.member.roles.add(message.guild.roles.cache.filter(role => role.name.toLowerCase() === "muted").first().id).catch(O_o => {
                         y.edit(re).catch(O_o => {
                             return message.channel.send('erreur 501 : erreur sans nom : impossibilité d\'éditer le message \+ erreur 500 : permission insuffisante')
                         })
@@ -115,7 +115,7 @@ exports.run = async (message, client) => {
                         y.edit(re).catch(O_o => {
                             return message.channel.send('erreur 501 : erreur sans nom : impossibilité d\'éditer le message')
                         })
-                        client.guilds.get(message.guild.id).members.get(message.author.id).removeRole(message.guild.roles.filter(role => role.name.toLowerCase() === "muted").first().id).catch(O_o => {
+                        message.member.roles.remove(message.guild.roles.cache.filter(role => role.name.toLowerCase() === "muted").first().id).catch(O_o => {
                             y.edit(re).catch(O_o => {
                                 return message.channel.send('erreur 501 : erreur sans nom : impossibilité d\'éditer le message \+ erreur 500 : permission insuffisante')
                             })

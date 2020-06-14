@@ -6,27 +6,27 @@ exports.run = (message, client) => {
             message.delete()
 
             let user = message.guild.member(message.author);
-            user.addRole(message.guild.roles.find(m => m.id === "484350151058784257")).catch(err => {
+            user.roles.add(message.guild.roles.cache.find(m => m.id === "484350151058784257")).catch(err => {
                 message.channel.send(err).then(message => setTimeout(function () {
                     message.delete()
                 }, 5000))
             });
-            user.addRole(message.guild.roles.find(m => m.id === "507213640697380886")).catch(err => {
+            user.roles.add(message.guild.roles.cache.find(m => m.id === "507213640697380886")).catch(err => {
                 message.channel.send(err).then(message => setTimeout(function () {
                     message.delete()
                 }, 5000))
             });
-            user.addRole(message.guild.roles.find(m => m.id === "507213819366473738")).catch(err => {
+            user.roles.add(message.guild.roles.cache.find(m => m.id === "507213819366473738")).catch(err => {
                 message.channel.send(err).then(message => setTimeout(function () {
                     message.delete()
                 }, 5000))
             });
-            user.addRole(message.guild.roles.find(m => m.id === "503142506867982346")).catch(err => {
+            user.roles.add(message.guild.roles.cache.find(m => m.id === "503142506867982346")).catch(err => {
                 message.channel.send(err).then(message => setTimeout(function () {
                     message.delete()
                 }, 5000))
             });
-            user.removeRole('515590184373452801').catch(err => {
+            user.roles.remove('515590184373452801').catch(err => {
                 message.channel.send(err).then(message => setTimeout(function () {
                     message.delete()
                 }, 5000))

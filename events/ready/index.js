@@ -3,14 +3,14 @@ const Discord = require('discord.js');
 exports.run = (client) =>{
     log.log(`[JeuxGate : ready] connecté : ${client.user.tag}!`, "GLOBAL")
 
-    const fulllog_embed = new Discord.RichEmbed()
+    const fulllog_embed = new Discord.MessageEmbed()
         .setColor(`RANDOM`)
         .addField("launch time : ", Date.now())
-        .addField("guilds : ", client.guilds.size)
-        .addField("users : ", client.users.size)
+        .addField("guilds : ", client.guilds.cache.size)
+        .addField("users : ", client.users.cache.size)
         .setTimestamp()
         .setFooter("JeuxGate");
-    client.guilds.get('509748831374802954').channels.filter(cha => cha.name == "launching").map(ch => ch.send(fulllog_embed))
+    client.guilds.cache.get('509748831374802954').channels.cache.filter(cha => cha.name == "launching").map(ch => ch.send(fulllog_embed))
 
     client.user.setPresence({
         game: {
@@ -22,7 +22,7 @@ exports.run = (client) =>{
     setInterval(function () {
 
         var statut = [
-            `⚠️ ${client.guilds.array().length} serveurs | ${client.users.filter(u => !u.bot).size} utilisateurs`,
+            `⚠️ ${client.guilds.cache.array().length} serveurs | ${client.users.cache.filter(u => !u.bot).size} utilisateurs`,
             `⚠️ être fait par jéhèndé#2054`,
             "⚠️ le site : https://jeuxgate-priv.herokuapp.com/"
         ];
@@ -36,7 +36,7 @@ exports.run = (client) =>{
         var random = Math.floor(Math.random() * (statut.length));
 
         client.user.setPresence({
-            game: {
+            activity: {
                 name: statut[random],
                 type: view[random]
             },
