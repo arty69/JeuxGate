@@ -7,8 +7,8 @@ exports.run = async (message, client) =>{
     if(message.content.startsWith(prefix + "mute")){
         log.log("[JeuxGate : Cmute] mute command received from " + message.author.username + " - " + message.author.id, "mute", message.guild.id + "/commands")
         
-        if (!message.guild.member(message.author).hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) return message.channel.send("**Hey ...** Vous n'avez pas la permission nécessaire pour effectuer cette action.");
-        if (!message.guild.member(client.user).hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) return message.channel.send("**Hey ...** Je n'ai pas les permissions nécessaire pour faire cette action.");
+        if (!message.guild.member(message.author).hasPermission("MANAGE_ROLES")) return message.channel.send("**Hey ...** Vous n'avez pas la permission nécessaire pour effectuer cette action.");
+        if (!message.guild.member(client.user).hasPermission("MANAGE_ROLES")) return message.channel.send("**Hey ...** Je n'ai pas les permissions nécessaire pour faire cette action.");
 
         if (message.mentions.users.size === 0) {
             return message.reply("Tu dois mentionner quelqu'un pour faire cette commande");
@@ -18,15 +18,15 @@ exports.run = async (message, client) =>{
             message.reply("Je n'ai pas trouvé l'utilisateur ou il n'existe pas !");
 			return
         }
-        if (message.content.substr(prefix.length + 4) === " <@!515891064721244162>") {
+        if (mute.id === client.user.id) {
             return message.reply("Je ne peux pas me mute !");
         }
-        if(mute.roles.filter(role => role.name === "muted").size !== 0) {
+        if(mute.roles.cache.filter(role => role.name === "muted").size !== 0) {
             return message.reply("Cette personne est déjà mute.")
         }
 
-        if (message.guild.roles.filter(role => role.name.toLowerCase() === "muted").size !== 0) {
-            mute.addRole(message.guild.roles.filter(role => role.name.toLowerCase() === "muted").first()).then(member => {
+        if (message.guild.roles.cache.filter(role => role.name.toLowerCase() === "muted").size !== 0) {
+            mute.roles.add(message.guild.roles.cache.filter(role => role.name.toLowerCase() === "muted").first()).then(member => {
                 message.channel.send(`${mute.user.username} a été mute par ${message.author.username} !`);
             }).catch(e => message.reply("Impossibilité d'appliquer le role : vérifier l'ordre des roles, jeuxgate doit être au dessus de la personne à mute."))
         } else {

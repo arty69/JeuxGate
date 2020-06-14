@@ -26,7 +26,7 @@ exports.run = async (message, client) =>{
                 "Impossible à prédire ..."
             ];
             var ansball = ball[Math.floor(Math.random() * ball.length)];
-            var ball_embed = new Discord.RichEmbed()
+            var ball_embed = new Discord.MessageEmbed()
                 .setColor('4f0982')
                 .addField(`Voici la réponse à vôtre question :`, ansball)
                 .setTimestamp()

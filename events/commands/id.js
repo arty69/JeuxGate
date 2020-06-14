@@ -12,11 +12,11 @@ exports.run = async (message, client) =>{
         if (!idserched || idserched === 0 || idserched === 1 || isNaN(idserched)) {
             return message.reply("**Hey ...** Tu as oublié de mettre un id !");
         }
-        if (client.users.get(idserched)) {
-            message.channel.send('Utilisateur avec id `' + idserched + '` trouvé, voici son nom d\'utilisateur : `' + client.users.get(idserched).username + '`.\r\n***Pour des raisons de confidentialitées, le discriminant*** `#----` ***n\'est pas cité.***')
+        if (client.users.cache.get(idserched)) {
+            message.channel.send('Utilisateur avec id `' + idserched + '` trouvé, voici son nom d\'utilisateur : `' + client.users.cache.get(idserched).username + '`.\r\n***Pour des raisons de confidentialitées, le discriminant*** `#----` ***n\'est pas cité.***')
             
         } else {
-            var search_embed = new Discord.RichEmbed()
+            var search_embed = new Discord.MessageEmbed()
                 .setColor('RANDOM')
                 .setTitle('Aucun utilisateur trouvé pour')
                 .setDescription(`l'id ` + idserched +` désolé.`)
