@@ -3,7 +3,7 @@
   "version": "0.9.0",
   "description": "Discord bot",
   "dependencies": {
-    "discord.js": "^11.5.1",
+    "discord.js": "^12",
     "ejs": "^2.7.4",
     "express": "^4.17.1",
     "follow-redirects": "^1.11.0",
