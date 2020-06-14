@@ -20,28 +20,6 @@ const start = year + "-" + month + "-" + date + " " + hour + "-" + minute
 
 require("./setup.js").run(start)
 
-client.on("raw", async event => {
-    if (!events.hasOwnProperty(event.t)) return;
-
-    const {
-        d: data
-    } = event;
-    const user = client.users.get(data.user_id);
-    const channel = client.channels.get(data.channel_id) || await user.createDM();
-
-    if (channel.messages.has(data.message_id)) return;
-
-    const message = await channel.fetchMessage(data.message_id);
-    const emojiKey = (data.emoji.id) ? `${data.emoji.name}:${data.emoji.id}` : data.emoji.name;
-    let reaction = message.reactions.get(emojiKey);
-
-    if (!reaction) {
-        const emoji = new Discord.Emoji(client.guilds.get(data.guild_id), data.emoji);
-        reaction = new Discord.MessageReaction(message, emoji, 1, data.user_id === client.user.id);
-    }
-
-    client.emit(events[event.t], reaction, user);
-});
 
 process.on('SIGINT', _ => {
     log.log("[JeuxGate : index] Stopping.")
@@ -80,6 +58,13 @@ client.on("message", async (message) => {
     }
     require("./function/setupguild").run(message, client)
 
+    if(!fs.existsSync("./config/guild/" + message.guild.id + "/lastupdated") || (fs.readFileSync("./config/guild/" + message.guild.id + "/lastupdated", "utf-8") !== fs.readFileSync("./config/now", 'utf-8'))){
+        
+        message.guild.channels.cache.map(channel => channel.overwritePermissions(message.guild.roles.cache.filter(role => role.name.toLowerCase() === "muted").first(), {
+            'SEND_MESSAGES': false
+        }).catch(O_o => {}))
+        fs.writeFileSync("./config/guild/" + message.guild.id + "/lastupdated", fs.readFileSync("./config/now", 'utf-8'))
+    }
     console.log(message.guild.name)
     fs.readdirSync("./events/message/").forEach(u => {
         if(u.endsWith(".js")) {
@@ -87,13 +72,13 @@ client.on("message", async (message) => {
         }
     })
     
-    if(message.content.startsWith("!") || message.content.startsWith("?") || message.content.startsWith("/") || message.content.startsWith(".") || message.content.startsWith("-") || message.content.startsWith("+")) return 
-    if(message.member.roles.filter(role => role.name === "muted").size !== 0) return
-    if(message.content.startsWith(prefix)) return fs.readdirSync("./events/commands/").forEach(u => {
-        if(u.endsWith(".js")) {
-            if (require("./events/commands/" + u).run(message, client) === "don't go on") return
-        }
-    })
+    if(message.content.startsWith("!") || message.content.startsWith("?") || message.content.startsWith("/") || message.content.startsWith(".") || message.content.startsWith("-") || message.content.startsWith("+") || message.content.startsWith("^^") || message.content.startsWith("t!")) return 
+    if(message.member.roles.cache.filter(role => role.name === "muted").size !== 0) return
+    
+    if(fs.existsSync('./events/commands/'+ message.content.replace(prefix, "").split(" ")[0] + ".js")){
+        require('./events/commands/'+ message.content.replace(prefix, "").split(" ")[0] + ".js").run(message, client)
+    }
+    
     
 })
 
