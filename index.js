@@ -99,7 +99,6 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
         }
     }
     if (oldMember.roles.cache.filter(ro => ro.name === "muted").size !== 0 && newMember.roles.cache.filter(ro => ro.name === "muted").size === 0){
-        if(!oldMember.guild.member(client.user.id).hasPermission("VIEW_AUDIT_LOG")) return 
         const fetchedLogs = await oldMember.guild.fetchAuditLogs({
             limit: 1,
             type: 'MEMBER_ROLE_UPDATE',
@@ -114,10 +113,10 @@ client.on("guildMemberUpdate", async (oldMember, newMember) => {
             console.log("1")
             if (executor.id === oldMember.id){
                 console.log('anti self demute ')
-                if (newMember.guild.roles.cache.filter (ro => ro.name === "muted").size !== 0) newMember.roles.add(newMember.guild.roles.cache.filter (ro => ro.name === "muted").first())
+                if (newMember.guild.roles.cache.filter (ro => ro.name === "muted").size !== 0) newMember.roles.add(newMember.guild.roles.cache.filter (ro => ro.name === "muted").first(), "Tentative de self-démute.")
                 oldMember.guild.systemChannel.send("<@!"+ oldMember.id +"> **Hey ...** ne tente pas de t'unmute tout seul, attend que quelqu'un d'autre te démute ....").then(mess => {
                     setTimeout(()=> {
-                        mess.delete()
+                        mess.delete({reason: "Message à autodestruction."})
                     }, 10000)
                 })
             }

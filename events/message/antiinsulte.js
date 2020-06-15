@@ -88,7 +88,7 @@ exports.run = async (message, client) => {
                 if (!message.guild.member(client.user).hasPermission("ADMINISTRATOR")) {
                     if (!message.guild.member(client.user).hasPermission("MANAGE_MESSAGES") || !message.guild.member(client.user).hasPermission("MANAGE_roles.cache")) return message.channel.send("**Hey ...** Je n'ai pas les permissions nécessaire pour faire cette action.");
                 }
-                message.delete().catch(O_o => {
+                message.delete({reason: "Anti insulte enclenché."}).catch(O_o => {
                     return message.channel.send('erreur 505 : permission insufissante : suppression message')
                 })
                 const re = new Discord.MessageEmbed()
@@ -105,7 +105,7 @@ exports.run = async (message, client) => {
                     .setFooter("JeuxGate ")
                     .setAuthor(message.member.displayName, message.author.avatarURL({ size: 1024 }));
                 message.channel.send(mentionnopembed).then(y => {
-                    message.member.roles.add(message.guild.roles.cache.filter(role => role.name.toLowerCase() === "muted").first().id).catch(O_o => {
+                    message.member.roles.add(message.guild.roles.cache.filter(role => role.name.toLowerCase() === "muted").first().id, "Anti insulte enclenché.").catch(O_o => {
                         y.edit(re).catch(O_o => {
                             return message.channel.send('erreur 501 : erreur sans nom : impossibilité d\'éditer le message \+ erreur 500 : permission insuffisante')
                         })
@@ -115,7 +115,7 @@ exports.run = async (message, client) => {
                         y.edit(re).catch(O_o => {
                             return message.channel.send('erreur 501 : erreur sans nom : impossibilité d\'éditer le message')
                         })
-                        message.member.roles.remove(message.guild.roles.cache.filter(role => role.name.toLowerCase() === "muted").first().id).catch(O_o => {
+                        message.member.roles.remove(message.guild.roles.cache.filter(role => role.name.toLowerCase() === "muted").first().id, "Anti insulte enclenché.").catch(O_o => {
                             y.edit(re).catch(O_o => {
                                 return message.channel.send('erreur 501 : erreur sans nom : impossibilité d\'éditer le message \+ erreur 500 : permission insuffisante')
                             })

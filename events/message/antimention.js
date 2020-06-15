@@ -10,6 +10,7 @@ exports.run = async (message, client) =>{
             message.mentions.members.forEach(mention => {
                 mentionned = mentionned + mention.displayName + ", " 
             });
+            if(message.mentions.members.size === 1 && message.mentions.members.first().user.id === message.author.id) return
             return message.channel.send(mentionned + "vous avez été mentionné par <@" + message.author.id + ">")
         }
         if (message.guild.roles.cache.filter(ro => ro.name === "🔇Ne pas mentionner🔇").size === 0) return
@@ -17,7 +18,7 @@ exports.run = async (message, client) =>{
             log.log("[JeuxGate : Eantimention] Triggered gid" + message.guild.id + message.guild.name + " uid" + message.author.id + " u mentionned" + message.mentions.members.filter(mentionned => mentionned.roles.cache.filter(role => role.name === "🔇Ne pas mentionner🔇").size !== 0).size + message.mentions.members.filter(mentionned => mentionned.roles.cache.filter(role => role.name === "🔇Ne pas mentionner🔇").size !==0).first().displayName + message.mentions.members.filter(mentionned => mentionned.roles.cache.filter(role => role.name === "🔇Ne pas mentionner🔇").size !==0).first().roles, "antimention"  , message.guild.id + "/auto" )
             if (!message.guild.member(client.user).hasPermission("MANAGE_MESSAGES")) return message.channel.send("**Hey ...** Je n'ai pas les permissions nécessaire pour faire cette action.");
             if (!message.guild.member(client.user).hasPermission("MANAGE_ROLES")) return message.channel.send("**Hey ...** Je n'ai pas les permissions nécessaire pour faire cette action.");
-            message.delete().catch(O_o => {
+            message.delete({reason: "Antimention enclenché."}).catch(O_o => {
                 return message.channel.send('erreur 505 : permission insufissante : suppression message')
             })
             if(!fs.existsSync("./config/guild/" + message.guild.id + "/")) fs.mkdirSync("./config/guild/" + message.guild.id + "/")
@@ -40,7 +41,7 @@ exports.run = async (message, client) =>{
                 .setFooter("JeuxGate")
                 .setAuthor(message.guild.members.cache.get(message.author.id).displayName, message.author.avatarURL({ size: 1024 }))
             message.channel.send(mentionnopembed).then(y => {
-                message.member.roles.add(message.guild.roles.cache.filter(role => role.name.toLowerCase() === "muted").first().id).catch(O_o => {
+                message.member.roles.add(message.guild.roles.cache.filter(role => role.name.toLowerCase() === "muted").first().id, "Anti mention enclenché.").catch(O_o => {
                     y.edit(re).catch(O_o => {
                         return message.channel.send('erreur 501 : erreur sans nom : impossibilité d\'éditer le message \+ erreur 500 : permission insuffisante')
                     })
@@ -51,7 +52,7 @@ exports.run = async (message, client) =>{
                         return message.channel.send('erreur 501 : erreur sans nom : impossibilité d\'éditer le message')
                     })
                     if(fs.existsSync("./config/guild/" + message.guild.id + "/temp muted/" + message.author.id)) fs.unlinkSync("./config/guild/" + message.guild.id + "/temp muted/" + message.author.id)
-                    message.member.roles.remove(message.guild.roles.cache.filter(role => role.name.toLowerCase() === "muted").first().id).catch(O_o => {
+                    message.member.roles.remove(message.guild.roles.cache.filter(role => role.name.toLowerCase() === "muted").first().id, "Anti mention enclenché.").catch(O_o => {
                         y.edit(re).catch(O_o => {
                             return message.channel.send('erreur 501 : erreur sans nom : impossibilité d\'éditer le message \+ erreur 500 : permission insuffisante')
                         })
