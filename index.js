@@ -83,43 +83,4 @@ client.on("message", async (message) => {
 })
 
 client.on("messageReactionAdd", async (reaction, user) => fs.readdirSync("./events/reaction/").forEach(u => require("./events/reaction/"+u).run(reaction, user, client)))
-client.on("guildMemberUpdate", async (oldMember, newMember) => {
-    
-    if (fs.existsSync("./config/guild/" + oldMember.guild.id + "/banned.jgform")){
-        if(fs.readFileSync("./config/guild/" + oldMember.guild.id + "/banned.jgform", "utf-8") !== ""){
-            
-            return 
-        }
-    }else{
-        if(fs.existsSync("./config/guild/" + oldMember.guild.id + "/")){
-            fs.writeFileSync("./config/guild/" + oldMember.guild.id + "/banned.jgform", "")
-        }else{
-            fs.mkdirSync("./config/guild/" + oldMember.guild.id + "/")
-            fs.writeFileSync("./config/guild/" + oldMember.guild.id + "/banned.jgform", "")
-        }
-    }
-    if (oldMember.roles.cache.filter(ro => ro.name === "muted").size !== 0 && newMember.roles.cache.filter(ro => ro.name === "muted").size === 0){
-        const fetchedLogs = await oldMember.guild.fetchAuditLogs({
-            limit: 1,
-            type: 'MEMBER_ROLE_UPDATE',
-        });
-        const roles = fetchedLogs.entries.first();
-
-        if (!roles) return console.log("failed to get auditlog")
-
-        const { executor, target } = roles;
-
-        if (target.id === oldMember.id) {
-            console.log("1")
-            if (executor.id === oldMember.id){
-                console.log('anti self demute ')
-                if (newMember.guild.roles.cache.filter (ro => ro.name === "muted").size !== 0) newMember.roles.add(newMember.guild.roles.cache.filter (ro => ro.name === "muted").first(), "Tentative de self-démute.")
-                oldMember.guild.systemChannel.send("<@!"+ oldMember.id +"> **Hey ...** ne tente pas de t'unmute tout seul, attend que quelqu'un d'autre te démute ....").then(mess => {
-                    setTimeout(()=> {
-                        mess.delete({reason: "Message à autodestruction."})
-                    }, 10000)
-                })
-            }
-        } 
-    }
-})
+client.on("guildMemberUpdate", async (oldMember, newMember) => {fs.readdirSync("./events/member update/").forEach(u => require("./events/member update/"+u).run(oldMember, newMember, client))})
