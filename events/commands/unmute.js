@@ -9,11 +9,15 @@ exports.run = async (message, client) =>{
         if(message.mentions.users.size !==0){
             if (fs.existsSync("./config/guild/" + message.guild.id + "/temp muted/" + message.mentions.members.first().id)){
                 if (fs.readFileSync("./config/guild/" + message.guild.id + "/temp muted/" + message.mentions.members.first().id, "utf-8") === message.author.id.toString()){
-                    message.reply("La personne a bien été démute !")
                     fs.unlinkSync("./config/guild/" + message.guild.id + "/temp muted/" + message.mentions.members.first().id)
                     message.guild.member(message.mentions.users.first()).roles.remove(message.guild.roles.cache.filter(role => role.name.toLowerCase() === "muted").first()).then(member => {
-                        message.channel.send(`${mute.user.username} a été dé-mute par ${message.author.username} !`);
-                    }).catch(e => message.reply("Impossibilité d'appliquer le role : vérifier l'ordre des roles, jeuxgate doit être au dessus de la personne à mute."))
+                        message.channel.send(`${message.mentions.users.first().username} a été dé-mute par ${message.author.username} !`);
+                    }).catch(e => {
+                        if(e){
+                            message.reply("Impossibilité d'appliquer le role : vérifier l'ordre des roles, jeuxgate doit être au dessus de la personne à mute.")
+                            console.log(e)
+                        }
+                    })
                     return
                 }
             }
@@ -32,13 +36,19 @@ exports.run = async (message, client) =>{
         if (mute.id === client.user.id) {
             return message.reply("Je ne peux pas me unmute !")
         }
-        if(mute.roles.cache.filter(role => role.name === "muted").size === 0){
-            return message.reply("Cette personne n'est pas mute !")
-        }
         if (message.guild.roles.cache.filter(role => role.name.toLowerCase() === "muted").size !== 0) {
+            
+            if(mute.roles.cache.filter(role => role.name === "muted").size === 0){
+                return message.reply("Cette personne n'est pas mute !")
+            }
             mute.roles.remove(message.guild.roles.cache.filter(role => role.name.toLowerCase() === "muted").first()).then(member => {
                 message.channel.send(`${mute.user.username} a été dé-mute par ${message.author.username} !`);
-            }).catch(e => message.reply("Impossibilité d'appliquer le role : vérifier l'ordre des roles, jeuxgate doit être au dessus de la personne à mute."))
+            }).catch(e => {
+                if(e){
+                    message.reply("Impossibilité d'appliquer le role : vérifier l'ordre des roles, jeuxgate doit être au dessus de la personne à mute.")
+                    console.log(e)
+                }
+            })
         } else {
             message.reply("Aucun role \"muted\" trouvé.")
         }
