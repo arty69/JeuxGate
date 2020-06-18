@@ -8,15 +8,15 @@ exports.log = (log, file, dir) => {
     if (!file) file = "GLOBAL"
     if(!dir) dir = start +"/GLOBAL"
     var form = date_ob.getHours() + ":" + date_ob.getMinutes()
-    if(file !== "GLOBAL" && dir !== start + "/GLOBAL"){
-        if(!fs.existsSync('./config/log/GLOBAL/')){
-            fs.mkdirSync('./config/log/GLOBAL/')
+    if(file !== "GLOBAL" || dir !== start + "/GLOBAL"){
+        if(!fs.existsSync('./config/log/'+start+'/GLOBAL/')){
+            fs.mkdirSync('./config/log/'+start+'/GLOBAL/')
         }
         
-        if(!fs.existsSync('./config/log/GLOBAL/GLOBAL.log') ){
-            fs.writeFileSync(`./config/log/GLOBAL/GLOBAL.log`, `${form} [JeuxGate : logs] creating log file\r\n${form} ${log}`)
+        if(!fs.existsSync('./config/log/'+start+'/GLOBAL/'+file+'.log') ){
+            fs.writeFileSync(`./config/log/${start}/GLOBAL/${file}.log`, `${form} [JeuxGate : logs] creating log file\r\n${form} ${log}`)
         }else{
-            fs.writeFileSync(`./config/log/GLOBAL/GLOBAL.log`, fs.readFileSync(`./config/log/GLOBAL/GLOBAL.log`, "utf-8") + "\r\n" + form +" "+ log, "utf-8")
+            fs.writeFileSync(`./config/log/${start}/GLOBAL/${file}.log`, fs.readFileSync(`./config/log/${start}/GLOBAL/${file}.log`, "utf-8") + "\r\n" + form +" "+ log, "utf-8")
         }
 
     }
