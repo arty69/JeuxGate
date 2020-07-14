@@ -78,15 +78,14 @@ function nobadwords(text) {
     return textreplaced
 }
 
-exports.run = async (message, client) => {
-    
+exports.run = async (message) => {
     if (message.guild.roles.cache.filter(ro => ro.name === "jg insulte").size !== 0) {
         if (dwords(message.content)) {
             if (!message.member.hasPermission("ADMINISTRATOR")) {
                 if(message.member.roles.cache.filter(role => role.name === "muted").size !== 0) return 
                 log.log("[JeuxGate : Eantiinsulte] Triggered gid" + message.guild.id + " uid" + message.author.id, "antiinsulte", message.guild.id + "/auto" )
-                if (!message.guild.member(client.user).hasPermission("ADMINISTRATOR")) {
-                    if (!message.guild.member(client.user).hasPermission("MANAGE_MESSAGES") || !message.guild.member(client.user).hasPermission("MANAGE_roles.cache")) return message.channel.send("**Hey ...** Je n'ai pas les permissions nécessaire pour faire cette action.");
+                if (!message.guild.member(message.client.user).hasPermission("ADMINISTRATOR")) {
+                    if (!message.guild.member(message.client.user).hasPermission("MANAGE_MESSAGES") || !message.guild.member(message.client.user).hasPermission("MANAGE_ROLES")) return message.channel.send("**Hey ...** Je n'ai pas les permissions nécessaire pour faire cette action.");
                 }
                 message.delete({reason: "Anti insulte enclenché."}).catch(O_o => {
                     return message.channel.send('erreur 505 : permission insufissante : suppression message')
@@ -126,4 +125,7 @@ exports.run = async (message, client) => {
             }
         }
     }
+}
+exports.isthereamotherfuckingbadword = async(text) => {
+    return Boolean(dwords(text))
 }

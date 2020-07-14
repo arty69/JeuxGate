@@ -3,7 +3,7 @@ const fs = require("fs")
 const Discord = require('discord.js');
 const prefix = fs.readFileSync("./config/prefix", "utf-8")
 
-exports.run = async (message, client) =>{
+exports.run = async (message) =>{
     if(message.content.includes(prefix)) return
     if(message.member.roles.cache.filter(role => role.name === "muted").size !==0) return
     if (fs.existsSync("./config/guild/" + message.guild.id + "/lvl/" + message.author.id + " lvl.json")){

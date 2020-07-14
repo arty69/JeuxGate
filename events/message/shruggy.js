@@ -1,6 +1,6 @@
-exports.run = (message, client) => {
+exports.run = (message) => {
     if (message.channel.id === "428569427718438933") {
-        if (message.author.id === client.user.id) return
+        if (message.author.id === message.client.user.id) return
         if (message.content.toLowerCase() === "ok") {
 
             message.delete()

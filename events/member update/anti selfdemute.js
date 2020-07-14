@@ -2,7 +2,7 @@ const log = require('../../function/log.js')
 const fs = require("fs")
 const Discord = require('discord.js');
 
-exports.run = async (oldMember, newMember, client) => {
+exports.run = async (oldMember, newMember) => {
     if (fs.existsSync("./config/guild/" + oldMember.guild.id + "/banned.jgform")){
         if(fs.readFileSync("./config/guild/" + oldMember.guild.id + "/banned.jgform", "utf-8") !== ""){
             
@@ -21,7 +21,7 @@ exports.run = async (oldMember, newMember, client) => {
             limit: 1,
             type: 'MEMBER_ROLE_UPDATE',
         }).catch( O_o => {
-            log("[JeuxGate : EAnti self Démute] filed to get audit logs from " + oldMember.guild.name + "-" + oldMember.guild.id, "anti self demute", oldMember.guild.id + "/auto")
+            log.log("[JeuxGate : EAnti self Démute] failed to get audit logs from " + oldMember.guild.name + "-" + oldMember.guild.id, "anti self demute", oldMember.guild.id + "/auto")
         })
         const roles = fetchedLogs.entries.first();
 

@@ -56,7 +56,7 @@ client.on("message", async (message) => {
         }
         return
     }
-    require("./function/setupguild").run(message, client)
+    require("./function/setupguild").run(message)
 
     if(!fs.existsSync("./config/guild/" + message.guild.id + "/lastupdated") || (fs.readFileSync("./config/guild/" + message.guild.id + "/lastupdated", "utf-8") !== fs.readFileSync("./config/now", 'utf-8'))){
         
@@ -68,19 +68,22 @@ client.on("message", async (message) => {
     console.log(message.guild.name)
     fs.readdirSync("./events/message/").forEach(u => {
         if(u.endsWith(".js")) {
-            if (require("./events/message/" + u).run(message, client) === "don't go on") return
+            if (require("./events/message/" + u).run(message) === "don't go on") return
         }
     })
     
     if(message.content.startsWith("!") || message.content.startsWith("?") || message.content.startsWith("/") || message.content.startsWith(".") || message.content.startsWith("-") || message.content.startsWith("+") || message.content.startsWith("^^") || message.content.startsWith("t!")) return 
     if(message.member.roles.cache.filter(role => role.name === "muted").size !== 0) return
-    
-    if(fs.existsSync('./events/commands/'+ message.content.replace(prefix, "").split(" ")[0] + ".js")){
-        require('./events/commands/'+ message.content.replace(prefix, "").split(" ")[0] + ".js").run(message, client)
+    if(message.content.startsWith(prefix)){
+        if(fs.existsSync('./events/commands/'+ message.content.replace(prefix, "").split(" ")[0] + ".js")){
+            
+            fs.writeFileSync("./config/metric/commande", parseInt(fs.readFileSync("./config/metric/commande", 'utf-8'))+1)
+            require('./events/commands/'+ message.content.replace(prefix, "").split(" ")[0] + ".js").run(message)
+        }
     }
     
     
 })
 
-client.on("messageReactionAdd", async (reaction, user) => fs.readdirSync("./events/reaction/").forEach(u => require("./events/reaction/"+u).run(reaction, user, client)))
-client.on("guildMemberUpdate", async (oldMember, newMember) => {fs.readdirSync("./events/member update/").forEach(u => require("./events/member update/"+u).run(oldMember, newMember, client))})
+client.on("messageReactionAdd", async (reaction, user) => fs.readdirSync("./events/reaction/").forEach(u => require("./events/reaction/"+u).run(reaction, user)))
+client.on("guildMemberUpdate", async (oldMember, newMember) => {fs.readdirSync("./events/member update/").forEach(u => require("./events/member update/"+u).run(oldMember, newMember))})

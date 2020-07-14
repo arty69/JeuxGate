@@ -1,4 +1,4 @@
-exports.run = (message, client) => {
+exports.run = (message) => {
     if (message.channel.id === "664192345884983317") {
         if(message.author.id === "563995596021825536"){
             if(message.content.startsWith("bc")){
