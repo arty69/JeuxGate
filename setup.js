@@ -9,6 +9,13 @@ exports.run = (start) =>{
     if(!fs.existsSync('./config/log/') ){
         fs.mkdirSync("./config/log/")
     }
+    if(!fs.existsSync('./config/metric/') ){
+        fs.mkdirSync("./config/metric/")
+    }
+
+    fs.writeFileSync("./config/metric/service", '0')
+    fs.writeFileSync("./config/metric/commande", '0')
+
     if(!fs.existsSync('./config/lvl.json') ){
         fs.writeFileSync('./config/lvl.json', "{\"0\": 0,\"1\": 20}")
     }
