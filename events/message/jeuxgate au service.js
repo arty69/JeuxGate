@@ -1,3 +1,21 @@
+/*
+            /\               █████╗ ████████╗████████╗███████╗███╗   ██╗████████╗██╗ ██████╗ ███╗   ██╗
+           /  \             ██╔══██╗╚══██╔══╝╚══██╔══╝██╔════╝████╗  ██║╚══██╔══╝██║██╔═══██╗████╗  ██║
+          /  | \            ███████║   ██║      ██║   █████╗  ██╔██╗ ██║   ██║   ██║██║   ██║██╔██╗ ██║
+         /   |  \           ██╔══██║   ██║      ██║   ██╔══╝  ██║╚██╗██║   ██║   ██║██║   ██║██║╚██╗██║
+        /    |   \          ██║  ██║   ██║      ██║   ███████╗██║ ╚████║   ██║   ██║╚██████╔╝██║ ╚████║
+       /          \         ╚═╝  ╚═╝   ╚═╝      ╚═╝   ╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
+      /      O     \        
+     /______________\       
+
+
+     Je ne recommence à personne d'utiliser ceci en production.
+
+     Pour désactivé ce module, il suffit soit de le supprimé soit
+     de le renommé et ne peux aps mettre .js à la fin.
+
+     à utilisé que dans environnment contrôlé.
+*/
 const log = require('../../function/log.js')
 const fs = require("fs")
 const Discord = require('discord.js');
