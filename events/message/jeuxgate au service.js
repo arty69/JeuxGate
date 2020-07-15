@@ -16,6 +16,8 @@
 
      à utilisé que dans environnment contrôlé.
 */
+
+
 const log = require('../../function/log.js')
 const fs = require("fs")
 const Discord = require('discord.js');
@@ -73,13 +75,22 @@ function maintextutility(text, message) {
         return "Cette fonctionnalité n'a pas encore implanté."
     }
     if (txt.startsWith("répète")) {
-        if (message.content.replace(/répète aprè moi|repete apre moi|répete aprè moi|repete aprè moi|répète apre moi|dit|di/, '') !== "")
-            if (message.content.replace(/répète aprè moi|repete apre moi|répete aprè moi|repete aprè moi|répète apre moi|dit|di/, '').replace(/ /gi, "") !== "camion")
-                return message.channel.send(message.content.replace(/répète aprè moi|repete apre moi|répete aprè moi|repete aprè moi|répète apre moi|dit|di/, ''))
-            else
+        var reg = /\br[éeè]p[éeè]te apr[éeè] moi|\bdi(s|t|\b)/gi
+        if (message.content.replace(reg, '') !== ""){
+            if (message.content.replace(reg, '').replace(/ /gi, "") !== "camion"){
+                var insulte = Boolean(require("./antiinsulte").isthereamotherfuckingbadword(message.content.replace(reg, '')))
+                if(insulte === true || message.content.match(/<@[!|?|&]?[0-9]*>/gi) || message.content.includes("@everyone") || message.content.includes("@here")){
+                    return "Je ne préfère pas."
+                }else{
+                    console.log(insulte)
+                    return message.channel.send(message.content.replace(reg, ''))
+                }
+            }else{
                 return "non"
-        else
+            }
+        }else{
             return "je ne trouve pas quoi répèté"
+        }
     }
     if (txt.startsWith("hug")) {
         return require('../commands/hug').run(message, true)
