@@ -3,7 +3,7 @@ const fs = require("fs")
 const Discord = require('discord.js');
 const prefix = fs.readFileSync("./config/prefix", "utf-8")
 const Lunicode = require('../../function/lunicode'); //https://github.com/combatwombat/Lunicode.js
-const insulte = JSON.parse(fs.readFileSync('insulte.json', 'utf-8'));
+const insulte = JSON.parse(fs.readFileSync('./insulte.json', 'utf-8'));
 
 function sizeofobj(obj) {
     var count = 0;
@@ -127,5 +127,8 @@ exports.run = async (message) => {
     }
 }
 exports.isthereamotherfuckingbadword = async(text) => {
-    return Boolean(dwords(text))
+    if(dwords(text) === true)
+        return true
+    else
+        return false
 }
