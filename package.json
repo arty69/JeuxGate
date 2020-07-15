@@ -3,7 +3,8 @@
   "version": "0.9.0",
   "description": "Discord bot",
   "dependencies": {
-    "discord.js": "^12",
+    "@pm2/io": "^4.3.5",
+    "discord.js": "^12.2.0",
     "ejs": "^2.7.4",
     "express": "^4.17.1",
     "follow-redirects": "^1.11.0",
@@ -11,6 +12,11 @@
     "node-fetch": "^2.6.0",
     "socket.io": "^2.3.0"
   },
-  "author": "jeuxdictator",
+  "scripts": {
+    "start": "pm2 start ecosystem.config.js",
+    "botonly": "pm2 start ecosystem.config.js --only jeuxgate-bot",
+    "webonly": "pm2 start ecosystem.config.js --only jeuxgate-web"
+  },
+  "author": "Jehende",
   "license": "ISC"
 }
