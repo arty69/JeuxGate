@@ -3,10 +3,10 @@ const fs = require("fs")
 const Discord = require('discord.js');
 const prefix = fs.readFileSync("./config/prefix", "utf-8")
 
-function treereload(base){
+function treereload(base, message){
     fs.readdirSync(base).forEach(obj => {
         if (fs.existsSync(base + obj) && fs.lstatSync(base + obj).isDirectory()){
-            treereload(base + obj)
+            treereload(base + obj, message)
         }else if (obj.endsWith(".js")){
             
             try {
@@ -19,6 +19,7 @@ function treereload(base){
                 require("../../" + base.replace("./", "") +"/"+ obj)
             } catch (error) {
                 message.reply(`une erreure s'est produite à la réintrocution de la commande ${base +"/"+ obj}`)
+                console.log(error)
             }
         }
     })
@@ -32,7 +33,7 @@ exports.run = async (message, statut) =>{
     if (message.author.id !== "474113083506425861" && message.author.id !== "471669236859928586") return 
     var command = "." + message.content.replace(/jg\/reload |jgt\/reload |reload /g, "")
     if (command === ".*"){
-        treereload("./events/")
+        treereload("./events/", message)
         return message.reply("ok")
 
     }
@@ -45,5 +46,6 @@ exports.run = async (message, statut) =>{
         message.reply("Réintrodution effectué")
     } catch (error) {
         message.reply(`une erreure s'est produite à la réintrocution de la commande.`)
+        console.log(error)
     }
 }
