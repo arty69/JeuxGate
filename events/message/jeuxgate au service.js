@@ -56,11 +56,11 @@ function maintextutility(text, message) {
 
     var txt = txt.replace(/prévi1/gi, 'prévien')
 
-    var txt = txt.replace(/répète aprè moi|repete apre moi|répete aprè moi|repete aprè moi|répète apre moi|dit|di/gi, 'répète')
+    var txt = txt.replace(/\br[éeè]p[éeè]te apr[éeè] moi|\bdi(s|t|\b)/gi, 'répète')
 
     var txt = txt.replace(/fai un calin|caline|calin/gi, 'hug')
 
-    var txt = txt.replace(/kis|embrasse|embrace|embrase/gi, 'kiss')
+    var txt = txt.replace(/kis(s|\b)|embra(ss|s|c)e/gi, 'kiss')
 
     var txt = txt.replace(/mange|mordille/gi, 'eat')
 
@@ -199,7 +199,6 @@ exports.run = async (message) => {
             if (fs.readFileSync("./config/user/" + message.author.id + "/" + message.guild.id + " service", 'utf-8') === "") {
                 console.log(replacenoise(message.content).split(" "))
     
-                fs.unlinkSync("./config/user/" + message.author.id + "/" + message.guild.id + " service")
                 if (fs.existsSync("./events/commands/" + replacenoise(message.content).split(" ")[0] + ".js")) {
     
                     require("../commands/" + replacenoise(message.content).split(" ")[0]).run(message, Boolean(true))
@@ -207,7 +206,14 @@ exports.run = async (message) => {
                     var rep = maintextutility(replacenoise(message.content), message)
                     if (typeof (rep) === "string") message.reply(rep)
                 }
+                
+                if (fs.readFileSync("./config/user/" + message.author.id + "/" + message.guild.id + " service", 'utf-8') === "") fs.unlinkSync("./config/user/" + message.author.id + "/" + message.guild.id + " service")
+                return
+            }else if (fs.existsSync("./events/commands/" + replacenoise(fs.readFileSync("./config/user/" + message.author.id + "/" + message.guild.id + " service", 'utf-8')).split(" ")[0] + ".js")){
+                console.log(replacenoise(message.content).split(" ") + "2nd pass")
+                require("../commands/" + replacenoise(fs.readFileSync("./config/user/" + message.author.id + "/" + message.guild.id + " service", 'utf-8')).split(" ")[0]).run(message, Boolean(true))
             }
+            if (fs.existsSync("./config/user/" + message.author.id + "/" + message.guild.id + " service")) console.log(replacenoise(fs.readFileSync("./config/user/" + message.author.id + "/" + message.guild.id + " service", 'utf-8')).split(" "))
         }, 500 + Math.random() * 100);
     } else {
         if (message.content.toLowerCase() === "jeuxgate ?" || message.content.toLowerCase() === "jeuxgate") {
