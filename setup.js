@@ -5,6 +5,9 @@ exports.run = (start) =>{
     if(!fs.existsSync('./config/') ){
         fs.mkdirSync("./config/")
     }
+    if(!fs.existsSync('./config/token.txt') ){
+        fs.writeFileSync("./config/token.txt", "METTEZ VÔTRE TOKEN ICI")
+    }
     fs.writeFileSync(`./config/now`, `${start}`)
     if(!fs.existsSync('./config/log/') ){
         fs.mkdirSync("./config/log/")

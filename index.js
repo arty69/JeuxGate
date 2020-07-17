@@ -29,7 +29,7 @@ process.on('SIGINT', _ => {
 	process.exit(0)
 });
 
-client.login(process.env.TOKEN).catch(z =>{
+client.login(process.env.TOKEN || fs.readFileSync("./config/token.txt")).catch(z =>{
     log.log(z + "\"" + process.env.TOKEN + "\"", "GLOABL")
     process.exit(1)
 })
