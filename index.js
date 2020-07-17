@@ -72,7 +72,6 @@ client.on("message", async (message) => {
         }
     })
     
-    if(message.content.startsWith("!") || message.content.startsWith("?") || message.content.startsWith("/") || message.content.startsWith(".") || message.content.startsWith("-") || message.content.startsWith("+") || message.content.startsWith("^^") || message.content.startsWith("t!")) return 
     if(message.member.roles.cache.filter(role => role.name === "muted").size !== 0) return
     if(fs.existsSync("./config/user/" + message.author.id + "/" + message.guild.id + " service")) return
     if(message.content.startsWith(prefix)){
